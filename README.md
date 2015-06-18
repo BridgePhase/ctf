@@ -10,8 +10,6 @@ Take the [CTF Application](http://bp-testdeployslb-1690116647.us-east-1.elb.amaz
 #### This README.md file should explain the following:
 #### (**Remove items as they are completed!**)
 
-* Assigned one leader, gave that person authority and responsibility   
-  and held that person accountable for the quality of the prototype submitted   
 * Assembled a multidisciplinary and collaborative team that includes   
   at a minimum two of the labor categories limited to the Development Pool   
   labor categories to develop the prototype as quoted in Attachment C.   
