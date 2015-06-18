@@ -1,3 +1,4 @@
+version: 0.0
 # AppSpec Configuration for AWS Code Deploy
 os: linux 
 
