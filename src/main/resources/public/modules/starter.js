@@ -14,9 +14,9 @@ angular.module('starter', [ 'ui.router' ]).config(
 
 		$stateProvider.state('home', {
 			url: '/home',
-			templateUrl: '/javastarter/modules/home/home.view.html'
+			templateUrl: 'modules/home/home.view.html'
 		}).state('about', {
 			url: '/about',
-			templateUrl: '/javastarter/modules/about/about.view.html'
+			templateUrl: 'modules/about/about.view.html'
 		})
 	} ])
