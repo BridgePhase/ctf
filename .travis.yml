@@ -1,8 +1,18 @@
 language: java
+
 before_install:
 - chmod +x gradlew
+
 script:
 - ./gradlew build awsRevision
+
+before_deploy:
+  - git config --global user.email "bridgephasetravis@gmail.com"
+  - git config --global user.name "Bridgephase Travis CI"
+  - export GIT_TAG=$TRAVIS_BRANCH-0.1.$TRAVIS_BUILD_NUMBER
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER and release $TRAVIS_BRANCH-0.1.$TRAVIS_BUILD_NUMBER"
+  - git push -q https://$TRAVIS_PERMISSIONS@github.com/BridgePhase/ctf.git --tags
+
 deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
@@ -27,6 +37,7 @@ deploy:
   on:
     branch: master
     condition: $DEPLOY_TO_AWS = true
+
 notifications:
   slack:
     secure: e5mcmbcOLDxaH+acYvl56FOVYZqAo2/SvWVolaPgFLrne1I4YQ/T2obXbYJijLHN296TAhXB/Q5pEoxtm3URXPdXno2RN/pjOvNTjygA2riEC798eEjC9ovk+DSs7gcPz3H3/HucAAbt2QCeylqrCzEmrSrdcKEcEoqbwDCjBSsZrI2J3D6bHaiChb48im77RbS+Qk4t+VzFg4yA1CSZRH6SsTGQLV3e9I7FZu/dDlyb34B3IXhcnpFNqU8ZOZl4HNkUX3sPNn0x2yx1CHPAGbaVRTV69jSEYkuO0/zw3FdsNslUiVXClFZgLIBfD4wA8C8XdN4shE7ooG7aeZzumqBtykSHWUmR3EDHSGhB13RjDrymxu5a9xnj/8/3DFTL2imlswXO+k2lNTyyrf5JfMmyaIoVXXVuxuE5dXWGAUZ3m54NQf5y3CyBLQ5zkGIDjwZtxqOfo5pF/79yWXLP/fd7Pz+2+WmYxLndFT1WtiOFcKNdkDtxGMWWE15vo9YXe+0TpYh6vaM4053lXE7vbBHA4YZEXZwybaq3SVI4BdBmSxGqSJS0PhnF3tw6r6DPCxQFhRQLxZyuFwgE4iaUzfM6RedI8Jn7Mx1KcIJjadDqfxmwsO1dA+Rs8/5Eauob/tQyi1xl6f/0QpPv3+YflKwxuykBCB4Jf/Ee0bgY6lw=
