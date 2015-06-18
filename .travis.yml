@@ -1,0 +1,54 @@
+# Travis-CI build configuration
+# 
+# Required Environment Variables: 
+# If you want to deploy to AWS, you need to specify the following environment variables as
+# part of your Travis build.
+# * DEPLOY_TO_AWS : Set to 'true' to enable AWS deployments, if not defined or false, no AWS 
+#                   deployments will happen
+# * AWS_ACCESS_ID : your AWS Access ID
+# * AWS_ACCESS_KEY : your AWS Access Key
+# * AWS_S3_BUCKET : the name of the S3 bucket where artifacts will be deployed
+# * AWS_S3_DIRECTORY : the name of the directory in the bucket where builds will be
+#                      stored (under directory $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER)
+# * AWS_CODEDEPLOY_APPLICATION : The name of the AWS Codedeploy application this is relate to
+# * AWS_CODEDEPLOY_GROUP : The name of the AWS Codedeploy group to deploy to
+
+language: java
+
+# Including the gradle wrapper
+before_install: 
+ - chmod +x gradlew
+
+# We want to build the application and subsequently write an 
+# AWSRevision package (consisting of scripts and appspec.yml) to be 
+# able to deploy this project to AWS via codedeploy
+script: 
+ - ./gradlew build awsRevision
+
+# Store artifacts in S3 and 
+# trigger a deploy using codedeploy to an AWS instance
+# The instance needs to be stated with an IAM role of codedeploy
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_ID
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: $AWS_S3_BUCKET
+    skip_cleanup: true
+    local_dir: build/distributions
+    upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+    on: 
+      branch: master
+      condition: "$DEPLOY_TO_AWS = true"
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_ID
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: $AWS_S3_BUCKET
+    skip_cleanup: true
+    local_dir: build/distributions
+    upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+    key: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER/ctf.zip
+    application: $AWS_CODEDEPLOY_APPLICATION
+    deployment_group: $AWS_CODEDEPLOY_GROUP
+    on: 
+      branch: master
+      condition: "$DEPLOY_TO_AWS = true"

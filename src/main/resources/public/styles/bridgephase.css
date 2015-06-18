@@ -1,0 +1,39 @@
+.bp {
+	font-family: Candara;
+}
+
+.bp .pure-menu {
+	border-bottom: 8px solid #d24048
+}
+
+.bp .home-menu {
+	padding: 0.5em;
+}
+
+.bp .banner {
+	background: #325da9;
+	padding: 2em 0.5em;
+	text-align: center;
+	color: #fafafa;
+}
+
+.bp .banner .subtitle {
+	font-size: 1.1em;
+	font-style: italic;
+}
+
+.bp .section {
+	padding: 0.5em 1em;
+}
+
+.bp p {
+	line-height: 145%; 
+}
+
+.bp code {
+	font-family: 'Courier New';
+	padding: 0px 2px;
+	border: 1px solid #ccc;
+	background: #fafafa;
+	border-radius: 4px;
+}

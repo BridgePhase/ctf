@@ -1,0 +1,84 @@
+/*
+ * The following is included to use Spring Boot
+ */
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+    }
+}
+
+/* Packaged as a Spring Boot or WAR application */
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+/* Project Information */
+def projectName = 'Bridgephase MVC Starter'
+def deployableName = 'BridgePhaseMVC'
+def projectVersion = '1.0'
+
+/* This requires Java 7 */
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+/* JAR Manifest Definition */
+jar {
+  baseName = deployableName
+  version = projectVersion
+  manifest {
+    attributes 'Implementation-Title': projectName,
+                'Implementation-Version': projectVersion
+  }
+}
+
+/* Specify the name of the artifact here */
+war {
+  archiveName = 'ctf.war'
+}
+
+repositories {
+  mavenCentral()
+}
+
+/* List of dependencies */
+dependencies {
+  // compile dependencies
+  compile 'org.springframework.boot:spring-boot-starter-web'   	// spring boot
+  compile 'org.webjars.bower:angularjs:1.4.0-rc.1'				// AngularJS
+  compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
+  
+  compile 'org.springframework.data:spring-data-jpa'			// Spring data
+  compile 'org.hibernate:hibernate-entitymanager'				// Hibernate
+  compile("com.h2database:h2")									// In memory database
+  
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // so we can turn it into a war
+
+  testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+/* For AWS deployments, need to copy the appspec file to the libs directory */
+task copyAppSpec(type: Copy) {
+  from 'appspec.yml'
+  into 'build/libs'
+}
+
+/* For AWS deployments, need to copy the scripts necessary to the libs directory */
+task copyScripts(type: Copy) {
+  from 'awsscripts'
+  into 'build/libs'
+}
+
+task awsRevision(type: Zip) {
+  from 'build/libs'  
+}
+
+/* The AWS Revision is created by grouping all artifacts from the libs directory 
+ * which should now include the appspec file and the scripts necessary for deployment
+ */
+awsRevision.dependsOn war
+awsRevision.dependsOn copyAppSpec
+awsRevision.dependsOn copyScripts
