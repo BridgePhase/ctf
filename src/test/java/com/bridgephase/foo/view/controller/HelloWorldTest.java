@@ -7,6 +7,6 @@ public class HelloWorldTest {
 
 	@Test
 	public void sampleTest() {
-		Assert.assertEquals("nothello", new HelloWorldController().hello());
+		Assert.assertEquals("hello", new HelloWorldController().hello());
 	}
 }
