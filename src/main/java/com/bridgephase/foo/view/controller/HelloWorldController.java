@@ -32,6 +32,12 @@ public class HelloWorldController {
 		person = personRepository.save(person);
 		return "Hello World " + personRepository.findAll();
 	}
+	
+	@RequestMapping(value = "/alive")
+	@ResponseBody
+	public String alive() {
+		return "alive";
+	}
 
 	/**
 	 * This request mapping method will render a view. The views are
