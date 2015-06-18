@@ -1,4 +1,7 @@
 # ***Consider the Following***
+
+[![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
+
 ## Agile Delivery Services Prototype
 
 ### **RFQ Requirements**   
