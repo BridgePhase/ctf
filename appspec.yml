@@ -7,7 +7,7 @@ os: linux
 files:
   - source: ctf.war
     destination: /home/ubuntu/applications/apache-tomcat-7.0.62/webapps
-    
+
 # Before the application is deployed, Tomcat needs to be stopped and 
 # the existing applications cleaned up, otherwise, AWS Codedeploy will not
 # overwrite the files. 
