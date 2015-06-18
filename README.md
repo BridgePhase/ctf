@@ -1,6 +1,6 @@
 # ***Consider the Following***
 
-[Application](http://ec2-54-175-44-58.compute-1.amazonaws.com:8080/ctf)
+Click [here](http://ec2-54-175-44-58.compute-1.amazonaws.com:8080/ctf) to access the latest deployment.
 
 [![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
 
