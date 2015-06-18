@@ -1,6 +1,6 @@
 # ***Consider the Following***
 
-Click [here](http://ec2-54-175-44-58.compute-1.amazonaws.com:8080/ctf) to access the latest deployment.
+Take the [CTF Application](http://bp-testdeployslb-1690116647.us-east-1.elb.amazonaws.com/ctf) for a test drive!
 
 [![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
 
