@@ -1,12 +1,12 @@
-package com.bridgephase.foo.view.controller;
+package com.bridgephase.ctf.view.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bridgephase.foo.model.jpa.Person;
-import com.bridgephase.foo.model.repository.PersonRepository;
+import com.bridgephase.ctf.model.jpa.Person;
+import com.bridgephase.ctf.model.repository.PersonRepository;
 
 /**
  * This is a sample controller definition which shows both a <code>ResponseBody</code> response as well as a view

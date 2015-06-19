@@ -1,4 +1,4 @@
-package com.bridgephase.foo.model.jpa;
+package com.bridgephase.ctf.model.jpa;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

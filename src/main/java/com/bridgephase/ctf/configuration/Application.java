@@ -1,4 +1,4 @@
-package com.bridgephase.foo.configuration;
+package com.bridgephase.ctf.configuration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

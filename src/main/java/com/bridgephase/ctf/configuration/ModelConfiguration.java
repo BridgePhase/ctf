@@ -1,4 +1,4 @@
-package com.bridgephase.foo.configuration;
+package com.bridgephase.ctf.configuration;
 
 import javax.sql.DataSource;
 
@@ -18,15 +18,15 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = { "com.bridgephase.foo.model.repository" })
-@ComponentScan(basePackages = { "com.bridgephase.foo.model" })
+@EnableJpaRepositories(basePackages = { "com.bridgephase.ctf.model.repository" })
+@ComponentScan(basePackages = { "com.bridgephase.ctf.model" })
 @EnableTransactionManagement
 public class ModelConfiguration {
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "com.bridgephase.foo.model.jpa" });
+		sessionFactory.setPackagesToScan(new String[] { "com.bridgephase.ctf.model.jpa" });
 		return sessionFactory;
 	}
 
@@ -45,7 +45,7 @@ public class ModelConfiguration {
 
 		final LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-		localContainerEntityManagerFactoryBean.setPackagesToScan("com.bridgephase.foo.model.jpa");
+		localContainerEntityManagerFactoryBean.setPackagesToScan("com.bridgephase.ctf.model.jpa");
 		localContainerEntityManagerFactoryBean.setDataSource(dataSource());
 
 		return localContainerEntityManagerFactoryBean;
