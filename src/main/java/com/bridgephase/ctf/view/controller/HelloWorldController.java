@@ -1,7 +1,14 @@
 package com.bridgephase.ctf.view.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +26,9 @@ public class HelloWorldController {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Value("${production:false}")
+	private String inProduction;
 	
 	/**
 	 * This request mapping method will render a response of "Hello World".
@@ -47,7 +57,18 @@ public class HelloWorldController {
 	 * @return the view name of "hello"
 	 */
 	@RequestMapping(value = "/")
-	public String hello() {
+	public String hello(Model model) {
+		try {
+			InputStream is = getClass().getResourceAsStream("/public/version");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String version = reader.readLine();
+			reader.close();
+			model.addAttribute("version", version);
+		} catch (IOException e) {
+			// exception is ignorable, we just don't have the version number for this page
+			model.addAttribute("version", "Not available");
+		}
+		model.addAttribute("production", Boolean.FALSE);
 		return "hello";
 	}
 }

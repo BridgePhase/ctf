@@ -7,7 +7,7 @@
  * 
  * @author Jaime Garcia
  */
-angular.module('starter', [ 'ui.router' ]).config(
+angular.module('ctf', [ 'ui.router' ]).config(
 	[ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		// this will set the default state to be /home
 		$urlRouterProvider.otherwise('/home')
