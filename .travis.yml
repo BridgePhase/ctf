@@ -12,6 +12,12 @@ before_install:
 script:
 - ./gradlew build awsRevision
 
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
+  - git push --quiet https://$TRAVIS_PERMISSIONS@github.com/BridgePhase/ctf $GIT_TAG > /dev/null 2>&1
+
 deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
@@ -36,13 +42,6 @@ deploy:
   on:
     branch: master
     condition: $DEPLOY_TO_AWS = true
-
-after_deploy:
-  - git config --global user.email "builds@travis-ci.com"
-  - git config --global user.name "Travis CI"
-  #- git commit -m "Set build VERSION number" public/version
-  - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
-  - git push --quiet https://$TRAVIS_PERMISSIONS@github.com/BridgePhase/ctf $GIT_TAG > /dev/null 2>&1
 
 notifications:
   slack:
