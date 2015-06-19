@@ -6,13 +6,6 @@ before_install:
 script:
 - ./gradlew build awsRevision
 
-before_deploy:
-  - git config --global user.email "bridgephasetravis@gmail.com"
-  - git config --global user.name "Bridgephase Travis CI"
-  - export BPTAG=0.1.$TRAVIS_BUILD_NUMBER
-  - git tag $BPTAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER and release $BPTAG"
-  - git push -q https://$TRAVIS_PERMISSIONS@github.com/BridgePhase/ctf.git --tags
-
 deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
