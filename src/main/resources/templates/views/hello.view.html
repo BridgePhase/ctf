@@ -23,5 +23,14 @@
 		</div>
 	</div>
 	<div class="section" id="navigation" data-ui-view=""></div>
+	
+	<div class="footer">
+		<div class="bp-version bp-local" th:if="${!production}">
+			Version: <span th:text="${version}"></span>
+		</div>
+		<div class="bp-version" th:if="${production}">
+			Version: <span th:text="${version}"></span>
+		</div>
+	</div>
 </body>
 </html>

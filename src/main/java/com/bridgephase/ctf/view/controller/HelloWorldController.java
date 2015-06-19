@@ -1,5 +1,10 @@
 package com.bridgephase.ctf.view.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -53,7 +58,16 @@ public class HelloWorldController {
 	 */
 	@RequestMapping(value = "/")
 	public String hello(Model model) {
-		System.out.println("Blab: " + inProduction);
+		try {
+			InputStream is = getClass().getResourceAsStream("/public/version");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String version = reader.readLine();
+			reader.close();
+			model.addAttribute("version", version);
+		} catch (IOException e) {
+			// exception is ignorable, we just don't have the version number for this page
+			model.addAttribute("version", "Not available");
+		}
 		model.addAttribute("production", Boolean.FALSE);
 		return "hello";
 	}

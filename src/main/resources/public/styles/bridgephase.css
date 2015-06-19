@@ -3,7 +3,7 @@
 }
 
 .bp .banner {
-	background: #E61C17;
+	background: #3F316A;
 	padding: 2em 0.5em;
 	text-align: center;
 	color: #fafafa;
@@ -68,4 +68,19 @@
 .bp-bold-icon {
 	text-align: center;
 	text-align: center;
+}
+
+.bp-version {
+	font-size: 8pt;
+}
+
+.bp-local {
+	background: red;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	padding: 0.5em;
+}
+.bp-local:after {
+	content: "(THIS IS A NON-PRODUCTION ENVIRONMENT)";
 }
