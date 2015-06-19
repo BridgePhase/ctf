@@ -55,6 +55,8 @@ dependencies {
   compile 'org.hibernate:hibernate-entitymanager'				// Hibernate
   compile("com.h2database:h2")									// In memory database
   
+  compile 'org.apache.commons:commons-lang3:3.0'				// Apache commons
+  
   providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // so we can turn it into a war
 
   testCompile group: 'junit', name: 'junit', version: '4.+'
