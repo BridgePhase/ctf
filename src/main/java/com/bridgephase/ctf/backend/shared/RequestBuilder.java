@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 
@@ -19,7 +20,7 @@ public class RequestBuilder {
 	protected static final String PROTOCOL = "<protocol>";
 	protected static final String HOST = "<host>";
 	protected static final String NOUN = "<noun>";
-	protected static final String ACTION = "<action>";
+	protected static final String CONTEXT = "<context>";
 	protected static final String FORMAT = "<format>";
 	
 	private static final Map<String, String> defaults;
@@ -29,7 +30,7 @@ public class RequestBuilder {
 		defaults.put(PROTOCOL, Protocol.HTTP.toString());
 		defaults.put(HOST, Constants.FDA_HOST);
 		defaults.put(NOUN, DataNoun.DRUG.toString());
-		defaults.put(ACTION, DataNoun.DRUG.context());
+		defaults.put(CONTEXT, DataContext.ENFORCEMENT.toString());
 		defaults.put(FORMAT, ".json");
 	}
 	
@@ -38,7 +39,7 @@ public class RequestBuilder {
 		builder.append(PROTOCOL)
 		.append("://").append(HOST)
 		.append("/").append(NOUN)
-		.append("/").append(ACTION)
+		.append("/").append(CONTEXT)
 		.append(FORMAT)
 		.append("?").append("api_key=").append(KeyStore.API)
 		.append("&search=");
@@ -56,18 +57,22 @@ public class RequestBuilder {
 	
 	public RequestBuilder withDataNoun(DataNoun noun) {
 		request = request.replace(NOUN, noun.toString());
-		request = request.replace(ACTION, noun.context());
+		return this;
+	}
+	
+	public RequestBuilder withContext(DataContext context) {
+		request = request.replace(CONTEXT, context.toString());
 		return this;
 	}
 	
 	public String build() {
 		defaults();
-		logger.info("Request string gerated:" + request);
+		logger.info("Request string gerated: " + request);
 		return request;
 	}
 	
 	private void defaults() {
-		String regexp = String.format("%s|%s|%s|%s|%s", PROTOCOL, HOST, NOUN, ACTION, FORMAT);
+		String regexp = String.format("%s|%s|%s|%s|%s", PROTOCOL, HOST, NOUN, CONTEXT, FORMAT);
 		StringBuffer buffer = new StringBuffer();
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher m = pattern.matcher(request);

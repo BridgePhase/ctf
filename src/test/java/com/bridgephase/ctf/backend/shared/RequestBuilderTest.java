@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 
@@ -15,7 +16,7 @@ public class RequestBuilderTest {
 		assertTrue(!result.contains(RequestBuilder.PROTOCOL));
 		assertTrue(!result.contains(RequestBuilder.HOST));
 		assertTrue(!result.contains(RequestBuilder.NOUN));
-		assertTrue(!result.contains(RequestBuilder.ACTION));
+		assertTrue(!result.contains(RequestBuilder.CONTEXT));
 		assertTrue(!result.contains(RequestBuilder.FORMAT));
 		assertTrue(result.contains(KeyStore.API));
 	}
@@ -38,10 +39,18 @@ public class RequestBuilderTest {
 					.withDataNoun(noun)
 					.build();
 			assertTrue(!result.contains(RequestBuilder.NOUN));
-			assertTrue(!result.contains(RequestBuilder.ACTION));
 			assertTrue(result.contains(noun.toString()));
-			assertTrue(result.contains(noun.context()));
 		}
 	}
-
+	
+	@Test
+	public void testWithDataContext() {
+		for (DataContext context : DataContext.values()) {
+			String result = RequestBuilder.builder()
+					.withContext(context)
+					.build();
+			assertTrue(!result.contains(RequestBuilder.CONTEXT));
+			assertTrue(result.contains(context.toString()));
+		}
+	}
 }
