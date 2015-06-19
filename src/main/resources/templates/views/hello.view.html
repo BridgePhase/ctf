@@ -12,6 +12,7 @@
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
 	
 	<!-- For production we minimize -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
 </head>
 <body class="bp">
 	<div class="home-menu pure-menu pure-menu-horizontal">
@@ -24,24 +25,11 @@
 		<p class="subtitle">Getting off the ground fast and easy!</p>
 	</div>
 	<div class="section">
-		<p>
-			This project serves as a starting step to create a AngularJS web application with a Java Spring backend. The
-			front-end is styled using the <a href="http://purecss.io">Pure CSS</a> framework. Pure provides easy to use class
-			definitions that require little-to-no forced markup.
-		</p>
-		<p>
-			This page is mapped by the <code>HelloWorldController.hello()</code> method to the view <code>"home"</code>. This
-			view is located under the <code>/src/main/resources/public/views</code> directory. All views should go under this directory.
-			The configuration for these settings is under the <code>/src/main/resources/application.properties</code> file. 
-		</p>
-		<p>
-			The menu below shows AngularJS routing using the <a href="https://github.com/angular-ui/ui-router">AngularUI Router</a>.
-			Use the AngularUI Router for your routing needs, it offers more features than the default provided <code>ng-route</code>.
-		</p>
-		<ul class="pure-menu-list">
-			<li class="pure-menu-item"><a data-ui-sref="home" class="pure-menu-link">Home</a></li>
-			<li class="pure-menu-item"><a data-ui-sref="about" class="pure-menu-link">About</a></li>
-		</ul>
+	<div class="pure-g">
+	    <div class="pure-u-1-3"><div class="bp-bold-icon bp-red"><a href="#" class="fa fa-cutlery"></a></div></div>
+	    <div class="pure-u-1-3"><div class="bp-bold-icon bp-green"><a href="#" class="fa fa-medkit"></a></div></div>
+	    <div class="pure-u-1-3"><div class="bp-bold-icon bp-blue"><a href="#" class="fa fa-heartbeat"></a></div></div>
+	</div>
 	</div>
 	<div class="section" data-ui-view=""></div>
 </body>
