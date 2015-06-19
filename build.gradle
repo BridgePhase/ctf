@@ -47,15 +47,16 @@ repositories {
 /* List of dependencies */
 dependencies {
   // compile dependencies
-  compile 'org.springframework.boot:spring-boot-starter-web'   	// spring boot
-  compile 'org.webjars.bower:angularjs:1.4.0-rc.1'				// AngularJS
-  compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
+  compile 'org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE'   	// spring boot
+  compile 'org.webjars.bower:angularjs:1.4.0-rc.1'                            // AngularJS
+  compile 'org.webjars.bower:angular-ui-router:0.2.14'                        // Angular ui-router
   
-  compile 'org.springframework.data:spring-data-jpa'			// Spring data
-  compile 'org.hibernate:hibernate-entitymanager'				// Hibernate
-  compile("com.h2database:h2")									// In memory database
+  compile 'org.springframework.data:spring-data-jpa:1.8.0.RELEASE'            // Spring data
+  compile 'org.hibernate:hibernate-entitymanager:4.3.10.Final'                // Hibernate
+  compile("com.h2database:h2:1.4.187")                                        // In memory database
   
-  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // so we can turn it into a war
+  // so we can turn it into a war
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:1.2.4.RELEASE'
 
   testCompile group: 'junit', name: 'junit', version: '4.+'
 }
