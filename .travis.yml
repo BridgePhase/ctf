@@ -37,7 +37,7 @@ deploy:
     branch: master
     condition: $DEPLOY_TO_AWS = true
 
-after_success:
+after_deploy:
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
   #- git commit -m "Set build VERSION number" public/version
