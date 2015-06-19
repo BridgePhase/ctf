@@ -41,11 +41,6 @@ public class HomeControllerTest {
 	}
 	
 	@Test
-	public void aliveReturnsCommittedVersion() {
-		assertEquals("DEVELOPMENT-LOCAL", controller.alive());
-	}
-	
-	@Test
 	public void aliveReturnsVersionsWhenOverwritten() {
 		BufferedReader fakeReader = new BufferedReader(new StringReader("fake-version-junit"));
 		doReturn(fakeReader).when(controller).versionReader();
