@@ -1,14 +1,17 @@
 <!doctype html>
-<html lang="en" data-ng-app="starter">
+<html lang="en" data-ng-app="starter" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <title>BridgePhase Java Starter Project</title>
 
-<script src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
-<script src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
-<script src="modules/starter.js"></script>
-<link rel="stylesheet" type="text/css" href="styles/pure-min.css" />
-<link rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
+	<!-- These are used for non production -->
+	<script th:if="${!production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
+	<script th:if="${!production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
+	<script th:if="${!production}" src="modules/starter.js"></script>
+	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
+	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
+	
+	<!-- For production we minimize -->
 </head>
 <body class="bp">
 	<div class="home-menu pure-menu pure-menu-horizontal">
@@ -16,7 +19,8 @@
 		</a>
 	</div>
 	<div class="banner">
-		<h2>BridgePhase Presents:<br></h2> <h1>Consider the Following....</h1>
+		<h2>BridgePhase Presents:<br /></h2> <h1>Consider the Following....</h1>
+		<p th:text="'Hello world'"></p>
 		<p class="subtitle">Getting off the ground fast and easy!</p>
 	</div>
 	<div class="section">
@@ -39,8 +43,6 @@
 			<li class="pure-menu-item"><a data-ui-sref="about" class="pure-menu-link">About</a></li>
 		</ul>
 	</div>
-	<div class="section" data-ui-view></div>
-	
-	<!-- Now with more configurations!!! -->
+	<div class="section" data-ui-view=""></div>
 </body>
 </html>
