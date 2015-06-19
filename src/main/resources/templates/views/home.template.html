@@ -8,8 +8,9 @@
 	<!-- These are used for non production -->
 	<script th:if="${!production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
 	<script th:if="${!production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
-	<script th:if="${!production}" src="modules/starter.js"></script>
+	<script th:if="${!production}" src="modules/ctf.js"></script>
 	<script th:if="${!production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
+	<script th:if="${!production}" src="modules/controllers/noun.controller.js"></script>
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
 	
@@ -18,15 +19,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
 </head>
 <body class="bp">	
-	<div class="banner">
-		<img class="bp-logo" alt="bowtime image" src="images/bowtie-rotated.png" title="Consider the following, paying tribute to Bill Nye!"/>
-		<h1>Consider the following ...</h1>
-		<div class="bp-headline">
-			<p>In February 2015, there were 190 reports of recalls on ice cream?</p>
-		</div>
-	</div>
-	<div class="section bp-main-content" id="navigation" data-ui-view=""></div>
-	
+	<div id="pageTemplate" data-ui-view=""></div>	
 	<div class="bp-footer">
 		<div class="pure-g">
 			<div class="pure-u-1-2">

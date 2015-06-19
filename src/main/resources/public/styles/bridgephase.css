@@ -4,11 +4,26 @@
 	font-family: "Lato";
 }
 
-.bp .banner {
+.bp .banner,
+.bp .small-banner {
 	background: #395A77;
 	padding: 2em 0.5em;
 	text-align: center;
 	color: #fafafa;
+}
+
+.bp .small-banner {
+	padding: 0.5em 0.5em;
+}
+
+.bp .small-banner .bp-logo {
+	width: 40px;	
+}
+
+.bp .small-banner h1 {
+	margin: 0;
+	text-align: left;
+	margin-left: 60px;
 }
 
 .bp-headline {
@@ -56,7 +71,7 @@
 	background: #1A0655;
 }
 
-.bp-bold-icon a {
+.bp-big-icon a.fa {
 	display: inline-block;
 	width: 2em;
 	height: 2em;
@@ -65,9 +80,16 @@
 	text-decoration: none;
 	border-radius: 100%;
 	font-size: 5em;
+	cursor: pointer;
 }
 
-.bp-bold-icon {
+.bp-big-icon a.fa:hover,
+.bp-big-icon a.fa:focus {
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+}
+
+.bp-big-icon {
 	text-align: center;
 	text-align: center;
 }

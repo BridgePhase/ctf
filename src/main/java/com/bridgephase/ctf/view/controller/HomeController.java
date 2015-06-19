@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -70,5 +71,12 @@ public class HomeController {
 		model.addAttribute("version", alive());
 		model.addAttribute("production", Boolean.FALSE);
 		return "home";
+	}
+	
+	@RequestMapping(value = "/partials/{partial}")
+	public String partial(Model model, @PathVariable("partial") String partial) {
+		model.addAttribute("version", alive());
+		model.addAttribute("production", Boolean.FALSE);
+		return "modules/" + partial;
 	}
 }
