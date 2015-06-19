@@ -1,20 +1,17 @@
 .bp {
-	font-family: Candara;
-}
-
-.bp .pure-menu {
-	border-bottom: 8px solid #d24048
-}
-
-.bp .home-menu {
-	padding: 0.5em;
+	font-family: sans-serif;
 }
 
 .bp .banner {
-	background: #325da9;
+	background: #E61C17;
 	padding: 2em 0.5em;
 	text-align: center;
 	color: #fafafa;
+}
+
+.bp-headline {
+	font-size: 1.4em;
+	font-style: italic;
 }
 
 .bp .banner .subtitle {
@@ -23,7 +20,7 @@
 }
 
 .bp .section {
-	padding: 0.5em 1em;
+	padding: 1.5em 1em;
 }
 
 .bp p {
@@ -36,4 +33,39 @@
 	border: 1px solid #ccc;
 	background: #fafafa;
 	border-radius: 4px;
+}
+
+.bp-center {
+	text-align: center;
+}
+
+.bp-red, 
+.bp-red a {
+	background: #7B0704;
+}
+
+.bp-green, 
+.bp-green a{
+	background: #036109;
+}
+
+.bp-blue, 
+.bp-blue a {
+	background: #1A0655;
+}
+
+.bp-bold-icon a {
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	color: white;
+	text-decoration: none;
+	border-radius: 100%;
+	font-size: 5em;
+}
+
+.bp-bold-icon {
+	text-align: center;
+	text-align: center;
 }

@@ -1,7 +1,9 @@
 package com.bridgephase.ctf.view.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +21,9 @@ public class HelloWorldController {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Value("${production:false}")
+	private String inProduction;
 	
 	/**
 	 * This request mapping method will render a response of "Hello World".
@@ -47,7 +52,9 @@ public class HelloWorldController {
 	 * @return the view name of "hello"
 	 */
 	@RequestMapping(value = "/")
-	public String hello() {
+	public String hello(Model model) {
+		System.out.println("Blab: " + inProduction);
+		model.addAttribute("production", Boolean.FALSE);
 		return "hello";
 	}
 }
