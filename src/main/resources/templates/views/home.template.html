@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en" data-ng-app="ctf" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-<title>Allerta</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	<title>Consider the following</title>
 
+	<link rel="icon" type="image/png" href="images/bowtie-rotated.png" />
 	<!-- These are used for non production -->
 	<script th:if="${!production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
 	<script th:if="${!production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
@@ -16,8 +17,9 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
 </head>
-<body class="bp">
+<body class="bp">	
 	<div class="banner">
+		<img class="bp-logo" alt="bowtime image" src="images/bowtie-rotated.png" title="Consider the following, paying tribute to Bill Nye!"/>
 		<h1>Consider the following ...</h1>
 		<div class="bp-headline">
 			<p>In February 2015, there were 190 reports of recalls on ice cream?</p>

@@ -106,3 +106,10 @@
 	font-family: 'Orbitron';
 	margin-bottom: 1.5em;
 }
+
+.bp-logo {
+	position: absolute;
+	width: 80px;
+	left: 10px;
+	top: 10px;
+}
