@@ -1,9 +1,11 @@
-.bp {
-	font-family: sans-serif;
+/* Color scheme http://colorschemedesigner.com/csd-3.5/#4f32PsOsOFfFf */
+.bp, .pure-g,
+.pure-g [class *="pure-u"] {
+	font-family: "Lato";
 }
 
 .bp .banner {
-	background: #3F316A;
+	background: #395A77;
 	padding: 2em 0.5em;
 	text-align: center;
 	color: #fafafa;
@@ -78,9 +80,29 @@
 	background: red;
 	text-align: center;
 	color: white;
-	font-weight: bold;
 	padding: 0.5em;
 }
+
 .bp-local:after {
 	content: "(THIS IS A NON-PRODUCTION ENVIRONMENT)";
+}
+
+.bp-footer {
+	padding: 2em;
+	background: #D8D7D3;
+	border-top: 1px solid #aaa;
+	color: #444;
+	font-size: smaller;
+}
+
+.bp-main-content {
+	background: #EAEAE7;
+	padding-bottom: 3em;
+} 
+
+.bp-starship {
+	display: block;
+	font-size: 1.5em;
+	font-family: 'Orbitron';
+	margin-bottom: 1.5em;
 }

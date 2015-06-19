@@ -2,7 +2,7 @@
 <html lang="en" data-ng-app="ctf" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-<title>BridgePhase Java Starter Project</title>
+<title>Allerta</title>
 
 	<!-- These are used for non production -->
 	<script th:if="${!production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
@@ -14,6 +14,7 @@
 	
 	<!-- For production we minimize -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
 </head>
 <body class="bp">
 	<div class="banner">
@@ -22,15 +23,26 @@
 			<p>In February 2015, there were 190 reports of recalls on ice cream?</p>
 		</div>
 	</div>
-	<div class="section" id="navigation" data-ui-view=""></div>
+	<div class="section bp-main-content" id="navigation" data-ui-view=""></div>
 	
-	<div class="footer">
-		<div class="bp-version bp-local" th:if="${!production}">
-			Version: <span th:text="${version}"></span>
+	<div class="bp-footer">
+		<div class="pure-g">
+			<div class="pure-u-1-2">
+				Developed by BridgePhase LLC <br />
+				using data from <a href="https://open.fda.gov">open.fda.gov</a> 
+			</div>
+			<div class="pure-u-1-2">
+			    <div class="pure-u-1-4">Visit us on <a href="https://github.com/BridgePhase/ctf">Github</a></div>
+				<div class="pure-u-1-4"><a href="#">About the project</a></div>
+				<div class="pure-u-1-4"><a href="#">Team members</a></div>
+			</div>
 		</div>
 		<div class="bp-version" th:if="${production}">
 			Version: <span th:text="${version}"></span>
 		</div>
+	</div>
+	<div class="bp-version bp-local" th:if="${!production}">
+		Version: <span th:text="${version}"></span>
 	</div>
 </body>
 </html>
