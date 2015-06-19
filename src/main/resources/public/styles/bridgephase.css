@@ -4,8 +4,8 @@
 	font-family: "Lato";
 }
 
-.bp .banner,
-.bp .small-banner {
+.banner,
+.small-banner {
 	background: #395A77;
 	padding: 2em 0.5em;
 	text-align: center;
@@ -56,18 +56,15 @@
 	text-align: center;
 }
 
-.bp-red, 
-.bp-red a {
+.bp-food {
 	background: #7B0704;
 }
 
-.bp-green, 
-.bp-green a{
+.bp-medicine {
 	background: #036109;
 }
 
-.bp-blue, 
-.bp-blue a {
+.bp-device {
 	background: #1A0655;
 }
 
@@ -134,4 +131,85 @@
 	width: 80px;
 	left: 10px;
 	top: 10px;
+}
+
+
+.bp-datatable {
+	border-collapse: collapse;
+}
+
+.bp a,
+.bp a:visited {
+	color: #3A5A76;
+	text-decoration: none;
+}
+
+
+.bp-datatable td,
+.bp-datatable th {
+	padding: 5px;
+}
+
+.bp-datatable thead th {
+	color: white;
+}
+
+.bp-datatable thead, 
+.bp-datatable tbody {
+	font-size: 11pt;
+	background: white;
+}
+
+.bp-datatable.bp-food td,
+.bp-datatable.bp-food th {
+	border-bottom: 1px solid #CC271F;
+}
+
+.bp-datatable.bp-food tbody tr > td:first-child {
+	border-left: 1px solid #CC271F;
+}
+
+.bp-datatable.bp-food tbody tr > td:last-child {
+	border-right: 1px solid #CC271F;
+}
+
+.bp-datatable.bp-food thead th {
+	background: #7A0A0B;	
+	border: 1px solid #7A0A0B;
+}
+
+.bp-datatable.bp-medicine td,
+.bp-datatable.bp-medicine th {
+	border-bottom: 1px solid #109128;
+}
+
+.bp-datatable.bp-medicine tbody tr > td:first-child {
+	border-left: 1px solid #109128;
+}
+
+.bp-datatable.bp-medicine tbody tr > td:last-child {
+	border-right: 1px solid #109128;
+}
+
+.bp-datatable.bp-medicine thead th {
+	background: #0C6012;	
+	border: 1px solid #0C6012;
+}
+
+.bp-datatable.bp-device  td,
+.bp-datatable.bp-device  th {
+	border-bottom: 1px solid #3B2D9E;
+}
+
+.bp-datatable.bp-device  tbody tr > td:first-child {
+	border-left: 1px solid #3B2D9E;
+}
+
+.bp-datatable.bp-device  tbody tr > td:last-child {
+	border-right: 1px solid #3B2D9E;
+}
+
+.bp-datatable .bp-device thead th {
+	background: #1A0B53;	
+	border: 1px solid #1A0B53;
 }

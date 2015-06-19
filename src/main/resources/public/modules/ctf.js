@@ -23,5 +23,9 @@ angular.module('ctf', [ 'ui.router' ]).config(
 			}]
 		}).state('noun.food', {
 			templateUrl: 'partials/food'
+		}).state('noun.medicine', {
+			templateUrl: 'partials/food'
+		}).state('noun.device', {
+			templateUrl: 'partials/food'
 		});
 	} ])
