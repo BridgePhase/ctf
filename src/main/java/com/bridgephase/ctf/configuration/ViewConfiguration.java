@@ -1,4 +1,4 @@
-package com.bridgephase.foo.configuration;
+package com.bridgephase.ctf.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @Configuration
 @ComponentScan(
 	basePackages={
-		"com.bridgephase.foo.view.controller"
+		"com.bridgephase.ctf.view.controller"
 	})
 public class ViewConfiguration {
 
