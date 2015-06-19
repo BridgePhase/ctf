@@ -1,20 +1,17 @@
 .bp {
-	font-family: Candara;
-}
-
-.bp .pure-menu {
-	border-bottom: 8px solid #d24048
-}
-
-.bp .home-menu {
-	padding: 0.5em;
+	font-family: sans-serif;
 }
 
 .bp .banner {
-	background: #325da9;
+	background: #E61C17;
 	padding: 2em 0.5em;
 	text-align: center;
 	color: #fafafa;
+}
+
+.bp-headline {
+	font-size: 1.4em;
+	font-style: italic;
 }
 
 .bp .banner .subtitle {
@@ -23,7 +20,7 @@
 }
 
 .bp .section {
-	padding: 0.5em 1em;
+	padding: 1.5em 1em;
 }
 
 .bp p {
@@ -44,34 +41,31 @@
 
 .bp-red, 
 .bp-red a {
-	background: #A0484A;
+	background: #7B0704;
 }
 
 .bp-green, 
 .bp-green a{
-	background: #485D57;
+	background: #036109;
 }
 
 .bp-blue, 
 .bp-blue a {
-	background: #658099;
+	background: #1A0655;
 }
 
 .bp-bold-icon a {
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
 	color: white;
 	text-decoration: none;
+	border-radius: 100%;
+	font-size: 5em;
 }
 
 .bp-bold-icon {
-	color: white;
-	display: block;
-	width: 200px;
-	height: 200px;
-	border-radius: 100%;
-	vertical-align: bottom;
-	line-height: 195px;
 	text-align: center;
-	font-size: 90px;
-	margin-left: auto;
-	margin-right: auto;
+	text-align: center;
 }

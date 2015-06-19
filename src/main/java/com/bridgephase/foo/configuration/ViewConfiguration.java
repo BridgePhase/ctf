@@ -24,6 +24,7 @@ public class ViewConfiguration {
 	@Bean
 	public TemplateResolver defaultTemplateResolver() {
 		TemplateResolver templateResolver = new TemplateResolver();
+		templateResolver.setCacheable(false);
 		templateResolver.setResourceResolver(thymeleafResourceResolver());
         templateResolver.setTemplateMode("HTML5");
         templateResolver.setPrefix(viewPrefix);
