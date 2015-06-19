@@ -19,7 +19,8 @@ public class RequestBuilder {
 	protected static final String PROTOCOL = "<protocol>";
 	protected static final String HOST = "<host>";
 	protected static final String NOUN = "<noun>";
-	protected static final String EVENT = "event.json"; // FDA API assumption
+	protected static final String ACTION = "<action>";
+	protected static final String FORMAT = "<format>";
 	
 	private static final Map<String, String> defaults;
 	
@@ -28,6 +29,8 @@ public class RequestBuilder {
 		defaults.put(PROTOCOL, Protocol.HTTP.toString());
 		defaults.put(HOST, Constants.FDA_HOST);
 		defaults.put(NOUN, DataNoun.DRUG.toString());
+		defaults.put(ACTION, DataNoun.DRUG.context());
+		defaults.put(FORMAT, ".json");
 	}
 	
 	protected RequestBuilder() {
@@ -35,7 +38,8 @@ public class RequestBuilder {
 		builder.append(PROTOCOL)
 		.append("://").append(HOST)
 		.append("/").append(NOUN)
-		.append("/").append(EVENT)
+		.append("/").append(ACTION)
+		.append(FORMAT)
 		.append("?").append("api_key=").append(KeyStore.API)
 		.append("&search=");
 		request = builder.toString();
@@ -50,6 +54,12 @@ public class RequestBuilder {
 		return this;
 	}
 	
+	public RequestBuilder withDataNoun(DataNoun noun) {
+		request = request.replace(NOUN, noun.toString());
+		request = request.replace(ACTION, noun.context());
+		return this;
+	}
+	
 	public String build() {
 		defaults();
 		logger.info("Request string gerated:" + request);
@@ -57,7 +67,7 @@ public class RequestBuilder {
 	}
 	
 	private void defaults() {
-		String regexp = String.format("%s|%s|%s", PROTOCOL, HOST, NOUN);
+		String regexp = String.format("%s|%s|%s|%s|%s", PROTOCOL, HOST, NOUN, ACTION, FORMAT);
 		StringBuffer buffer = new StringBuffer();
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher m = pattern.matcher(request);
