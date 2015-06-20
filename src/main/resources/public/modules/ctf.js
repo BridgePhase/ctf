@@ -14,9 +14,18 @@ angular.module('ctf', [ 'ui.router' ]).config(
 
 		$stateProvider.state('home', {
 			url: '/home',
-			templateUrl: 'modules/home/home.view.html'
-		}).state('about', {
-			url: '/about',
-			templateUrl: 'modules/about/about.view.html'
-		})
+			templateUrl: 'partials/main'
+		}).state('noun', {
+			url: '/noun/:noun',
+			templateUrl: 'partials/noun',
+			controller: ['$state', '$stateParams', function($state, $stateParams) {
+				$state.go('noun.' + $stateParams.noun);
+			}]
+		}).state('noun.food', {
+			templateUrl: 'partials/food'
+		}).state('noun.medicine', {
+			templateUrl: 'partials/food'
+		}).state('noun.device', {
+			templateUrl: 'partials/food'
+		});
 	} ])
