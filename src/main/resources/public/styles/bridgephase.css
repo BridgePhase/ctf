@@ -1,12 +1,29 @@
-.bp {
-	font-family: sans-serif;
+/* Color scheme http://colorschemedesigner.com/csd-3.5/#4f32PsOsOFfFf */
+.bp, .pure-g,
+.pure-g [class *="pure-u"] {
+	font-family: "Lato";
 }
 
-.bp .banner {
-	background: #3F316A;
+.banner,
+.small-banner {
+	background: #395A77;
 	padding: 2em 0.5em;
 	text-align: center;
 	color: #fafafa;
+}
+
+.bp .small-banner {
+	padding: 0.5em 0.5em;
+}
+
+.bp .small-banner .bp-logo {
+	width: 40px;	
+}
+
+.bp .small-banner h1 {
+	margin: 0;
+	text-align: left;
+	margin-left: 60px;
 }
 
 .bp-headline {
@@ -39,22 +56,19 @@
 	text-align: center;
 }
 
-.bp-red, 
-.bp-red a {
+.bp-food {
 	background: #7B0704;
 }
 
-.bp-green, 
-.bp-green a{
+.bp-medicine {
 	background: #036109;
 }
 
-.bp-blue, 
-.bp-blue a {
-	background: #1A0655;
+.bp-device {
+	background: #2B24A0;
 }
 
-.bp-bold-icon a {
+.bp-big-icon a.fa {
 	display: inline-block;
 	width: 2em;
 	height: 2em;
@@ -63,9 +77,16 @@
 	text-decoration: none;
 	border-radius: 100%;
 	font-size: 5em;
+	cursor: pointer;
 }
 
-.bp-bold-icon {
+.bp-big-icon a.fa:hover,
+.bp-big-icon a.fa:focus {
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+}
+
+.bp-big-icon {
 	text-align: center;
 	text-align: center;
 }
@@ -78,9 +99,77 @@
 	background: red;
 	text-align: center;
 	color: white;
-	font-weight: bold;
 	padding: 0.5em;
 }
+
 .bp-local:after {
 	content: "(THIS IS A NON-PRODUCTION ENVIRONMENT)";
+}
+
+.bp-footer {
+	padding: 2em;
+	background: #D8D7D3;
+	border-top: 1px solid #aaa;
+	color: #444;
+	font-size: smaller;
+}
+
+.bp-main-content {
+	background: #EAEAE7;
+	padding-bottom: 3em;
+} 
+
+.bp-starship {
+	display: block;
+	font-size: 1.5em;
+	font-family: 'Orbitron';
+	margin-bottom: 1.5em;
+}
+
+.bp-logo {
+	position: absolute;
+	width: 80px;
+	left: 10px;
+	top: 10px;
+}
+
+
+.bp a,
+.bp a:visited {
+	color: #3A5A76;
+	text-decoration: none;
+}
+
+
+.bp-datatable {
+	border-collapse: collapse;
+	border: 0;
+	background: white;
+}
+
+.bp-datatable tbody td,
+.bp-datatable thead th {
+	font-size: 12px;
+	padding: 5px 2px;
+	text-align: left;
+	border-bottom: 1px dotted #ddd;
+	
+}
+
+.bp-datatable thead th {
+	font-weight: 400;
+}
+
+.bp-datatable thead, 
+.bp-datatable tbody {
+	font-size: 11pt;
+	background: white;
+}
+
+.bp .state:hover {
+	fill: yellow;
+}
+
+.bp .highlighted {
+	fill: red;
 }
