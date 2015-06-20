@@ -140,6 +140,15 @@ function RegionService($http, $q) {
 				deferred.resolve(locationInfo);
 				return deferred.promise;
 			} else return locationInfoPromise;
+		},
+		
+		stateFromAbbreviation: function(abbreviation) {
+			for (var i = 0; i < usStates.length; i++) {
+				if (usStates[i].abbreviation === abbreviation) {
+					return usStates[i];
+				}
+			}
+			return null;
 		}
 	}
 }

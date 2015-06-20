@@ -14,7 +14,7 @@
 				or click a state on the map to see recalls for that state.
 			</div>
 			<div style="max-width: 800px">
-			<us-map id="currentStateMap" highlight-states="food.selectedState"></us-map> 
+			<us-map hover="true" id="currentStateMap" highlight-states="food.selectedState" onselect="food.stateClicked"></us-map> 
 			</div>
 			<table class="bp-datatable bp-{{food.noun}}" style="width:100%">
 				<thead>

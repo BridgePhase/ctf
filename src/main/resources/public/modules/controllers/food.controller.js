@@ -11,6 +11,11 @@ function FoodController($scope, RegionService) {
 		$scope.$broadcast('update-map-currentStateMap', that.selectedState);
 	});
 	
+	that.stateClicked = function(stateClicked) {
+		that.selectedState = stateClicked;
+		that.stateSelected();
+	}
+	
 	that.stateSelected = function() {
 		$scope.$broadcast('update-map-currentStateMap', that.selectedState);
 	}
