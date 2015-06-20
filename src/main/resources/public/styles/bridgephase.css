@@ -65,7 +65,7 @@
 }
 
 .bp-device {
-	background: #1A0655;
+	background: #2B24A0;
 }
 
 .bp-big-icon a.fa {
@@ -160,56 +160,10 @@
 	background: white;
 }
 
-.bp-datatable.bp-food td,
-.bp-datatable.bp-food th {
-	border-bottom: 1px solid #CC271F;
+.bp .state:hover {
+	fill: yellow;
 }
 
-.bp-datatable.bp-food tbody tr > td:first-child {
-	border-left: 1px solid #CC271F;
-}
-
-.bp-datatable.bp-food tbody tr > td:last-child {
-	border-right: 1px solid #CC271F;
-}
-
-.bp-datatable.bp-food thead th {
-	background: #7A0A0B;	
-	border: 1px solid #7A0A0B;
-}
-
-.bp-datatable.bp-medicine td,
-.bp-datatable.bp-medicine th {
-	border-bottom: 1px solid #109128;
-}
-
-.bp-datatable.bp-medicine tbody tr > td:first-child {
-	border-left: 1px solid #109128;
-}
-
-.bp-datatable.bp-medicine tbody tr > td:last-child {
-	border-right: 1px solid #109128;
-}
-
-.bp-datatable.bp-medicine thead th {
-	background: #0C6012;	
-	border: 1px solid #0C6012;
-}
-
-.bp-datatable.bp-device  td,
-.bp-datatable.bp-device  th {
-	border-bottom: 1px solid #3B2D9E;
-}
-
-.bp-datatable.bp-device  tbody tr > td:first-child {
-	border-left: 1px solid #3B2D9E;
-}
-
-.bp-datatable.bp-device  tbody tr > td:last-child {
-	border-right: 1px solid #3B2D9E;
-}
-
-.bp-datatable .bp-device thead th {
-	background: #1A0B53;	
-	border: 1px solid #1A0B53;
+.bp .highlighted {
+	fill: red;
 }
