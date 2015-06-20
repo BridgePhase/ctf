@@ -2,31 +2,15 @@
 <html lang="en" data-ng-app="ctf" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-	<title>Consider the following</title>
+	<title>Consider the following - you got an error!</title>
 
 	<link rel="icon" type="image/png" href="images/bowtie-rotated.png" />
-	<link rel="apple-touch-icon" href="images/bowtie-rotated.png" />
 	<!-- These are used for non production -->
-	<script th:if="${!production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
-	<script th:if="${!production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
-	<script th:if="${!production}" src="modules/ctf.js"></script>
-	<script th:if="${!production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
-	<script th:if="${!production}" src="modules/directives/usmap/usmap.directive.js"></script>
-	<script th:if="${!production}" src="modules/services/region.service.js"></script>
-	<script th:if="${!production}" src="modules/controllers/noun.controller.js"></script>
-	<script th:if="${!production}" src="modules/controllers/food.controller.js"></script>
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
 	
 	<!-- TODO: For production we minimize, for now including even in production until we implement gulp -->
-	<script th:if="${production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
-	<script th:if="${production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
-	<script th:if="${production}" src="modules/ctf.js?production"></script>
-	<script th:if="${production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
-	<script th:if="${production}" src="modules/directives/usmap/usmap.directive.js"></script>
-	<script th:if="${production}" src="modules/services/region.service.js"></script>
-	<script th:if="${production}" src="modules/controllers/noun.controller.js"></script>	
 	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
 	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
 	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
@@ -36,7 +20,15 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
 </head>
 <body class="bp">	
-	<div id="pageTemplate" data-ui-view=""></div>	
+	<div class="banner">
+		<a href="/ctf/#/home">
+			<img class="bp-logo" alt="bowtime image" src="images/bowtie-rotated.png" title="Consider the following, paying tribute to Bill Nye!"/>
+		</a>
+		<h1>Consider the following ...</h1>
+		<div class="bp-headline">
+			<p>we are sorry for the inconvenience, the page you're looking for does not exist</p>
+		</div>
+	</div>
 	<div class="bp-footer">
 		<div class="pure-g">
 			<div class="pure-u-1-2">

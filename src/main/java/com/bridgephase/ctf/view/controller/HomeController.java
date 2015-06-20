@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Jaime Garcia
  */
 @Controller
-public class HomeController {
+public class HomeController implements ErrorController {
 	
 	@Value("${production:false}")
 	private String inProduction;
@@ -78,5 +82,18 @@ public class HomeController {
 		model.addAttribute("version", alive());
 		model.addAttribute("production", Boolean.parseBoolean(inProduction));
 		return "modules/" + partial;
+	}
+	
+	@RequestMapping(value = "/error")
+	public String error(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		System.out.println("An error occurred");
+		model.addAttribute("version", alive());
+		model.addAttribute("production", Boolean.parseBoolean(inProduction));
+        return "errorpage";
+    }
+	
+	@Override
+	public String getErrorPath() {
+		return "/error";
 	}
 }
