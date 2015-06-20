@@ -134,10 +134,6 @@
 }
 
 
-.bp-datatable {
-	border-collapse: collapse;
-}
-
 .bp a,
 .bp a:visited {
 	color: #3A5A76;
@@ -145,13 +141,23 @@
 }
 
 
-.bp-datatable td,
-.bp-datatable th {
-	padding: 5px;
+.bp-datatable {
+	border-collapse: collapse;
+	border: 0;
+	background: white;
+}
+
+.bp-datatable tbody td,
+.bp-datatable thead th {
+	font-size: 12px;
+	padding: 5px 2px;
+	text-align: left;
+	border-bottom: 1px dotted #ddd;
+	
 }
 
 .bp-datatable thead th {
-	color: white;
+	font-weight: 400;
 }
 
 .bp-datatable thead, 

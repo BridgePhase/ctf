@@ -16,7 +16,18 @@
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
 	
-	<!-- For production we minimize -->
+	<!-- TODO: For production we minimize, for now including even in production until we implement gulp -->
+	<script th:if="${production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
+	<script th:if="${production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
+	<script th:if="${production}" src="modules/ctf.js?production"></script>
+	<script th:if="${production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
+	<script th:if="${production}" src="modules/directives/usmap/usmap.directive.js"></script>
+	<script th:if="${production}" src="modules/controllers/noun.controller.js"></script>	
+	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
+	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
+	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
+
+
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
 </head>
@@ -29,7 +40,7 @@
 				using data from <a href="https://open.fda.gov">open.fda.gov</a> 
 			</div>
 			<div class="pure-u-1-2">
-			    <div class="pure-u-1-4">Visit us on <a href="https://github.com/BridgePhase/ctf">Github</a></div>
+			    <div class="pure-u-1-4">Visit us on <a target="_blank" href="https://github.com/BridgePhase/ctf">Github</a></div>
 				<div class="pure-u-1-4"><a href="#">About the project</a></div>
 				<div class="pure-u-1-4"><a href="#">Team members</a></div>
 			</div>
