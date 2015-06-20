@@ -69,14 +69,14 @@ public class HomeController {
 	@RequestMapping(value = "/")
 	public String home(Model model) {
 		model.addAttribute("version", alive());
-		model.addAttribute("production", Boolean.FALSE);
+		model.addAttribute("production", Boolean.parseBoolean(inProduction));
 		return "home";
 	}
 	
 	@RequestMapping(value = "/partials/{partial}")
 	public String partial(Model model, @PathVariable("partial") String partial) {
 		model.addAttribute("version", alive());
-		model.addAttribute("production", Boolean.FALSE);
+		model.addAttribute("production", Boolean.parseBoolean(inProduction));
 		return "modules/" + partial;
 	}
 }
