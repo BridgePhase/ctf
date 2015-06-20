@@ -62,6 +62,20 @@ dependencies {
   
 }
 
+task installNpmModules(type: Exec) {
+  commandLine 'npm', 'install'
+}
+
+task installBowerComponents(type: Exec) {
+  commandLine: 'chmod', '+x', './bower'
+  commandLine: './bower', 'install'
+}
+
+task prepareUiArtifacts(type: Exec) {
+  commandLine: 'chmod', '+x', './gulp'
+  commandLine: './gulp', 'install'
+}
+
 /* For AWS deployments, need to copy the appspec file to the libs directory */
 task copyAppSpec(type: Copy) {
   from 'appspec.yml'
