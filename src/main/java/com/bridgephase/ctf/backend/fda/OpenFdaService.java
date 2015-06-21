@@ -36,4 +36,13 @@ public class OpenFdaService {
 				.build(),
 			EnforcementReportResponse.class);
 	}
+	
+	public EnforcementReportResponse noun(DataNoun noun) {
+		return restOperations.getForObject(
+			RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(noun)
+				.withContext(DataContext.ENFORCEMENT)
+				.build(),
+			EnforcementReportResponse.class);
+	}
 }
