@@ -47,6 +47,7 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 			if (scope.enableHover) {
 				element.addClass('enable-hover');
 			}
+			
 			scope.$on('update-map-' + elem.id, function(event, statesToHighlight) {
 				statesToHighlight = normalizeSelectedStateParam(statesToHighlight);
 				unhighlightAllStates(elem);
@@ -57,7 +58,7 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 				var target = event.target;
 				if (target.className && target.className.baseVal == 'state') {
 					var state = RegionService.stateFromAbbreviation(target.id);
-					$scope.onselect()(state);
+					scope.onselect()(state);
 					elem.blur();
 				}
 			}

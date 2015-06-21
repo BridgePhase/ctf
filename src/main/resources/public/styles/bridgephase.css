@@ -17,11 +17,14 @@
 }
 
 .bp .small-banner .bp-logo {
-	width: 40px;	
+	width: 40px;
+	transform: rotate(-20deg);
+	margin-top: 5px;
 }
 
 .bp .small-banner h1 {
 	margin: 0;
+	padding-left: 50px;
 	text-align: left;
 }
 
@@ -139,6 +142,7 @@
 	width: 80px;
 	left: 10px;
 	top: 10px;
+	transform: rotate(-20deg);
 }
 
 

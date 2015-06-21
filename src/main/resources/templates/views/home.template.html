@@ -4,11 +4,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 	<title>Consider the following</title>
 
-	<link rel="icon" type="image/png" href="images/bowtie-rotated.png" />
-	<link rel="apple-touch-icon" href="images/bowtie-rotated.png" />
+	<link rel="icon" type="image/png" href="images/bowtie-comic.png" />
+	<link rel="apple-touch-icon" href="images/bowtie-comic.png" />
 	<!-- These are used for non production -->
-	<script th:if="${!production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
-	<script th:if="${!production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
+	<script th:if="${!production}" src="libraries/angular/angular.min.js"></script>
+	<script th:if="${!production}" src="libraries/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script th:if="${!production}" src="modules/ctf.js"></script>
 	<script th:if="${!production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
 	<script th:if="${!production}" src="modules/directives/usmap/usmap.directive.js"></script>
@@ -20,18 +20,8 @@
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
 	
 	<!-- TODO: For production we minimize, for now including even in production until we implement gulp -->
-	<script th:if="${production}" src="webjars/angularjs/1.4.0-rc.1/angular.min.js"></script>
-	<script th:if="${production}" src="webjars/angular-ui-router/0.2.14/release/angular-ui-router.min.js"></script>
-	<script th:if="${production}" src="modules/ctf.js?production"></script>
-	<script th:if="${production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
-	<script th:if="${production}" src="modules/directives/usmap/usmap.directive.js"></script>
-	<script th:if="${production}" src="modules/services/region.service.js"></script>
-	<script th:if="${production}" src="modules/controllers/noun.controller.js"></script>	
-	<script th:if="${production}" src="modules/controllers/food.controller.js"></script>
-	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
-	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
-	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
-
+	<script th:if="${production}" src="ctf-app.js"></script>
+	<link th:if="${production}" rel="stylesheet" type="text/css" href="ctf-styles.css" />
 
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />

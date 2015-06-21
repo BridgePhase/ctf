@@ -1,0 +1,19 @@
+{
+  "name": "ctf",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git@bridgephase.github.com:BridgePhase/ctf.git"
+  },
+  "author": "BridgePhase LLC",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-debug": "^2.0.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-uglifycss": "^1.0.4"
+  }
+}
