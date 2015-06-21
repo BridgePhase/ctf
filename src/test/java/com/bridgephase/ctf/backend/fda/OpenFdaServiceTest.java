@@ -3,6 +3,7 @@ package com.bridgephase.ctf.backend.fda;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.net.URI;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -49,11 +50,12 @@ public class OpenFdaServiceTest {
 			EnforcementReportResponse.class);
 	}
 	
-	private String expectUrl(DataNoun noun, DataContext context, String search) {
+	private URI expectUrl(DataNoun noun, DataContext context, String search) {
 		return RequestBuilder.builder(Protocol.valueOf(TEST_PROTOCOL.toUpperCase()), TEST_HOST)
 			.withDataNoun(noun)
 			.withContext(context)
 			.withSearch(search)
-			.build();
+			.withLimit(100)
+			.buildUri();
 	}
 }
