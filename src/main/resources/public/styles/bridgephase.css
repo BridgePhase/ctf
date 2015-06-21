@@ -186,6 +186,13 @@
 	fill: red;
 }
 
+.bp-selectable-map {
+	height: 400px;
+}
+
+.bp-affected-states {
+	height: 300px;
+}
 
 /* Small screens */
 @media screen and (max-width: 35.5em) {
