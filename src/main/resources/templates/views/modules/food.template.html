@@ -13,25 +13,28 @@
 				</select>
 				or click a state on the map to see recalls for that state.
 			</div>
-			<div class="bp-selectable-map">
+			<div class="selectable-map">
 				<us-map hover="true" id="currentStateMap" highlight-states="food.selectedState" onselect="food.stateClicked"></us-map> 
 			</div>
-			<table class="bp-datatable bp-{{food.noun}}" style="width:100%">
-				<thead>
-					<tr>
-						<th scope="col">Product description</th>
-						<th scope="col">Recall started on</th>
-						<th scope="col">Reason for the recall</th>
-					</tr> 
-				</thead>
-				<tbody>
-					<tr data-ng-repeat="recall in food.recalls">
-						<td><a href="" data-ng-click="food.selectRecall(recall)" data-ng-bind="recall.city"></a></td>
-						<td data-ng-bind="recall.state"></td>
-						<td data-ng-bind="recall.classification"></td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="scrollable-container">
+				<table data-ng-if="food.recallMetadata" class="datatable" style="width:100%">
+					<caption>Recalls in {{food.selectedState.name}} - displaying {{food.recalls.length}} of {{food.recallMetadata.results.total}}</caption>
+					<thead>
+						<tr>
+							<th scope="col">Product description</th>
+							<th scope="col">Recall started on</th>
+							<th scope="col">Reason for the recall</th>
+						</tr> 
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="recall in food.recalls">
+							<td><a href="" data-ng-click="food.selectRecall(recall)" data-ng-bind="$index + 1 + ') ' + recall.city"></a></td>
+							<td data-ng-bind="recall.state"></td>
+							<td data-ng-bind="recall.classification"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div data-ng-if="food.selectedRecall">
@@ -63,7 +66,7 @@
 					</div>
 					<div class="pure-u-1 pure-u-md-1-2">
 						<h3>Other states affected</h3>
-						<div class="bp-affected-states">
+						<div class="affected-states">
 							<us-map id="mymap" highlight-states="food.affectedStates" ></us-map>
 						</div>
 					</div>

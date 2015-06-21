@@ -18,7 +18,9 @@
 	<script th:if="${!production}" src="modules/controllers/food.controller.js"></script>
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
-	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
+	<!-- <link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" /> -->
+	<link th:if="${!production}" rel="stylesheet/less" type="text/css" href="styles/ctf.less" />
+	<script th:if="${!production}" src="webjars/less/2.5.0/less.js" type="text/javascript"></script>
 	
 	<!-- For production we minimize,-->
 	<script th:if="${production}" src="ctf-app.js"></script>
@@ -28,8 +30,8 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
 </head>
 <body class="bp">	
-	<div id="pageTemplate" data-ui-view=""></div>	
-	<div class="bp-footer">
+	<div id="pageTemplate" class="main-content" data-ui-view=""></div>	
+	<div class="footer">
 		<div class="pure-g">
 			<div class="pure-u-1-2">
 				Developed by BridgePhase LLC <br />
@@ -41,11 +43,11 @@
 				<div class="pure-u-1-4"><a href="#">Team members</a></div>
 			</div>
 		</div>
-		<div class="bp-version" th:if="${production}">
+		<div class="version" th:if="${production}">
 			Version: <span th:text="${version}"></span>
 		</div>
 	</div>
-	<div class="bp-version bp-local" th:if="${!production}">
+	<div class="version local" th:if="${!production}">
 		Version: <span th:text="${version}"></span>
 	</div>
 </body>

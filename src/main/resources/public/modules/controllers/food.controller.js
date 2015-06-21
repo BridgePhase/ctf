@@ -7,6 +7,8 @@ function FoodController($scope, RegionService, FoodService) {
 	that.recalls = [];
 	that.selectedRecall = null;
 	
+	that.recallMetadata = null;
+	
 	that.allStates = RegionService.allUsStates();
 	RegionService.location().then(function(result) {
 		that.userHomeState = result.stateInformation;
@@ -17,9 +19,12 @@ function FoodController($scope, RegionService, FoodService) {
 	
 	that.loadRecallsForCurrentState = function() {
 		that.recalls = [];
+		that.recallMetadata = null;
 		that.selectedRecall = null;
 		that.affectedStates = [];
 		FoodService.recallsByState(that.selectedState.abbreviation).then(function(result) {
+			that.recallMetadata = result.meta;
+			console.log(that.recallMetadata);
 			that.recalls = result.results;
 		})
 	}
