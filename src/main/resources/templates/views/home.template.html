@@ -19,7 +19,7 @@
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
 	
-	<!-- TODO: For production we minimize, for now including even in production until we implement gulp -->
+	<!-- For production we minimize,-->
 	<script th:if="${production}" src="ctf-app.js"></script>
 	<link th:if="${production}" rel="stylesheet" type="text/css" href="ctf-styles.css" />
 
