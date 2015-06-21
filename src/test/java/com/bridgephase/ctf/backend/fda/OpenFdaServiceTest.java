@@ -3,6 +3,9 @@ package com.bridgephase.ctf.backend.fda;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestOperations;
@@ -12,6 +15,7 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
+import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
 public class OpenFdaServiceTest {
 
@@ -29,16 +33,27 @@ public class OpenFdaServiceTest {
 	
 	@Test
 	public void correctRestUrlIsCreatedForFoodRecallsByState() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -6);
+		Date sixMonthsAgo = calendar.getTime();
+		String expectedSearchQuery = SearchBuilder.builder()
+			.withField("distribution_pattern", "VA")
+			.withExactField("status", "Ongoing")
+			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
+			.build();
 		service.latestFoodRecallsByState("VA");
 		
 		verify(mockRest).getForObject(
-			expectUrl(DataNoun.FOOD, DataContext.ENFORCEMENT, null), EnforcementReportResponse.class);
+			expectUrl(DataNoun.FOOD, DataContext.ENFORCEMENT, expectedSearchQuery), 
+			EnforcementReportResponse.class);
 	}
 	
 	private String expectUrl(DataNoun noun, DataContext context, String search) {
 		return RequestBuilder.builder(Protocol.valueOf(TEST_PROTOCOL.toUpperCase()), TEST_HOST)
 			.withDataNoun(noun)
 			.withContext(context)
+			.withSearch(search)
 			.build();
 	}
 }

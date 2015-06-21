@@ -27,7 +27,10 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 	function highlightStates(element, states) {
 		states = normalizeSelectedStateParam(states);
 		for (var i = 0; i < states.length; i++) {
-			document.querySelector('#' + element.id + ' #'+ states[i].abbreviation).setAttribute('class', 'state highlighted');
+			var toUpdate = document.querySelector('#' + element.id + ' #'+ states[i].abbreviation);
+			if (toUpdate) {
+				toUpdate.setAttribute('class', 'state highlighted');
+			}
 		}
 	}
 	
