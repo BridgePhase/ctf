@@ -21,10 +21,7 @@
 	
 	<!-- TODO: For production we minimize, for now including even in production until we implement gulp -->
 	<script th:if="${production}" src="ctf-app.js"></script>
-	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
-	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
-	<link th:if="${production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
-
+	<link th:if="${production}" rel="stylesheet" type="text/css" href="ctf-styles.css" />
 
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
