@@ -1,7 +1,7 @@
 function FoodService($http) {
 	return {
 		recallsByState: function(state) {
-			return $http.get('/ctf/food/' + state).then(function(response) {
+			return $http.get('/ctf/api/food/' + state).then(function(response) {
 				return response.data;
 			})
 		}

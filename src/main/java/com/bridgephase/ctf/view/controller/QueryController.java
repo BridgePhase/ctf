@@ -16,14 +16,14 @@ public class QueryController {
 	@Autowired
 	private OpenFdaService openFda;
 	
-	@RequestMapping(value = "/food/{state}")
+	@RequestMapping(value = "/api/food/{state}")
 	@ResponseBody
 	public EnforcementReportResponse foodRecallsByState(@PathVariable("state") String state) {
 		
 		return openFda.latestFoodRecallsByState(state);
 	}
 	
-	@RequestMapping(value = "/{noun}")
+	@RequestMapping(value = "/api/{noun}")
 	@ResponseBody
 	public EnforcementReportResponse noun(@PathVariable("noun") String noun) {
 		DataNoun dataNoun = DataNoun.valueOf(noun.toUpperCase());
