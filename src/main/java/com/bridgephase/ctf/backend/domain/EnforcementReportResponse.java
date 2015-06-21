@@ -8,18 +8,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EnforcementReportResponse {
-	
-	public Meta meta;
-	public List<EnforcementReport> results;
-	
-	public Meta getMeta() {
-		return meta;
-	}
-	
-	public void setMeta(Meta meta) {
-		this.meta = meta;
-	}
+public class EnforcementReportResponse extends FdaApiResponse {
+	private List<EnforcementReport> results;
 	
 	public List<EnforcementReport> getResults() {
 		return results;
@@ -31,7 +21,7 @@ public class EnforcementReportResponse {
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+		return super.toString() + 
+				ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }
