@@ -66,15 +66,40 @@ task installNpmModules(type: Exec) {
   commandLine 'npm', 'install'
 }
 
-task installBowerComponents(type: Exec) {
-  commandLine: 'chmod', '+x', './bower'
-  commandLine: './bower', 'install'
+task grantBowerPermissions(type: Exec) {
+    commandLine 'chmod', '+x', './bower'
 }
 
-task prepareUiArtifacts(type: Exec) {
-  commandLine: 'chmod', '+x', './gulp'
-  commandLine: './gulp', 'install'
+task installBowerComponents(type: Exec, dependsOn: ["installNpmModules", "grantBowerPermissions"]) {
+  commandLine './bower', 'install'
 }
+
+task grantGulpPermissions(type: Exec) {
+  commandLine 'chmod', '+x', './gulp'
+  
+}
+task buildUiArtifacts(type: Exec, 
+  dependsOn: ["installBowerComponents", "grantGulpPermissions"]) {
+  commandLine './gulp', 'uglify'
+}
+
+task cleanupNodeModules(type: Exec) {
+  commandLine 'rm', '-rf', 'node_modules/'
+}
+
+task cleanupBowerLibraries(type: Exec) {
+  commandLine 'rm', '-rf', 'src/main/resources/public/libraries/'
+}
+
+task cleanupArtifacts(type: Exec) {
+  commandLine 'rm', '-rf', 'src/main/resources/public/ctf-app.js'
+}
+
+task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBowerLibraries", "cleanupNodeModules"])
+
+clean.finalizedBy cleanupAllUiGeneratedComponents
+processResources.finalizedBy buildUiArtifacts 
+eclipseClasspath.finalizedBy buildUiArtifacts
 
 /* For AWS deployments, need to copy the appspec file to the libs directory */
 task copyAppSpec(type: Copy) {
