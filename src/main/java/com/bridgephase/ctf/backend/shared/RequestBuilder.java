@@ -1,5 +1,8 @@
 package com.bridgephase.ctf.backend.shared;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,5 +67,14 @@ public class RequestBuilder {
 			.append(search);
 		logger.debug("Request string generated: " + builder.toString());
 		return builder.toString();
+	}
+	
+	public URI buildUri() {
+		try {
+			return new URI(build());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -19,7 +19,8 @@ public class QueryController {
 	@RequestMapping(value = "/food/{state}")
 	@ResponseBody
 	public EnforcementReportResponse foodRecallsByState(@PathVariable("state") String state) {
-		return openFda.latestFoodRecallsByState("VA");
+		
+		return openFda.latestFoodRecallsByState(state);
 	}
 	
 	@RequestMapping(value = "/{noun}")

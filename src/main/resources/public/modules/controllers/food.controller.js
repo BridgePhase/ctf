@@ -48,6 +48,7 @@ function FoodController($scope, RegionService, FoodService) {
 	
 	that.stateSelected = function() {
 		$scope.$broadcast('update-map-currentStateMap', that.selectedState);
+		that.loadRecallsForCurrentState();
 	}
 }
 

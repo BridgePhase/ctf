@@ -1,5 +1,6 @@
 package com.bridgephase.ctf.backend.fda;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,7 +38,8 @@ public class OpenFdaService {
 		Date today = calendar.getTime();
 		calendar.add(Calendar.MONTH, -6);
 		Date sixMonthsAgo = calendar.getTime();
-		String searchQuery = SearchBuilder.builder()
+		String searchQuery = "";
+		searchQuery = SearchBuilder.builder()
 			.withField("distribution_pattern", state)
 			.withExactField("status", "Ongoing")
 			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
@@ -48,7 +50,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.FOOD)
 				.withContext(DataContext.ENFORCEMENT)
 				.withSearch(searchQuery)
-				.build(),
+				.buildUri(),
 			EnforcementReportResponse.class);
 	}
 	

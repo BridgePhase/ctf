@@ -1,16 +1,16 @@
 package com.bridgephase.ctf.backend.shared;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SearchBuilder {
 	private static final String FORMAT = "yyyy-MM-dd";
-	private Map<String, String> searchConditions;
+	private StringBuilder builder = new StringBuilder();
+
 	
 	private SearchBuilder() {
-		searchConditions = new LinkedHashMap<String, String>();
 	}
 	
 	public static SearchBuilder builder() {
@@ -18,33 +18,48 @@ public class SearchBuilder {
 	}
 	
 	public String build() {
-		StringBuilder builder = new StringBuilder();
-		for (Map.Entry<String, String> entry : searchConditions.entrySet()) {
-			if (builder.length() > 0) {
-				builder.append("+AND+");
-			}
-			builder.append(entry.getKey())
-				.append(':')
-				.append(entry.getValue());
-		}
 		return builder.toString();
 	}
 	
 	public SearchBuilder withExactField(String field, String value) {
-		searchConditions.put(field, '"' + (value) + '"');
+		addField();
+		try {
+			builder.append(URLEncoder.encode(field + ":\"" + value + "\"", "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			builder.append(field + ":\"" + value + "\"");
+		}
 		return this;
 	}
 	
 	public SearchBuilder withField(String field, String value) {
-		searchConditions.put(field, value);
+		addField();
+		try {
+			builder.append(URLEncoder.encode(field + ":" + value, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			builder.append(field + ":\"" + value + "\"");
+		}
 		return this;
 	}
 	
 	public SearchBuilder withDateRangeField(String field, Date dateFrom, Date dateTo) {
+		addField();
 		SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT);
-		searchConditions.put(field, 
-			"[" + dateFormat.format(dateFrom) + 
-			"+TO+" + dateFormat.format(dateTo) + "]");
+		try {
+			builder.append(URLEncoder.encode(field + ":[", "UTF-8"))
+				.append(dateFormat.format(dateFrom))
+				.append("%20TO%20")
+				.append(dateFormat.format(dateTo))
+				.append(URLEncoder.encode("]", "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			builder.append(field + ":[" + dateFormat.format(dateFrom) + 
+				"+TO+" + dateFormat.format(dateTo) + "]");
+		}
 		return this;
+	}
+	
+	private void addField() {
+		if (builder.length() > 0) {
+			builder.append("%20AND%20");
+		}
 	}
 }
