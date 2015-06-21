@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var debug = require('gulp-debug');
-var uglify = require('gulp-uglifyjs');
+var uglify = require('gulp-uglify');
 
 
 gulp.task('uglify', function() {
@@ -13,7 +13,7 @@ gulp.task('uglify', function() {
 	  'src/main/resources/public/modules/controllers/**/*.js'
 	])
 	.pipe(debug())
-	.pipe(uglify('ctf-app.js'))
+	.pipe(uglify())
     .pipe(gulp.dest('src/main/resources/public/'));
 });
 
