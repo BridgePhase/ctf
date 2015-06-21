@@ -24,8 +24,8 @@ public class RequestBuilder {
 	private String context;
 	private String format = ".json";
 	private String noun;
-	private String search;
-	private int limit;
+	private String search = "";
+	private int limit = 1;
 	
 	protected RequestBuilder(Protocol protocol, String host) {
 		withProtocol(protocol);

@@ -5,17 +5,15 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class EnforcementReportResponse extends FdaApiResponse {
-	private List<EnforcementReport> results;
+public class EventResponse extends FdaApiResponse {
 	
-	public List<EnforcementReport> getResults() {
+private List<Event> results;
+	
+	public List<Event> getResults() {
 		return results;
 	}
 	
-	public void setResults(List<EnforcementReport> results) {
+	public void setResults(List<Event> results) {
 		this.results = results;
 	}
 	
