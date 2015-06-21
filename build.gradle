@@ -80,7 +80,7 @@ task grantGulpPermissions(type: Exec) {
 }
 task buildUiArtifacts(type: Exec, 
   dependsOn: ["installBowerComponents", "grantGulpPermissions"]) {
-  commandLine './gulp', 'uglify'
+  commandLine './gulp', 'default'
 }
 
 task cleanupNodeModules(type: Exec) {
