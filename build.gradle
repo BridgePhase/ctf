@@ -47,20 +47,61 @@ repositories {
 /* List of dependencies */
 dependencies {
   // compile dependencies
-  compile 'org.springframework.boot:spring-boot-starter-web'   	// spring boot
-  compile 'org.webjars.bower:angularjs:1.4.0-rc.1'				// AngularJS
-  compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
+  compile 'org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE'   	// spring boot
+  compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'                     // Tie in to Thymeleaf
   
-  compile 'org.springframework.data:spring-data-jpa'			// Spring data
-  compile 'org.hibernate:hibernate-entitymanager'				// Hibernate
-  compile("com.h2database:h2")									// In memory database
+  compile 'org.springframework.data:spring-data-jpa:1.8.0.RELEASE'            // Spring data
+  compile 'org.hibernate:hibernate-entitymanager:4.3.10.Final'                // Hibernate
+  compile 'com.h2database:h2:1.4.187'                                        // In memory database
   
-  compile 'org.apache.commons:commons-lang3:3.0'				// Apache commons
+  compile 'org.apache.commons:commons-lang3:3.0'				                     // Apache commons
   
-  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // so we can turn it into a war
+  // so we can turn it into a war
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:1.2.4.RELEASE'
 
   testCompile group: 'junit', name: 'junit', version: '4.+'
+  testCompile 'org.mockito:mockito-all:1.10.19'
+  
 }
+
+task installNpmModules(type: Exec) {
+  commandLine 'npm', 'install'
+}
+
+task grantBowerPermissions(type: Exec) {
+    commandLine 'chmod', '+x', './bower'
+}
+
+task installBowerComponents(type: Exec, dependsOn: ["installNpmModules", "grantBowerPermissions"]) {
+  commandLine './bower', 'install'
+}
+
+task grantGulpPermissions(type: Exec) {
+  commandLine 'chmod', '+x', './gulp'
+  
+}
+task buildUiArtifacts(type: Exec, 
+  dependsOn: ["installBowerComponents", "grantGulpPermissions"]) {
+  commandLine './gulp', 'default'
+}
+
+task cleanupNodeModules(type: Exec) {
+  commandLine 'rm', '-rf', 'node_modules/'
+}
+
+task cleanupBowerLibraries(type: Exec) {
+  commandLine 'rm', '-rf', 'src/main/resources/public/libraries/'
+}
+
+task cleanupArtifacts(type: Exec) {
+  commandLine 'rm', '-rf', 'src/main/resources/public/ctf-app.js'
+}
+
+task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBowerLibraries", "cleanupNodeModules"])
+
+clean.finalizedBy cleanupAllUiGeneratedComponents
+processResources.finalizedBy buildUiArtifacts 
+eclipseClasspath.finalizedBy buildUiArtifacts
 
 /* For AWS deployments, need to copy the appspec file to the libs directory */
 task copyAppSpec(type: Copy) {

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-ng-app="ctf" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	<title>Consider the following</title>
+
+	<link rel="icon" type="image/png" href="images/bowtie-comic.png" />
+	<link rel="apple-touch-icon" href="images/bowtie-comic.png" />
+	<!-- These are used for non production -->
+	<script th:if="${!production}" src="libraries/angular/angular.min.js"></script>
+	<script th:if="${!production}" src="libraries/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script th:if="${!production}" src="modules/ctf.js"></script>
+	<script th:if="${!production}" src="modules/directives/bigicon/bigicon.directive.js"></script>
+	<script th:if="${!production}" src="modules/directives/usmap/usmap.directive.js"></script>
+	<script th:if="${!production}" src="modules/services/region.service.js"></script>
+	<script th:if="${!production}" src="modules/controllers/noun.controller.js"></script>
+	<script th:if="${!production}" src="modules/controllers/food.controller.js"></script>
+	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/pure-min.css" />
+	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/grids-responsive-min.css" />
+	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/bridgephase.css" />
+	
+	<!-- TODO: For production we minimize, for now including even in production until we implement gulp -->
+	<script th:if="${production}" src="ctf-app.js"></script>
+	<link th:if="${production}" rel="stylesheet" type="text/css" href="ctf-styles.css" />
+
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
+</head>
+<body class="bp">	
+	<div id="pageTemplate" data-ui-view=""></div>	
+	<div class="bp-footer">
+		<div class="pure-g">
+			<div class="pure-u-1-2">
+				Developed by BridgePhase LLC <br />
+				using data from <a href="https://open.fda.gov">open.fda.gov</a> 
+			</div>
+			<div class="pure-u-1-2">
+			    <div class="pure-u-1-4">Visit us on <a target="_blank" href="https://github.com/BridgePhase/ctf">Github</a></div>
+				<div class="pure-u-1-4"><a href="#">About the project</a></div>
+				<div class="pure-u-1-4"><a href="#">Team members</a></div>
+			</div>
+		</div>
+		<div class="bp-version" th:if="${production}">
+			Version: <span th:text="${version}"></span>
+		</div>
+	</div>
+	<div class="bp-version bp-local" th:if="${!production}">
+		Version: <span th:text="${version}"></span>
+	</div>
+</body>
+</html>

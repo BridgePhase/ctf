@@ -1,10 +1,20 @@
 language: java
 
+branches:
+  except:
+    - /^build-[0-9a-z\-]*/
+  
 before_install:
 - chmod +x gradlew
+- chmod +x tag-release.sh
+- export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
+- echo -n $GIT_TAG > src/main/resources/public/version
 
 script:
 - ./gradlew build awsRevision
+
+after_success:
+  - ./tag-release.sh
 
 deploy:
 - provider: s3
