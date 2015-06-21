@@ -1,6 +1,5 @@
 package com.bridgephase.ctf.backend.fda;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -50,6 +49,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.FOOD)
 				.withContext(DataContext.ENFORCEMENT)
 				.withSearch(searchQuery)
+				.withLimit(100)
 				.buildUri(),
 			EnforcementReportResponse.class);
 	}

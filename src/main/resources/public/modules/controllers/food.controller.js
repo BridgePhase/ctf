@@ -5,6 +5,7 @@ function FoodController($scope, RegionService, FoodService) {
 	that.selectedStateAbbreviations = null;
 	that.affectedStates = null;
 	that.recalls = [];
+	that.selectedRecall = null;
 	
 	that.allStates = RegionService.allUsStates();
 	RegionService.location().then(function(result) {
@@ -15,21 +16,22 @@ function FoodController($scope, RegionService, FoodService) {
 	});
 	
 	that.loadRecallsForCurrentState = function() {
+		that.recalls = [];
+		that.selectedRecall = null;
+		that.affectedStates = [];
 		FoodService.recallsByState(that.selectedState.abbreviation).then(function(result) {
 			that.recalls = result.results;
 		})
 	}
 	
 	that.selectRecall = function(recall) {
-		console.debug('Selecting recall:', recall.city, ' - ', recall.distribution_pattern);
-		
+		that.selectedRecall = recall;
 		var regexp = /[A-Z]{2}/g;
 		var match, matches = [];
 
 		while ((match = regexp.exec(recall.distribution_pattern)) != null) {
 		  matches.push(match[0]);
 		}		
-		console.log('matches:', matches);
 		var highlightStates = [];
 		for (var i = 0; i < matches.length; i++) {
 			highlightStates.push({
