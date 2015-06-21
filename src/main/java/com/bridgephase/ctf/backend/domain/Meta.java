@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect
@@ -12,6 +13,7 @@ public class Meta {
 	
 	private String disclaimer;
 	private String license;
+	@JsonProperty("last_updated")
 	private String lastUpdated;
 	private MetaResult results;
 	

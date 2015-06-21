@@ -11,46 +11,32 @@ import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 public class RequestBuilderTest {
 	
 	@Test
-	public void testDefaults() {
-		String result  = RequestBuilder.builder().build();
-		assertTrue(!result.contains(RequestBuilder.PROTOCOL));
-		assertTrue(!result.contains(RequestBuilder.HOST));
-		assertTrue(!result.contains(RequestBuilder.NOUN));
-		assertTrue(!result.contains(RequestBuilder.CONTEXT));
-		assertTrue(!result.contains(RequestBuilder.FORMAT));
-		assertTrue(result.contains(KeyStore.API));
-	}
-	
-	@Test
-	public void testWithProtocol() {
-		for (Protocol protocol : Protocol.values()) {
-			String result = RequestBuilder.builder()
-					.withProtocol(protocol)
-					.build();
-			assertTrue(!result.contains(RequestBuilder.PROTOCOL));
-			assertTrue(result.contains(protocol.toString()));
-		}
+	public void testWithProtocolAndHost() {
+		String result = RequestBuilder.builder(Protocol.HTTP, "open.fda.gov")
+				.build();
+		assertTrue("Real result was: " + result, 
+			result.contains("http://open.fda.gov"));
 	}
 	
 	@Test
 	public void testWithDataNoun() {
 		for (DataNoun noun : DataNoun.values()) {
-			String result = RequestBuilder.builder()
+			String result = RequestBuilder.builder(Protocol.HTTP, "open.fda.gov")
 					.withDataNoun(noun)
 					.build();
-			assertTrue(!result.contains(RequestBuilder.NOUN));
-			assertTrue(result.contains(noun.toString()));
+			assertTrue("Real result was: " + result, 
+				result.contains("/" + noun.toString().toLowerCase() + "/"));
 		}
 	}
 	
 	@Test
 	public void testWithDataContext() {
 		for (DataContext context : DataContext.values()) {
-			String result = RequestBuilder.builder()
+			String result = RequestBuilder.builder(Protocol.HTTP, "open.fda.gov")
 					.withContext(context)
 					.build();
-			assertTrue(!result.contains(RequestBuilder.CONTEXT));
-			assertTrue(result.contains(context.toString()));
+			assertTrue("Real result was: " + result, 
+				result.contains("/" + context.toString().toLowerCase() + ".json"));
 		}
 	}
 }

@@ -1,10 +1,5 @@
 package com.bridgephase.ctf.backend.shared;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,76 +7,55 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 
+/**
+ * Helps build OpenFDA.gov http requests
+ * @author Kane Gyovai & Jaime Garcia 
+ *
+ */
 public class RequestBuilder {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RequestBuilder.class);
+
+	private String protocol;
+	private String host;
+	private String context;
+	private String format = ".json";
+	private String noun;
 	
-	protected String request;
-	protected static final String PROTOCOL = "<protocol>";
-	protected static final String HOST = "<host>";
-	protected static final String NOUN = "<noun>";
-	protected static final String CONTEXT = "<context>";
-	protected static final String FORMAT = "<format>";
-	
-	private static final Map<String, String> defaults;
-	
-	static {
-		defaults = new HashMap<>();
-		defaults.put(PROTOCOL, Protocol.HTTP.toString());
-		defaults.put(HOST, Constants.FDA_HOST);
-		defaults.put(NOUN, DataNoun.DRUG.toString());
-		defaults.put(CONTEXT, DataContext.ENFORCEMENT.toString());
-		defaults.put(FORMAT, ".json");
+	protected RequestBuilder(Protocol protocol, String host) {
+		withProtocol(protocol);
+		this.host = host;
 	}
 	
-	protected RequestBuilder() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(PROTOCOL)
-		.append("://").append(HOST)
-		.append("/").append(NOUN)
-		.append("/").append(CONTEXT)
-		.append(FORMAT)
-		.append("?").append("api_key=").append(KeyStore.API)
-		.append("&search=");
-		request = builder.toString();
-	}
-	
-	public static RequestBuilder builder() {
-		return new RequestBuilder();
+	public static RequestBuilder builder(Protocol protocol, String host) {
+		return new RequestBuilder(protocol, host);
 	}
 	
 	public RequestBuilder withProtocol(Protocol protocol) {
-		request = request.replace(PROTOCOL, protocol.toString());
+		this.protocol = protocol.toString().toLowerCase();
 		return this;
 	}
 	
 	public RequestBuilder withDataNoun(DataNoun noun) {
-		request = request.replace(NOUN, noun.toString());
+		this.noun = noun.toString().toLowerCase();
 		return this;
 	}
 	
 	public RequestBuilder withContext(DataContext context) {
-		request = request.replace(CONTEXT, context.toString());
+		this.context = context.toString().toLowerCase();
 		return this;
 	}
 	
 	public String build() {
-		defaults();
-		logger.info("Request string gerated: " + request);
-		return request;
-	}
-	
-	private void defaults() {
-		String regexp = String.format("%s|%s|%s|%s|%s", PROTOCOL, HOST, NOUN, CONTEXT, FORMAT);
-		StringBuffer buffer = new StringBuffer();
-		Pattern pattern = Pattern.compile(regexp);
-		Matcher m = pattern.matcher(request);
-		
-		while (m.find()) {
-			m.appendReplacement(buffer, defaults.get(m.group()));
-		}
-		m.appendTail(buffer);
-		
-		request = buffer.toString();
+		StringBuilder builder = new StringBuilder();
+		builder.append(protocol)
+			.append("://").append(host)
+			.append("/").append(noun)
+			.append("/").append(context)
+			.append(format)
+			.append("?").append("api_key=").append(KeyStore.API)
+			.append("&search=");
+		logger.debug("Request string generated: " + builder.toString());
+		return builder.toString();
 	}
 }

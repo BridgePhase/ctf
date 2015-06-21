@@ -4,12 +4,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EnforcementReport {
 	
 	private String reasonForRecall;
 	private String status;
+	@JsonProperty("distribution_pattern")
 	private String distributionPattern;
 	private String productQuantity;
 	private String recallInitiationDate;

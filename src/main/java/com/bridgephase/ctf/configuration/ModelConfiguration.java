@@ -16,12 +16,22 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestOperations;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bridgephase.ctf.model.repository" })
-@ComponentScan(basePackages = { "com.bridgephase.ctf.model" })
+@ComponentScan(basePackages = { 
+	"com.bridgephase.ctf.model",
+	"com.bridgephase.ctf.backend.fda"
+})
 @EnableTransactionManagement
 public class ModelConfiguration {
+	@Bean
+	public RestOperations getRestOperations() {
+		return new RestTemplate();
+	}
+	
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
