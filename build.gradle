@@ -47,6 +47,9 @@ repositories {
 /* List of dependencies */
 dependencies {
   // compile dependencies
+  compile 'org.webjars:angularjs:1.3.16'				// AngularJS
+  compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
+  
   compile 'org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE'   	// spring boot
   compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'                     // Tie in to Thymeleaf
   
@@ -99,9 +102,12 @@ task cleanupArtifacts(type: Exec) {
 
 task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBowerLibraries", "cleanupNodeModules"])
 
-clean.finalizedBy cleanupAllUiGeneratedComponents
-processResources.finalizedBy buildUiArtifacts 
-eclipseClasspath.finalizedBy buildUiArtifacts
+String travisCI = "$System.env.CI"
+
+if ("true".equals(travisCI)) {
+  clean.finalizedBy cleanupAllUiGeneratedComponents
+  processResources.finalizedBy buildUiArtifacts 
+}
 
 /* For AWS deployments, need to copy the appspec file to the libs directory */
 task copyAppSpec(type: Copy) {
