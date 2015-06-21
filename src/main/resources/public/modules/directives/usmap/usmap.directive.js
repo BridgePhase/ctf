@@ -53,17 +53,6 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 				unhighlightAllStates(elem);
 				highlightStates(elem, statesToHighlight);
 			});
-
-			elem.onclick = function(event) {
-				var target = event.target;
-				if (target.className && target.className.baseVal == 'state') {
-					var state = RegionService.stateFromAbbreviation(target.id);
-					scope.onselect()(state);
-					elem.blur();
-				}
-			}
-
-		
 		},
 		controller: ['$scope', function($scope) {
 			$scope.selectState = function($event) {
