@@ -2,7 +2,7 @@
   "name": "ctf",
   "version": "0.0.1",
   "dependencies": {
-    "angularjs": "1.3.6",
+    "angularjs": "1.3.16",
     "angular-ui-router": "0.2.14"
   },
   "ignore": [
