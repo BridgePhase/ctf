@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EnforcementReportResponse extends FdaApiResponse {
+	
 	private List<EnforcementReport> results;
 	
 	public List<EnforcementReport> getResults() {
