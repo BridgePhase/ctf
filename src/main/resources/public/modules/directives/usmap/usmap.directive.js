@@ -14,7 +14,7 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 		}
 		if (!(states instanceof Array)) {
 			if (states) {
-				return [states]
+				return [states];
 			} else {
 				return [];
 			}
@@ -72,7 +72,7 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 					var state = RegionService.stateFromAbbreviation(target.id);
 					$scope.onselect()(state);
 				}
-			}
+			};
 		}]
-	}
+	};
 }]);
