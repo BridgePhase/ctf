@@ -38,10 +38,16 @@ function FoodController($scope, RegionService, FoodService) {
 		  matches.push(match[0]);
 		}		
 		var highlightStates = [];
+		that.allAffectedStates = "";
 		for (var i = 0; i < matches.length; i++) {
-			highlightStates.push({
-				abbreviation: matches[i]
-			})
+			var state = RegionService.stateFromAbbreviation(matches[i]);
+			if (state != null) {
+				highlightStates.push(state);
+				if (that.allAffectedStates.length > 0) {
+					that.allAffectedStates += ', ';
+				}
+				that.allAffectedStates += state.name;
+			}
 		}
 
 		that.affectedStates = highlightStates;
