@@ -4,9 +4,9 @@ angular.module('ctf').directive('bigIcon', ['$state', function($state) {
 		transclude: true,
 		replace: true,
 		template: 
-			'<div class="bp-big-icon">' + 
-            '  <a data-ng-click="go()" class="bp-{{color}} fa fa-{{icon}}"></a>' +
-            '  <p data-ng-transclude=""></p>' + 
+			'<div class="big-icon">' + 
+            '  <a data-ng-click="go()" class="{{color}} fa fa-{{icon}}"></a>' +
+            '  <p class="big-icon-description" data-ng-transclude=""></p>' + 
         	'</div>',
 		scope: {
 			icon: '=icon',

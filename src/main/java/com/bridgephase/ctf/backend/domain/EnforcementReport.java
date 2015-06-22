@@ -3,31 +3,63 @@ package com.bridgephase.ctf.backend.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.bridgephase.ctf.backend.shared.Formats;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EnforcementReport {
 	
+	@JsonProperty("reason_for_recall")
 	private String reasonForRecall;
+	
 	private String status;
+	
 	@JsonProperty("distribution_pattern")
 	private String distributionPattern;
+	
+	@JsonProperty("product_quantity")
 	private String productQuantity;
+	
+	@JsonProperty("recall_initiation_date")
 	private String recallInitiationDate;
+	
 	private String state;
+	
+	@JsonProperty("event_id")
 	private String eventId;
+	
+	@JsonProperty("product_type")
 	private String productType;
+	
+	@JsonProperty("product_description")
 	private String productDescription;
+	
 	private String country;
+	
 	private String city;
+	
+	@JsonProperty("recalling_firm")
 	private String recallingFirm;
+	
+	@JsonProperty("voluntary_mandated")
 	private String voluntaryMandated;
+	
+	@JsonProperty("code_info")
 	private String codeInfo;
+	
+	@JsonProperty("report_date")
 	private String reportDate;
+	
 	private String classification;
+	
+	@JsonProperty("initial_firm_notification")
 	private String initialFirmNotification;
+	
+	@JsonProperty("open_fda")
 	private OpenFda openFda;
+	
+	@JsonProperty("recall_number")
 	private String recallNumber;
 	
 	public String getReasonForRecall() {
@@ -182,6 +214,10 @@ public class EnforcementReport {
 		this.recallNumber = recallNumber;
 	}
 
+	public String getRecallInitiationDateIso() {
+		return Formats.dateAsIso(Formats.openFdaDate(getRecallInitiationDate()));
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);

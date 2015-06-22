@@ -1,6 +1,5 @@
+/* global angular */
 angular.module('ctf').directive('usMap', ['RegionService', function(RegionService) {
-	var forEach = Array.prototype.forEach;
-	
 	function unhighlightAllStates(element) {
 		var states = document.querySelectorAll('#' + element.id + ' .state')
 		var statesArray = Array.prototype.slice.call(states);
@@ -15,7 +14,7 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 		}
 		if (!(states instanceof Array)) {
 			if (states) {
-				return [states]
+				return [states];
 			} else {
 				return [];
 			}
@@ -32,6 +31,10 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 				toUpdate.setAttribute('class', 'state highlighted');
 			}
 		}
+	}
+	
+	function isMichigan(target) {
+		return (target.id == 'MI-' || target.id == 'SP-');
 	}
 	
 	return {
@@ -60,11 +63,17 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 		controller: ['$scope', function($scope) {
 			$scope.selectState = function($event) {
 				var target = $event.target;
-				if (target.className && target.className.baseVal == 'state') {
+				if (isMichigan(target)) {
+					target = target.parentNode;
+				}
+				// yes Michigan requires its own logic
+				if (target.className && target.className.baseVal.indexOf('state') >= 0) {
+					console.log('selected state', target.id);
 					var state = RegionService.stateFromAbbreviation(target.id);
+					console.dir(state);
 					$scope.onselect()(state);
 				}
-			}
+			};
 		}]
-	}
+	};
 }]);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
+import com.bridgephase.ctf.backend.domain.FdaApiResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.fda.OpenFdaService;
 
@@ -25,8 +26,26 @@ public class QueryController {
 	
 	@RequestMapping(value = "/api/{noun}")
 	@ResponseBody
-	public EnforcementReportResponse noun(@PathVariable("noun") String noun) {
+	public FdaApiResponse enforcement(@PathVariable("noun") String noun) {
 		DataNoun dataNoun = DataNoun.valueOf(noun.toUpperCase());
-		return openFda.noun(dataNoun);
+		return openFda.enforcement(dataNoun);
+	}
+	
+	@RequestMapping(value = "/api/device/recallEvent")
+	@ResponseBody
+	public FdaApiResponse deviceRecallEvent() {
+		return openFda.deviceDeathRecallEvent();
+	}
+	
+	
+	@RequestMapping(value = "/api/{noun}/event")
+	@ResponseBody
+	public FdaApiResponse event(@PathVariable("noun") String noun) {
+		if (DataNoun.DEVICE.toString().equalsIgnoreCase(noun)) {
+			return openFda.deviceEvent();
+		} else if (DataNoun.DRUG.toString().equalsIgnoreCase(noun)) {
+			return openFda.drugEvent();
+		}
+		return null;
 	}
 }

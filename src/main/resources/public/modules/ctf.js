@@ -14,6 +14,9 @@ angular.module('ctf', [ 'ui.router' ]).config(
 
 		$stateProvider.state('home', {
 			url: '/home',
+			controller: function() {
+				document.title = 'Consider the following';	
+			},
 			templateUrl: 'partials/main'
 		}).state('noun', {
 			url: '/noun/:noun',
@@ -26,6 +29,6 @@ angular.module('ctf', [ 'ui.router' ]).config(
 		}).state('noun.medicine', {
 			templateUrl: 'partials/food'
 		}).state('noun.device', {
-			templateUrl: 'partials/food'
+			templateUrl: 'partials/device'
 		});
 	} ])

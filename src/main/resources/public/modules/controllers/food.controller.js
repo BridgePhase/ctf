@@ -7,6 +7,8 @@ function FoodController($scope, RegionService, FoodService) {
 	that.recalls = [];
 	that.selectedRecall = null;
 	
+	that.recallMetadata = null;
+	
 	that.allStates = RegionService.allUsStates();
 	RegionService.location().then(function(result) {
 		that.userHomeState = result.stateInformation;
@@ -17,9 +19,11 @@ function FoodController($scope, RegionService, FoodService) {
 	
 	that.loadRecallsForCurrentState = function() {
 		that.recalls = [];
+		that.recallMetadata = null;
 		that.selectedRecall = null;
 		that.affectedStates = [];
 		FoodService.recallsByState(that.selectedState.abbreviation).then(function(result) {
+			that.recallMetadata = result.meta;
 			that.recalls = result.results;
 		})
 	}
@@ -33,14 +37,22 @@ function FoodController($scope, RegionService, FoodService) {
 		  matches.push(match[0]);
 		}		
 		var highlightStates = [];
+		that.allAffectedStates = "";
 		for (var i = 0; i < matches.length; i++) {
-			highlightStates.push({
-				abbreviation: matches[i]
-			})
+			var state = RegionService.stateFromAbbreviation(matches[i]);
+			if (state != null) {
+				highlightStates.push(state);
+				if (that.allAffectedStates.length > 0) {
+					that.allAffectedStates += ', ';
+				}
+				that.allAffectedStates += state.name;
+			}
 		}
 
 		that.affectedStates = highlightStates;
 		$scope.$broadcast('update-map-mymap', that.affectedStates);
+		
+		window.scroll(0, document.getElementById("recallDescription").offsetTop);
 	}
 	
 	that.stateClicked = function(stateClicked) {
