@@ -91,7 +91,9 @@ public class OpenFdaService {
 		Date sixMonthsAgo = calendar.getTime();
 		String searchQuery = "";
 		searchQuery = SearchBuilder.builder()
-			.withDateRangeField("date_of_event", sixMonthsAgo, today, "yyyyMMdd")
+			.withField("remedial_action", "Recall")
+			.withField("event_type", "Death")
+			.withDateRangeField("date_of_event", sixMonthsAgo, today)
 			.build();
 		
 		return restOperations.getForObject(
