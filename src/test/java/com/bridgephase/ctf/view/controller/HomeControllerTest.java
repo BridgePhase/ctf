@@ -29,16 +29,7 @@ public class HomeControllerTest {
 	public void homeReturnsCorrectBinding() {
 		assertEquals("home", controller.home(Mockito.mock(Model.class)));
 	}
-	
-	@Test
-	public void homeSetsVersionOnModelBasedOnAliveEndpoint() {
-		Model fakeModel = mock(Model.class);
-		
-		controller.home(fakeModel);
-		
-		verify(fakeModel).addAttribute("version", "DEVELOPMENT-LOCAL");
-	}
-	
+
 	@Test
 	public void aliveReturnsVersionsWhenOverwritten() {
 		BufferedReader fakeReader = new BufferedReader(new StringReader("fake-version-junit"));
