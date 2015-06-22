@@ -21,7 +21,7 @@ public class ReportText {
 	 * Description of DeviceEvent or Problem = The problem (quality, performance, or safety concern) in 
 	 * sufficient detail so that the circumstances surrounding the defect or malfunction of the 
 	 * medical product can be understood. For patient adverse events, may include a description 
-	 * of the event in detail using the reporter’s own words, including a description of what 
+	 * of the event in detail using the reporter's own words, including a description of what 
 	 * happened and a summary of all relevant clinical information (medical status prior to the 
 	 * event; signs and/or symptoms; differential diagnosis for the event in question; clinical 
 	 * course; treatment; outcome, etc.). If available and if relevant, may include synopses of 

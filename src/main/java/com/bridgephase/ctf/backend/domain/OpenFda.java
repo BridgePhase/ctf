@@ -17,7 +17,7 @@ public class OpenFda {
 	 * This corresponds to the NDA, ANDA, or BLA number reported by the labeler for products which 
 	 * have the corresponding Marketing Category designated. If the designated Marketing Category 
 	 * is OTC Monograph Final or OTC Monograph Not Final, then the application number will be the 
-	 * CFR citation corresponding to the appropriate Monograph (e.g. “part 341”). For unapproved 
+	 * CFR citation corresponding to the appropriate Monograph (e.g. part 341). For unapproved 
 	 * drugs, this field will be null.
 	 */
 	@JsonProperty("application_number")
@@ -95,7 +95,7 @@ public class OpenFda {
     
     /**
      * Mechanism of action. Molecular, subcellular, or cellular level functional activity of a drug 
-     * product’s pharmacologic class.
+     * productï¿½s pharmacologic class.
      */
     @JsonProperty("pharm_class_moa")
     private List<String> pharmClassMechanismOfAction;
