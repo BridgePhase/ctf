@@ -103,6 +103,12 @@ p {
 	}
 }
 
+.fields {
+	div[class *= "pure-u"] {
+		margin-bottom: 2 * @default-padding;
+	}
+}
+
 /* Functionality specific */
 .main-content {
 	background-color: @main-color;
@@ -136,6 +142,7 @@ p {
 
 /* Datatable */
 .datatable {
+	table-layout: fixed;
 	border-collapse: collapse;
 	border: 1px solid #ddd;;
 	background: white;
