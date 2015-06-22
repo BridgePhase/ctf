@@ -41,12 +41,8 @@ public class SearchBuilder {
 	}
 	
 	public SearchBuilder withDateRangeField(String field, Date dateFrom, Date dateTo) {
-		return withDateRangeField(field, dateFrom, dateTo, FORMAT);
-	}
-	
-	public SearchBuilder withDateRangeField(String field, Date dateFrom, Date dateTo, String format) {
 		addField();
-		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT);
 		try {
 			builder.append(URLEncoder.encode(field + ":[", "UTF-8"))
 				.append(dateFormat.format(dateFrom))

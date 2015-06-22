@@ -5,7 +5,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,17 +28,7 @@ public class HomeControllerTest {
 	public void homeReturnsCorrectBinding() {
 		assertEquals("home", controller.home(Mockito.mock(Model.class)));
 	}
-	
-	@Test
-	public void homeSetsVersionOnModelBasedOnAliveEndpoint() {
-		doReturn("version-junit-1").when(controller).alive();
-		Model fakeModel = mock(Model.class);
-		
-		controller.home(fakeModel);
-		
-		verify(fakeModel).addAttribute("version", "version-junit-1");
-	}
-	
+
 	@Test
 	public void aliveReturnsVersionsWhenOverwritten() {
 		BufferedReader fakeReader = new BufferedReader(new StringReader("fake-version-junit"));

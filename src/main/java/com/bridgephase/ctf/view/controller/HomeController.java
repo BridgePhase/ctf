@@ -8,8 +8,10 @@ import java.io.InputStreamReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,10 @@ public class HomeController implements ErrorController {
 	@Value("${production:false}")
 	private String inProduction;
 	
+	
+	@Autowired
+	private MappingJackson2HttpMessageConverter converter;
+	
 	/**
 	 * This is the health-check url that can be invoked to make sure the application is up and running.
 	 * @return returns the version number of the currently deployed application.
@@ -35,6 +41,10 @@ public class HomeController implements ErrorController {
 	@RequestMapping(value = "/alive")
 	@ResponseBody
 	public String alive() {
+		return version();
+	}
+	
+	private String version() {
 		try {
 			BufferedReader reader = versionReader();
 			String version = reader.readLine();
@@ -72,14 +82,14 @@ public class HomeController implements ErrorController {
 	 */
 	@RequestMapping(value = "/")
 	public String home(Model model) {
-		model.addAttribute("version", alive());
+		model.addAttribute("version", version());
 		model.addAttribute("production", Boolean.parseBoolean(inProduction));
 		return "home";
 	}
 	
 	@RequestMapping(value = "/partials/{partial}")
 	public String partial(Model model, @PathVariable("partial") String partial) {
-		model.addAttribute("version", alive());
+		model.addAttribute("version", version());
 		model.addAttribute("production", Boolean.parseBoolean(inProduction));
 		return "modules/" + partial;
 	}
@@ -87,7 +97,7 @@ public class HomeController implements ErrorController {
 	@RequestMapping(value = "/error")
 	public String error(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		System.out.println("An error occurred");
-		model.addAttribute("version", alive());
+		model.addAttribute("version", version());
 		model.addAttribute("production", Boolean.parseBoolean(inProduction));
         return "errorpage";
     }
