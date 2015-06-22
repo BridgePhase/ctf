@@ -5,15 +5,18 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class EventResponse extends FdaApiResponse {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DeviceEventResponse extends FdaApiResponse {
 	
-private List<Event> results;
+	private List<DeviceEvent> results;
 	
-	public List<Event> getResults() {
+	public List<DeviceEvent> getResults() {
 		return results;
 	}
 	
-	public void setResults(List<Event> results) {
+	public void setResults(List<DeviceEvent> results) {
 		this.results = results;
 	}
 	
