@@ -117,8 +117,8 @@ public class DeviceEvent {
     @JsonProperty("manufacturer_address_1")
     private String manufacturerAddress1;
 
-    @JsonProperty("manufacturerAddress2")
-    private String manufacturer_address_2;
+    @JsonProperty("manufacturer_address_2")
+    private String manufacturerAddress2;
     
     @JsonProperty("manufacturer_city")
     private String manufacturerCity;
@@ -516,12 +516,12 @@ public class DeviceEvent {
 		this.manufacturerAddress1 = manufacturerAddress1;
 	}
 
-	public String getManufacturer_address_2() {
-		return manufacturer_address_2;
+	public String getManufacturerAddress2() {
+		return manufacturerAddress2;
 	}
 
-	public void setManufacturer_address_2(String manufacturer_address_2) {
-		this.manufacturer_address_2 = manufacturer_address_2;
+	public void setManufacturerAddress2(String manufacturerAddress2) {
+		this.manufacturerAddress2 = manufacturerAddress2;
 	}
 
 	public String getManufacturerCity() {
