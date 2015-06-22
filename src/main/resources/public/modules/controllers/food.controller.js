@@ -51,6 +51,8 @@ function FoodController($scope, RegionService, FoodService) {
 
 		that.affectedStates = highlightStates;
 		$scope.$broadcast('update-map-mymap', that.affectedStates);
+		
+		window.scroll(0, document.getElementById("recallDescription").offsetTop);
 	}
 	
 	that.stateClicked = function(stateClicked) {
