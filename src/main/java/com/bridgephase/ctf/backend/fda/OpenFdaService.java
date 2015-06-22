@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
+import com.bridgephase.ctf.backend.domain.DrugEventResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
@@ -72,5 +73,14 @@ public class OpenFdaService {
 					.withContext(DataContext.EVENT)
 					.build(),
 				DeviceEventResponse.class);
+	}
+	
+	public DrugEventResponse drugEvent() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DRUG)
+					.withContext(DataContext.EVENT)
+					.build(),
+				DrugEventResponse.class);
 	}
 }

@@ -31,9 +31,14 @@ public class QueryController {
 		return openFda.enforcement(dataNoun);
 	}
 	
-	@RequestMapping(value = "/api/device/event")
+	@RequestMapping(value = "/api/{noun}/event")
 	@ResponseBody
-	public FdaApiResponse deviceEvent() {
-		return openFda.deviceEvent();
+	public FdaApiResponse event(@PathVariable("noun") String noun) {
+		if (DataNoun.DEVICE.toString().equalsIgnoreCase(noun)) {
+			return openFda.deviceEvent();
+		} else if (DataNoun.DRUG.toString().equalsIgnoreCase(noun)) {
+			return openFda.drugEvent();
+		}
+		return null;
 	}
 }

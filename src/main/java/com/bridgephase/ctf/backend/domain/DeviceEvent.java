@@ -154,7 +154,7 @@ public class DeviceEvent {
     
     /** <p>Corrective or Remedial Action<p> */
     @JsonProperty("remedial_action")
-    private String remedial_action;
+    private List<String> remedialAction;
     
     @JsonProperty("removal_correction_number")
     private String removalCorrectionNumber;
@@ -606,12 +606,12 @@ public class DeviceEvent {
 		this.previousUseCode = previousUseCode;
 	}
 
-	public String getRemedial_action() {
-		return remedial_action;
+	public List<String> getRemedialAction() {
+		return remedialAction;
 	}
 
-	public void setRemedial_action(String remedial_action) {
-		this.remedial_action = remedial_action;
+	public void setRemedial_action(List<String> remedialAction) {
+		this.remedialAction = remedialAction;
 	}
 
 	public String getRemovalCorrectionNumber() {
