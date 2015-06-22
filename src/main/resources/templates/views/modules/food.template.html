@@ -18,7 +18,7 @@
 					<us-map hover="true" id="currentStateMap" highlight-states="food.selectedState" onselect="food.stateClicked"></us-map> 
 				</div>
 				<div class="scrollable-container">
-					<table data-ng-if="food.recallMetadata" class="datatable" style="width:100%">
+					<table data-ng-if="food.recallMetadata" class="datatable">
 						<caption>Recalls in {{food.selectedState.name}} - displaying {{food.recalls.length}} of {{food.recallMetadata.results.total}}</caption>
 						<thead>
 							<tr>
