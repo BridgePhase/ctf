@@ -4,7 +4,7 @@ function DeviceService($http) {
 		 * Returns the latest adverse events
 		 */
 		latestAdverseEvents: function() {
-			return $http.get('/ctf/api/device/event').then(function(response) {
+			return $http.get('/ctf/api/device/recallEvent').then(function(response) {
 				return response.data;
 			});
 		}		
