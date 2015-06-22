@@ -1,0 +1,234 @@
+// Structure
+@default-padding: 0.5em;
+@section-padding: 3 * @default-padding 2 * @default-padding;
+@logo-width: 80px;
+@icon-width: 2em;
+
+// Typography
+@font-size: 12pt;
+@font-family: "Lato";
+@headline-font-size: 1.5em;
+@line-height: 145%;
+
+// Colors
+@main-color: #fafafa;
+@banner-background-color: #395A77;
+@banner-text-color:#fafafa;
+@icon-text-color: #fff;
+@food-color: #7B0704;
+@medicine-color: #036109;
+@device-color: #2B24A0;
+
+/* Elements */
+a, a:visited, a:active, a:focus {
+	text-decoration: none;
+}
+
+p {
+	line-height: @line-height;
+}
+
+/* Global elements */
+.pure-g, .pure-g[class *= "pure-u"] {
+	font-family: @font-family;
+	font-size: @font-size;
+}
+
+.bp-center {
+	text-align: center;
+}
+
+/* Components */
+.bp-logo {
+	position: absolute;
+	left: @default-padding;
+	top: @default-padding * 2;
+	width: @logo-width;
+	transform: rotate(-20deg);
+}
+
+.banner {
+	background-color: @banner-background-color;
+	color: @banner-text-color;
+	text-align: center;
+	padding: @default-padding;
+}
+
+.small-banner:extend(.banner) {
+	text-align: left;
+	
+	h1 {
+		margin: 0;
+		padding-left: @logo-width / 2 + 10px; 
+	}
+	
+	.bp-logo {
+		width: @logo-width / 2;
+	}
+}
+
+.banner, .small-banner {
+	a, a:visited, a:active, a:focus {
+		color: inherit;
+	}
+}
+
+.headline {
+	font-size: @headline-font-size;
+	font-style: italic;
+}
+
+.section {
+	padding: @section-padding;
+}
+
+.big-icon {
+	text-align: center;
+	padding: @section-padding;
+	
+	a.fa {
+		display: inline-block;
+		width: @icon-width;
+		height: @icon-width;
+		line-height: @icon-width;
+		color: @icon-text-color;
+		border-radius: 100%;
+		font-size: 5em;
+		cursor: pointer;
+		
+		&:hover, &:focus {
+			opacity: 0.75;
+			filter: alpha(opacity=75);
+		}
+	}
+}
+
+/* Functionality specific */
+.main-content {
+	background-color: @main-color;
+	padding-bottom: @default-padding * 6;	
+}
+
+.starship {
+	font-size: @headline-font-size;
+	font-family: 'Orbitron';
+	margin-bottom: @default-padding * 6;
+}
+.footer {
+	padding: 2em;
+	background: darken(@main-color, 10%);
+	border-top: 1px solid darken(@main-color, 20%);
+	color:darken(@main-color, 60%);
+	font-size: smaller;
+}
+
+.food {
+	background-color: @food-color;
+}
+
+.medicine {
+	background-color: @medicine-color;
+}
+
+.device {
+	background-color: @device-color;
+}
+
+/* Datatable */
+.datatable {
+	border-collapse: collapse;
+	border: 1px solid #ddd;;
+	background: white;
+	width: 100%;
+	margin-top: 2 * @default-padding;
+	
+	caption {
+		background: #f8f8f8;
+		padding-top: @default-padding;
+		padding-bottom: @default-padding;
+		border: 1px solid #ddd;;
+		border-bottom: 0;	
+	}
+	
+	th, td {
+		font-size: @font-size - 2pt;
+		padding: 5px 2px;
+		text-align: left;
+		border-bottom: 1px dotted #ddd;
+		
+	}
+}
+
+.scrollable-container {
+	max-height: 400px;
+	overflow: auto;
+}
+
+
+.w-20pc {
+	width: 20%;
+}
+
+.w-30pc {
+	width: 30%;
+}
+
+.w-250px {
+	width: 100%;
+	max-width: 250px;
+}
+
+.w-50pc {
+	width: 50%;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.short-description {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Map */
+.enable-hover .state:hover,
+.state.highlighted,
+.enable-hover .state.highlighted {
+	fill: lighten(@food-color, 40%);;
+}
+
+.selectable-map {
+	height: 400px;
+}
+
+.affected-states {
+	height: 300px;
+}
+
+/* Turn on styles for local development */
+.version {
+	font-size: 8pt;
+}
+
+.local {
+	background: red;
+	text-align: center;
+	color: white;
+	padding: 0.5em;
+}
+
+.local:after {
+	content: "(THIS IS A NON-PRODUCTION ENVIRONMENT)";
+}
+
+
+@media screen and (max-width: 35.5em) {
+	.bp-logo {
+		position: relative;
+		top: auto;
+		left: auto;
+		
+	}
+}

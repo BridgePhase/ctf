@@ -44,11 +44,18 @@ repositories {
   mavenCentral()
 }
 
+/* Specifies whether we're running in a CI environment */
+
+String travisCI = "$System.env.CI"
+
 /* List of dependencies */
 dependencies {
   // compile dependencies
-  compile 'org.webjars:angularjs:1.3.16'				// AngularJS
-  compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
+  if (!"true".equals(travisCI)) {
+    compile 'org.webjars:angularjs:1.3.16'				            // AngularJS
+    compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
+    compile 'org.webjars:less:2.5.0'                          // LESS compiler
+  }
   
   compile 'org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE'   	// spring boot
   compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'                     // Tie in to Thymeleaf
@@ -102,7 +109,6 @@ task cleanupArtifacts(type: Exec) {
 
 task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBowerLibraries", "cleanupNodeModules"])
 
-String travisCI = "$System.env.CI"
 
 if ("true".equals(travisCI)) {
   clean.finalizedBy cleanupAllUiGeneratedComponents
