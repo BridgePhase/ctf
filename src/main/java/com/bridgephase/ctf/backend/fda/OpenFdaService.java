@@ -69,7 +69,7 @@ public class OpenFdaService {
 		return restOperations.getForObject(
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DEVICE)
-					.withContext(DataContext.ENFORCEMENT)
+					.withContext(DataContext.EVENT)
 					.build(),
 				DeviceEventResponse.class);
 	}

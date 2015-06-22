@@ -93,7 +93,7 @@ public class Device {
     /**
      * Documentation unavailable.
      */
-    @JsonProperty("baseline_510_k__exempt_flag")
+    @JsonProperty("baseline_510_k__number")
     private String baseline510KNumber;
 
     /**
