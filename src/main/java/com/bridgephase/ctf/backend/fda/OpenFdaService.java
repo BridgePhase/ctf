@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
+import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
+import com.bridgephase.ctf.backend.domain.FdaApiResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
@@ -54,12 +56,21 @@ public class OpenFdaService {
 			EnforcementReportResponse.class);
 	}
 	
-	public EnforcementReportResponse noun(DataNoun noun) {
+	public FdaApiResponse enforcement(DataNoun noun) {
 		return restOperations.getForObject(
 			RequestBuilder.builder(fdaProtocol, fdaHost)
 				.withDataNoun(noun)
 				.withContext(DataContext.ENFORCEMENT)
 				.build(),
 			EnforcementReportResponse.class);
+	}
+	
+	public DeviceEventResponse deviceEvent() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DEVICE)
+					.withContext(DataContext.ENFORCEMENT)
+					.build(),
+				DeviceEventResponse.class);
 	}
 }
