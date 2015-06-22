@@ -6,7 +6,6 @@ function DeviceController(DeviceService) {
 	
 	that.loadLatestAdverseEvents = function() {
 		DeviceService.latestAdverseEvents().then(function(result) {
-			console.log(result);
 			that.adverseEventMetadata = result.meta;
 			that.adverseEvents = result.results;
 		});

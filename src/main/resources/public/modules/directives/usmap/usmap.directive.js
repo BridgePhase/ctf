@@ -66,10 +66,11 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 				if (isMichigan(target)) {
 					target = target.parentNode;
 				}
-				console.log(target);
 				// yes Michigan requires its own logic
-				if (target.className && target.className.baseVal == 'state') {
+				if (target.className && target.className.baseVal.indexOf('state') >= 0) {
+					console.log('selected state', target.id);
 					var state = RegionService.stateFromAbbreviation(target.id);
+					console.dir(state);
 					$scope.onselect()(state);
 				}
 			};
