@@ -24,7 +24,6 @@ function FoodController($scope, RegionService, FoodService) {
 		that.affectedStates = [];
 		FoodService.recallsByState(that.selectedState.abbreviation).then(function(result) {
 			that.recallMetadata = result.meta;
-			console.log(that.recallMetadata);
 			that.recalls = result.results;
 		})
 	}
