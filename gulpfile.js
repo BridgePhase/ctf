@@ -36,7 +36,7 @@ gulp.task('lessify', function() {
 	])
 	.pipe(debug({title:'LESSing files'}))
 	.pipe(less())
-	.pipe(gulp.dest('src/main/resources/public/styles/ctf.css'));
+	.pipe(gulp.dest('src/main/resources/public/styles'));
 })
 
 gulp.task('uglifyCss', function() {
