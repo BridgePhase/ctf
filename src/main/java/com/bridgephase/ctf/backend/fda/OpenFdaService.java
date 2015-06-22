@@ -83,4 +83,24 @@ public class OpenFdaService {
 					.build(),
 				DrugEventResponse.class);
 	}
+	
+	public DeviceEventResponse deviceDeathRecallEvent() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -12);
+		Date sixMonthsAgo = calendar.getTime();
+		String searchQuery = "";
+		searchQuery = SearchBuilder.builder()
+			.withDateRangeField("date_of_event", sixMonthsAgo, today, "yyyyMMdd")
+			.build();
+		
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DEVICE)
+					.withContext(DataContext.EVENT)
+					.withSearch(searchQuery)
+					.withLimit(100)
+					.buildUri(),
+					DeviceEventResponse.class);
+	}
 }

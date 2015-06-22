@@ -9,7 +9,6 @@ public class SearchBuilder {
 	private static final String FORMAT = "yyyy-MM-dd";
 	private StringBuilder builder = new StringBuilder();
 
-	
 	private SearchBuilder() {
 	}
 	
@@ -42,8 +41,12 @@ public class SearchBuilder {
 	}
 	
 	public SearchBuilder withDateRangeField(String field, Date dateFrom, Date dateTo) {
+		return withDateRangeField(field, dateFrom, dateTo, FORMAT);
+	}
+	
+	public SearchBuilder withDateRangeField(String field, Date dateFrom, Date dateTo, String format) {
 		addField();
-		SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		try {
 			builder.append(URLEncoder.encode(field + ":[", "UTF-8"))
 				.append(dateFormat.format(dateFrom))
