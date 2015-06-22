@@ -32,12 +32,11 @@ public class HomeControllerTest {
 	
 	@Test
 	public void homeSetsVersionOnModelBasedOnAliveEndpoint() {
-		doReturn("version-junit-1").when(controller).alive();
 		Model fakeModel = mock(Model.class);
 		
 		controller.home(fakeModel);
 		
-		verify(fakeModel).addAttribute("version", "version-junit-1");
+		verify(fakeModel).addAttribute("version", "DEVELOPMENT-LOCAL");
 	}
 	
 	@Test

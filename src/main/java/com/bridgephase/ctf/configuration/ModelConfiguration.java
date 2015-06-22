@@ -17,8 +17,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,10 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 })
 @EnableTransactionManagement
 public class ModelConfiguration {
-	@Bean
-	public RestOperations getRestOperations() {
-		return new RestTemplate();
-	}
 	
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {
@@ -76,8 +72,20 @@ public class ModelConfiguration {
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 		MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);		
 		jsonConverter.setObjectMapper(objectMapper);
 		return jsonConverter;
 	}
+	
+	@Autowired
+	@Bean
+	public RestOperations getRestOperations(MappingJackson2HttpMessageConverter converter) {
+		RestTemplate template = new RestTemplate();
+		template.getMessageConverters().clear();
+		// we want to use our converter not the default one :)
+		template.getMessageConverters().add(converter);
+		return template;
+	}
+	
+
 }
