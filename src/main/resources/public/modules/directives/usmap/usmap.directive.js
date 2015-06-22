@@ -1,6 +1,5 @@
+/* global angular */
 angular.module('ctf').directive('usMap', ['RegionService', function(RegionService) {
-	var forEach = Array.prototype.forEach;
-	
 	function unhighlightAllStates(element) {
 		var states = document.querySelectorAll('#' + element.id + ' .state')
 		var statesArray = Array.prototype.slice.call(states);
@@ -34,6 +33,10 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 		}
 	}
 	
+	function isMichigan(target) {
+		return (target.id == 'MI-' || target.id == 'SP-');
+	}
+	
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/directives/usmap/usmap.svg',
@@ -60,6 +63,11 @@ angular.module('ctf').directive('usMap', ['RegionService', function(RegionServic
 		controller: ['$scope', function($scope) {
 			$scope.selectState = function($event) {
 				var target = $event.target;
+				if (isMichigan(target)) {
+					target = target.parentNode;
+				}
+				console.log(target);
+				// yes Michigan requires its own logic
 				if (target.className && target.className.baseVal == 'state') {
 					var state = RegionService.stateFromAbbreviation(target.id);
 					$scope.onselect()(state);
