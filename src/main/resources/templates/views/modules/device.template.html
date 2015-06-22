@@ -11,13 +11,15 @@
 								<th scope="col">Device</th>
 								<th scope="col">Manufacturer</th>
 								<th scope="col">Type of event</th>
+								<th scope="col">Date</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr data-ng-repeat="event in device.adverseEvents">
-								<td data-ng-bind="event.product_description"></td>
-								<td data-ng-bind="event.recalling_firm"></td>
-								<td data-ng-bind="event.recall_initiation_date"></td>
+								<td data-ng-bind="event.device[0].brand_name"></td>
+								<td data-ng-bind="event.manufacturer_name"></td>
+								<td data-ng-bind="event.event_type"></td>
+								<td>{{event.dateOfEventIso | date:'mediumDate'}}</td>
 							</tr>
 						</tbody>
 					</table>
