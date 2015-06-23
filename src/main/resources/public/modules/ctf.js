@@ -25,7 +25,7 @@ angular.module('ctf', [ 'ui.router', 'angular-carousel' ]).config(
 		}).state('noun.food', {
 			templateUrl: 'partials/food'
 		}).state('noun.medicine', {
-			templateUrl: 'partials/food'
+			templateUrl: 'partials/medicine'
 		}).state('noun.device', {
 			templateUrl: 'partials/device'
 		});

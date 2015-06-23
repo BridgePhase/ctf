@@ -14,7 +14,6 @@ angular.module('ctf').directive('datatable', ['$timeout', function($timeout) {
 				$timeout(function() {
 					$('#' + elem.id).dataTable({
 						paging: false,
-						scrollY: 300,
 						searching: false,
 						order: sort
 					});				

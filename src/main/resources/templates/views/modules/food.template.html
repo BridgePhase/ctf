@@ -18,13 +18,40 @@
 					<us-map hover="true" id="currentStateMap" highlight-states="food.selectedState" onselect="food.stateClicked"></us-map> 
 				</div>
 				<div data-ng-if="food.recallMetadata" >
-					<table id="foodRecallsTable" data-datatable="" class="row-border order-column" width="100%">
+					<div class="list-container">
+						<div class="pure-g list">
+							<div class="pure-u-1 listheader" role="listitem">
+								Recalls in {{food.selectedState.name}}
+							</div>
+						</div>
+					</div>
+					<div class="list-container scrollable">
+						<div class="pure-g list" role="list">
+							<div class="pure-u-1" role="listitem" data-ng-repeat="recall in food.recalls">
+								<div class="pure-g listitem">
+									<div class="pure-u-3-4">
+										<a class="inline-block short-description" href="" 
+											data-ng-click="food.selectRecall(recall)" 
+											data-ng-bind="$index + 1 + ') ' + recall.product_description">
+										</a> <br />
+										<span class="description" data-ng-bind="recall.reason_for_recall"></span>
+									</div>
+									<div class="pure-u-1-4" style="text-align: right">
+										Sep. 1, 2015
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+					<div style="width:100%">
+					<table id="foodRecallsTable" data-datatable="" class="row-border order-column" cellspacing="0" width="100%">
 						<caption>Recalls in {{food.selectedState.name}}</caption>
 						<thead>
 							<tr>
 								<th scope="col">Product description</th>
 								<th scope="col">Recall started on</th>
-								<th scope="col" data-width="50%">Reason for the recall</th>
+								<th scope="col">Reason for the recall</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -35,6 +62,7 @@
 							</tr>
 						</tbody>
 					</table>
+					</div>
 				</div>
 			</div>
 		</div>

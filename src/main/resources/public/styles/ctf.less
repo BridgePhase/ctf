@@ -1,6 +1,6 @@
 // Structure
 @default-padding: 0.5em;
-@section-padding: 3 * @default-padding 2 * @default-padding;
+@section-padding: 1 * @default-padding 2 * @default-padding;
 @logo-width: 80px;
 @icon-width: 2em;
 
@@ -22,6 +22,7 @@
 /* Elements */
 a, a:visited, a:active, a:focus {
 	text-decoration: none;
+	color: #395A77;
 }
 
 p {
@@ -34,7 +35,8 @@ h1 {
 }
 
 /* Global elements */
-.pure-g, .pure-g[class *= "pure-u"] {
+.pure-g, .pure-g[class *= "pure-u"],
+.pure-g [class *="pure-u"] {
 	font-family: @font-family;
 	font-size: @font-size;
 }
@@ -148,6 +150,23 @@ h1 {
 	}
 }
 
+.link-button {
+	
+	&:hover, &:focus {
+		background: #eee;
+	}
+}
+
+.button-remove {
+	color: red;
+	
+	&:visited {
+		color: red;
+	}
+}
+
+.button-remove:visited
+
 
 /* Functionality specific */
 .main-content {
@@ -178,6 +197,39 @@ h1 {
 
 .device {
 	background-color: @device-color;
+}
+
+.list-container {
+	margin-left: -2 * @default-padding;
+	margin-right: -2 * @default-padding;
+	
+	&.scrollable {
+		height: 400px;
+		overflow-y: auto;
+		border-bottom: 1px solid #ddd;
+	}
+}
+
+.list {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	
+	.listitem {
+		border-bottom: 1px solid #ddd;
+		padding: @default-padding;
+		
+		.description {
+			font-size: @font-size - 1pt;
+			color: lighten(black, 20%);
+		}
+	}
+	
+	.listheader {
+		padding: @default-padding;
+		background: #eee;
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+	}
 }
 
 /* Datatable */
@@ -237,6 +289,7 @@ h1 {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	width: 100%;
 }
 
 /* Map */
@@ -272,10 +325,26 @@ h1 {
 
 
 @media screen and (max-width: 35.5em) {
+	body {
+		font-size: 14px;
+	}
+	
+	h1 {
+		font-size: 1.25em;
+	}
+	
+	.headline {
+		font-size: @headline-font-size * 0.7;
+	}
+	
+	.starship {
+		font-size: @headline-font-size * 0.7;
+	}
+	
 	.bp-logo {
-		position: relative;
-		top: auto;
-		left: auto;
-		
+		position: absolute;
+		top: 1em;
+		left: 0;
+		width: @logo-width / 2; 
 	}
 }
