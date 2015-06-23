@@ -31,6 +31,12 @@ public class QueryController {
 		return openFda.enforcement(dataNoun);
 	}
 	
+	@RequestMapping(value = "/api/drug/label")
+	@ResponseBody
+	public FdaApiResponse drugLabel() {
+		return openFda.drugLabel();
+	}
+	
 	@RequestMapping(value = "/api/device/recallEvent")
 	@ResponseBody
 	public FdaApiResponse deviceRecallEvent() {

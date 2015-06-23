@@ -10,6 +10,7 @@ import org.springframework.web.client.RestOperations;
 
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugEventResponse;
+import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
@@ -64,6 +65,15 @@ public class OpenFdaService {
 				.withContext(DataContext.ENFORCEMENT)
 				.build(),
 			EnforcementReportResponse.class);
+	}
+	
+	public FdaApiResponse drugLabel() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DRUG)
+					.withContext(DataContext.LABEL)
+					.build(),
+				DrugLabelResponse.class);
 	}
 	
 	public DeviceEventResponse deviceEvent() {
