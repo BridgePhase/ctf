@@ -3,25 +3,23 @@
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="section">
 				<h2>Deaths resulting in device recalls over the last year</h2>
-				<div class="scrollable-container" data-ng-if="device.adverseEventMetadata">
-					<table class="datatable">
-						<caption>Adverse events - displaying {{device.adverseEventMetadata.results.total}}</caption>
+				<div data-ng-if="device.adverseEventMetadata">
+					<table data-datatable="" id="deviceAdverseEvents" class="row-border order-column">
+						<caption>Adverse events</caption>
 						<thead>
 							<tr>
+								<th scope="col" data-width="100px">Date</th>
 								<th scope="col">Device</th>
 								<th scope="col">Manufacturer</th>
-								<th scope="col">Type of event</th>
-								<th scope="col">Date</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr data-ng-repeat="event in device.adverseEvents">
+								<td class="w-20pc">{{event.dateOfEventIso | date:'mediumDate'}}</td>
 								<td class="w-30pc">
 									<a class="inline-block w-250px short-description" href="" data-ng-click="device.selectDevice(event)" data-ng-bind="event.device[0].brand_name"></a>
 								</td>
 								<td class="w-30pc" data-ng-bind="event.manufacturer_name"></td>
-								<td class="w-20pc" data-ng-bind="event.event_type"></td>
-								<td class="w-20pc">{{event.dateOfEventIso | date:'mediumDate'}}</td>
 							</tr>
 						</tbody>
 					</table>

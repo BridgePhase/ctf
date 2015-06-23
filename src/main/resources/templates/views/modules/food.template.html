@@ -17,21 +17,21 @@
 				<div class="selectable-map">
 					<us-map hover="true" id="currentStateMap" highlight-states="food.selectedState" onselect="food.stateClicked"></us-map> 
 				</div>
-				<div class="scrollable-container">
-					<table data-ng-if="food.recallMetadata" class="datatable">
-						<caption>Recalls in {{food.selectedState.name}} - displaying {{food.recalls.length}} of {{food.recallMetadata.results.total}}</caption>
+				<div data-ng-if="food.recallMetadata" >
+					<table id="foodRecallsTable" data-datatable="" class="row-border order-column" width="100%">
+						<caption>Recalls in {{food.selectedState.name}}</caption>
 						<thead>
 							<tr>
 								<th scope="col">Product description</th>
 								<th scope="col">Recall started on</th>
-								<th scope="col">Reason for the recall</th>
+								<th scope="col" data-width="50%">Reason for the recall</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<tr data-ng-repeat="recall in food.recalls">
-								<td class="w-30pc"><a class="inline-block w-250px short-description" href="" data-ng-click="food.selectRecall(recall)" data-ng-bind="$index + 1 + ') ' + recall.product_description"></a></td>
-								<td class="w-20pc">{{recall.recallInitiationDateIso | date: 'mediumDate'}}</td>
-								<td class="w-50pc" data-ng-bind="recall.reason_for_recall"></td>
+								<td><a class="inline-block w-250px short-description" href="" data-ng-click="food.selectRecall(recall)" data-ng-bind="$index + 1 + ') ' + recall.product_description"></a></td>
+								<td>{{recall.recallInitiationDateIso | date: 'mediumDate'}}</td>
+								<td data-ng-bind="recall.reason_for_recall"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -40,7 +40,7 @@
 		</div>
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div id="recallDescription"></div>
-			<div data-ng-if="!food.selectedRecall" class="section">
+			<div data-ng-if="food.recallMetadata &amp;&amp; !food.selectedRecall" class="section">
 				<strong>Select a recall to view more details </strong>
 			</div>
 			<div data-ng-if="food.selectedRecall" class="section">

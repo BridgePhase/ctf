@@ -1,4 +1,4 @@
-function DeviceController(DeviceService) {
+function DeviceController($scope, $timeout, DeviceService) {
 	var that = this;
 	
 	that.adverseEventMetadata = null;
@@ -8,6 +8,11 @@ function DeviceController(DeviceService) {
 		DeviceService.latestAdverseEvents().then(function(result) {
 			that.adverseEventMetadata = result.meta;
 			that.adverseEvents = result.results;
+			$timeout(function() {
+				$scope.$broadcast('update-datatable-deviceAdverseEvents', {
+					sort: [[0, 'desc']]
+				});
+			}, 0);
 		});
 	};
 	
@@ -29,6 +34,6 @@ function DeviceController(DeviceService) {
 	that.loadLatestAdverseEvents();
 }
 
-DeviceController.$inject = ['DeviceService'];
+DeviceController.$inject = ['$scope', '$timeout', 'DeviceService'];
 
 angular.module('ctf').controller('DeviceController', DeviceController);
