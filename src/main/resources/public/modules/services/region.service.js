@@ -55,7 +55,6 @@ function RegionService($http, $q) {
 	                           { name: 'Ohio', nameStandard: 'OHIO', abbreviation: 'OH'},
 	                           { name: 'Oklahoma', nameStandard: 'OKLAHOMA', abbreviation: 'OK'},
 	                           { name: 'Oregon', nameStandard: 'OREGON', abbreviation: 'OR'},
-	                           { name: 'Palau', nameStandard: 'PALAU', abbreviation: 'PW'},
 	                           { name: 'Pennsylvania', nameStandard: 'PENNSYLVANIA', abbreviation: 'PA'},
 	                           { name: 'Puerto Rico', nameStandard: 'PUERTO RICO', abbreviation: 'PR'},
 	                           { name: 'Rhode Island', nameStandard: 'RHODE ISLAND', abbreviation: 'RI'},
