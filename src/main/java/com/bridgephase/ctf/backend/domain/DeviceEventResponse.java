@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DeviceEventResponse extends FdaApiResponse {
 	
-	private List<DrugEvent> results;
+	private List<DeviceEvent> results;
 	
-	public List<DrugEvent> getResults() {
+	public List<DeviceEvent> getResults() {
 		return results;
 	}
 	
-	public void setResults(List<DrugEvent> results) {
+	public void setResults(List<DeviceEvent> results) {
 		this.results = results;
 	}
 	

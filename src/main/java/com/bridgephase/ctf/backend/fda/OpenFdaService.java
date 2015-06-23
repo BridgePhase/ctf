@@ -58,6 +58,51 @@ public class OpenFdaService {
 			EnforcementReportResponse.class);
 	}
 	
+	public DeviceEventResponse deviceDeathRecallEvent() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -12);
+		Date sixMonthsAgo = calendar.getTime();
+		String searchQuery = "";
+		searchQuery = SearchBuilder.builder()
+			.withField("remedial_action", "Recall")
+			.withField("event_type", "Death")
+			.withDateRangeField("date_of_event", sixMonthsAgo, today)
+			.build();
+		
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DEVICE)
+					.withContext(DataContext.EVENT)
+					.withSearch(searchQuery)
+					.withLimit(100)
+					.buildUri(),
+					DeviceEventResponse.class);
+	}
+	
+	public FdaApiResponse latest(DataNoun noun, DataContext context) {
+		switch (context) {
+			case ENFORCEMENT:
+				return enforcement(noun);
+			case LABEL:
+				if (!DataNoun.DRUG.equals(noun)) {
+					throw new IllegalArgumentException(errorResponse(noun, context));
+				}
+				return drugLabel();
+			case EVENT:
+				switch (noun) {
+					case DRUG:
+						return drugEvent();
+					case DEVICE:
+						return deviceEvent();
+					default:
+						throw new IllegalArgumentException(errorResponse(noun, context));
+				}
+			default:
+				throw new IllegalArgumentException(errorResponse(noun, context));
+		}
+	}
+	
 	public FdaApiResponse enforcement(DataNoun noun) {
 		return restOperations.getForObject(
 			RequestBuilder.builder(fdaProtocol, fdaHost)
@@ -94,25 +139,9 @@ public class OpenFdaService {
 				DrugEventResponse.class);
 	}
 	
-	public DeviceEventResponse deviceDeathRecallEvent() {
-		Calendar calendar = Calendar.getInstance();
-		Date today = calendar.getTime();
-		calendar.add(Calendar.MONTH, -12);
-		Date sixMonthsAgo = calendar.getTime();
-		String searchQuery = "";
-		searchQuery = SearchBuilder.builder()
-			.withField("remedial_action", "Recall")
-			.withField("event_type", "Death")
-			.withDateRangeField("date_of_event", sixMonthsAgo, today)
-			.build();
-		
-		return restOperations.getForObject(
-				RequestBuilder.builder(fdaProtocol, fdaHost)
-					.withDataNoun(DataNoun.DEVICE)
-					.withContext(DataContext.EVENT)
-					.withSearch(searchQuery)
-					.withLimit(100)
-					.buildUri(),
-					DeviceEventResponse.class);
+	private String errorResponse(DataNoun noun, DataContext context) {
+		return String.format("The combination of data noun = %s and data context = %s are invalid.", 
+				noun.toString(), 
+				context.toString());
 	}
 }
