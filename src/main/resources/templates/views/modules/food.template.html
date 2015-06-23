@@ -34,34 +34,16 @@
 											data-ng-click="food.selectRecall(recall)" 
 											data-ng-bind="$index + 1 + ') ' + recall.product_description">
 										</a> <br />
-										<span class="description" data-ng-bind="recall.reason_for_recall"></span>
 									</div>
 									<div class="pure-u-1-4" style="text-align: right">
-										Sep. 1, 2015
+										{{recall.recall_initiation_date_iso | date: 'mediumDate'}}
+									</div>
+									<div class="pure-u-1">
+										<span class="description" data-ng-bind="recall.reason_for_recall"></span>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				
-					<div style="width:100%">
-					<table id="foodRecallsTable" data-datatable="" class="row-border order-column" cellspacing="0" width="100%">
-						<caption>Recalls in {{food.selectedState.name}}</caption>
-						<thead>
-							<tr>
-								<th scope="col">Product description</th>
-								<th scope="col">Recall started on</th>
-								<th scope="col">Reason for the recall</th>
-							</tr> 
-						</thead>
-						<tbody>
-							<tr data-ng-repeat="recall in food.recalls">
-								<td><a class="inline-block w-250px short-description" href="" data-ng-click="food.selectRecall(recall)" data-ng-bind="$index + 1 + ') ' + recall.product_description"></a></td>
-								<td>{{recall.recallInitiationDateIso | date: 'mediumDate'}}</td>
-								<td data-ng-bind="recall.reason_for_recall"></td>
-							</tr>
-						</tbody>
-					</table>
 					</div>
 				</div>
 			</div>
