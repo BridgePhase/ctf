@@ -10,6 +10,7 @@ import org.springframework.web.client.RestOperations;
 
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugEventResponse;
+import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
@@ -57,33 +58,6 @@ public class OpenFdaService {
 			EnforcementReportResponse.class);
 	}
 	
-	public FdaApiResponse enforcement(DataNoun noun) {
-		return restOperations.getForObject(
-			RequestBuilder.builder(fdaProtocol, fdaHost)
-				.withDataNoun(noun)
-				.withContext(DataContext.ENFORCEMENT)
-				.build(),
-			EnforcementReportResponse.class);
-	}
-	
-	public DeviceEventResponse deviceEvent() {
-		return restOperations.getForObject(
-				RequestBuilder.builder(fdaProtocol, fdaHost)
-					.withDataNoun(DataNoun.DEVICE)
-					.withContext(DataContext.EVENT)
-					.build(),
-				DeviceEventResponse.class);
-	}
-	
-	public DrugEventResponse drugEvent() {
-		return restOperations.getForObject(
-				RequestBuilder.builder(fdaProtocol, fdaHost)
-					.withDataNoun(DataNoun.DRUG)
-					.withContext(DataContext.EVENT)
-					.build(),
-				DrugEventResponse.class);
-	}
-	
 	public DeviceEventResponse deviceDeathRecallEvent() {
 		Calendar calendar = Calendar.getInstance();
 		Date today = calendar.getTime();
@@ -104,5 +78,70 @@ public class OpenFdaService {
 					.withLimit(100)
 					.buildUri(),
 					DeviceEventResponse.class);
+	}
+	
+	public FdaApiResponse latest(DataNoun noun, DataContext context) {
+		switch (context) {
+			case ENFORCEMENT:
+				return enforcement(noun);
+			case LABEL:
+				if (!DataNoun.DRUG.equals(noun)) {
+					throw new IllegalArgumentException(errorResponse(noun, context));
+				}
+				return drugLabel();
+			case EVENT:
+				switch (noun) {
+					case DRUG:
+						return drugEvent();
+					case DEVICE:
+						return deviceEvent();
+					default:
+						throw new IllegalArgumentException(errorResponse(noun, context));
+				}
+			default:
+				throw new IllegalArgumentException(errorResponse(noun, context));
+		}
+	}
+	
+	public FdaApiResponse enforcement(DataNoun noun) {
+		return restOperations.getForObject(
+			RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(noun)
+				.withContext(DataContext.ENFORCEMENT)
+				.build(),
+			EnforcementReportResponse.class);
+	}
+	
+	public FdaApiResponse drugLabel() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DRUG)
+					.withContext(DataContext.LABEL)
+					.build(),
+				DrugLabelResponse.class);
+	}
+	
+	public DrugEventResponse drugEvent() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DRUG)
+					.withContext(DataContext.EVENT)
+					.build(),
+				DrugEventResponse.class);
+	}
+	
+	public DeviceEventResponse deviceEvent() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DEVICE)
+					.withContext(DataContext.EVENT)
+					.build(),
+				DeviceEventResponse.class);
+	}
+	
+	private String errorResponse(DataNoun noun, DataContext context) {
+		return String.format("The combination of data noun = %s and data context = %s are invalid.", 
+				noun.toString(), 
+				context.toString());
 	}
 }
