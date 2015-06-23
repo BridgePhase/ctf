@@ -7,7 +7,7 @@
 					<fieldset>
 						<div class="pure-control-group" data-ng-repeat="medication in medicine.medications">
 							<label for="medicine{{$index + 1}}">Medication {{$index + 1}}:</label>
-							<input id="medicine{{$index + 1}}" type="text" data-ng-model="medication.input"/>
+							<input class="inline-block" id="medicine{{$index + 1}}" type="text" data-ng-model="medication.input"/>
 							<a href="" data-ng-if="$index != 0" 							
 								data-ng-click="medicine.removeMedication($index)" title="Remove medication {{$index + 1}}" 
 								class="link-button button-remove fa fa-times"></a>
@@ -15,7 +15,7 @@
 						<a href="" data-ng-click="medicine.addMedication()">Add another medication</a>
 						<div class="pure-u-1">
 							<hr />
-							<button class="pure-button pure-button-primary">Search</button>
+							<button data-ng-click="medicine.search()" class="pure-button pure-button-primary">Search</button>
 						</div>
 					</fieldset>
 				</div>

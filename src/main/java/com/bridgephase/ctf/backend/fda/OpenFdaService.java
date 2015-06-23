@@ -2,6 +2,7 @@ package com.bridgephase.ctf.backend.fda;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -143,5 +144,26 @@ public class OpenFdaService {
 		return String.format("The combination of data noun = %s and data context = %s are invalid.", 
 				noun.toString(), 
 				context.toString());
+	}
+
+	public DrugEventResponse searchAdverseDrugEvents(List<String> medications) {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.YEAR, -1);
+		Date oneYearAgo = calendar.getTime();
+		String searchQuery = "";
+		SearchBuilder searchBuilder = SearchBuilder.builder();
+		for (String medication : medications) {
+			searchBuilder.withField("patient.drug.medicinalproduct", medication);
+		}
+		searchQuery = searchBuilder.withDateRangeField("receiptdate", oneYearAgo, today)
+			.build();
+
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+			.withDataNoun(DataNoun.DRUG)
+			.withSearch(searchQuery)
+			.withLimit(100)
+			.withContext(DataContext.EVENT);
+		return restOperations.getForObject(builder.buildUri(), DrugEventResponse.class);
 	}
 }

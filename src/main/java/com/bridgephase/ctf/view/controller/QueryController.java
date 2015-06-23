@@ -1,9 +1,13 @@
 package com.bridgephase.ctf.view.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
@@ -28,6 +32,12 @@ public class QueryController {
 	@ResponseBody
 	public FdaApiResponse deviceRecallEvent() {
 		return openFda.deviceDeathRecallEvent();
+	}
+	
+	@RequestMapping(value = "/api/drug/search", method = RequestMethod.POST)
+	@ResponseBody
+	public FdaApiResponse searchDrugs(@RequestBody List<String> medications) {
+		return openFda.searchAdverseDrugEvents(medications);
 	}
 	
 	@RequestMapping(value = "/api/{noun}/{context}/latest")

@@ -4,13 +4,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestOperations;
 
+import com.bridgephase.ctf.backend.domain.DrugEventResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
@@ -48,6 +51,25 @@ public class OpenFdaServiceTest {
 		verify(mockRest).getForObject(
 			expectUrl(DataNoun.FOOD, DataContext.ENFORCEMENT, expectedSearchQuery), 
 			EnforcementReportResponse.class);
+	}
+	
+	@Test
+	public void correctRestUrlIsCreatedForSearchesForMedications() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.YEAR, -1);
+		Date oneYearAgo = calendar.getTime();
+		String expectedSearchQuery = SearchBuilder.builder()
+			.withField("patient.drug.medicinalproduct", "Tylenol")
+			.withDateRangeField("receiptdate", oneYearAgo, today)
+			.build();
+		
+		List<String> medications = new ArrayList<String>();
+		medications.add("Tylenol");
+		service.searchAdverseDrugEvents(medications);
+		
+		verify(mockRest).getForObject(
+			expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery), DrugEventResponse.class);
 	}
 	
 	private URI expectUrl(DataNoun noun, DataContext context, String search) {
