@@ -28,6 +28,11 @@ p {
 	line-height: @line-height;
 }
 
+h1 {
+	margin-top: @default-padding;
+	margin-bottom: @default-padding;
+}
+
 /* Global elements */
 .pure-g, .pure-g[class *= "pure-u"] {
 	font-family: @font-family;
@@ -59,7 +64,7 @@ p {
 	
 	h1 {
 		margin: 0;
-		padding-left: @logo-width / 2 + 10px; 
+		padding-left: @logo-width / 2 + 10px;
 	}
 	
 	.bp-logo {
@@ -76,6 +81,39 @@ p {
 .headline {
 	font-size: @headline-font-size;
 	font-style: italic;
+	
+	.carousel-position {
+		position: relative;
+	}
+	
+	.carousel-container {
+		position: absolute;
+		width: 100%;
+	}
+	
+	.carousel {
+		margin: 0;
+		
+		p {
+			padding: 0 4 * @default-padding;
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+	}
+	
+	.carousel-position, .carousel-container, .carousel {
+		height: 2 * @headline-font-size + @default-padding ;
+	}
+	
+	.rn-carousel-control {
+		top: 0%;
+	}
+	
+	ul[rn-carousel] > li {
+		color: @banner-text-color;
+	}
+
+
 }
 
 .section {
@@ -108,6 +146,7 @@ p {
 		margin-bottom: 2 * @default-padding;
 	}
 }
+
 
 /* Functionality specific */
 .main-content {
