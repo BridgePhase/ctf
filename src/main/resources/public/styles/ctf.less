@@ -200,13 +200,12 @@ h1 {
 }
 
 .list-container {
-	margin-left: -2 * @default-padding;
-	margin-right: -2 * @default-padding;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	
 	&.scrollable {
 		height: 400px;
+		-webkit-overflow-scrolling: touch;
 		overflow-y: auto;
 		border-bottom: 1px solid #ddd;
 	}
@@ -217,6 +216,12 @@ h1 {
 	.listitem {
 		border-bottom: 1px solid #ddd;
 		padding: @default-padding;
+		
+		.metadata {
+			font-size: @font-size - 2pt;
+			color: lighten(black, 30%);
+			text-align: right;
+		}
 		
 		.description {
 			font-size: @font-size - 1pt;

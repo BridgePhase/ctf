@@ -1,10 +1,13 @@
 package com.bridgephase.ctf.backend.domain;
 
+import com.bridgephase.ctf.backend.shared.Formats;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DrugEvent {
+	
+	private static final String SERIOUSNESS_YES_INDICATOR = "1";
 	
 	private DrugEventPatient patient;
 	
@@ -234,4 +237,72 @@ public class DrugEvent {
 	public void setOpenFda(OpenFda openFda) {
 		this.openFda = openFda;
 	}
+	
+	@JsonProperty("dangerousEffects")
+	public String getAdverseEventDescription() {
+		StringBuilder builder = new StringBuilder();
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessDeath)) {
+			builder.append("Death");
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessLifeThreatening)) {
+			if (builder.length() > 0) {
+				builder.append(", ");
+			}
+			builder.append("Life threathening");
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessDisabling)) {
+			if (builder.length() > 0) {
+				builder.append(", ");
+			}
+			builder.append("Disabling");
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessHospitalization)) {
+			if (builder.length() > 0) {
+				builder.append(", ");
+			}
+			builder.append("Hospitalization");
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessCongenitalAnomali)) {
+			if (builder.length() > 0) {
+				builder.append(", ");
+			}
+			builder.append("Congenital anomali");
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessOther)) {
+			if (builder.length() > 0) {
+				builder.append(", ");
+			}
+			builder.append("Other");
+		}
+		return builder.toString();
+	}
+
+	@JsonProperty("mostDangerousEffect")
+	public String getMostDangerousEffect() {
+		if (!SERIOUSNESS_YES_INDICATOR.equals(serious)) {
+			return "Not serious";
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessDeath)) {
+			return "Death";
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessLifeThreatening)) {
+			return "Life threathening";
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessDisabling)) {
+			return "Disabling";
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessHospitalization)) {
+			return "Hospitalization";
+		}
+		if (SERIOUSNESS_YES_INDICATOR.equals(seriousnessCongenitalAnomali)) {
+			return "Congenital anomali";
+		}
+		return "Other";
+	}
+
+	@JsonProperty("receiveDateIso")
+	public String getReceiveDateAsIso() {
+		return Formats.dateAsIso(Formats.openFdaDate(receiveDate));
+	}
+
 }

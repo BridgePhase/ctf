@@ -1,13 +1,9 @@
 <div data-ng-controller="HomeController as home">
-    <style>
-        .image { height: 20px; border: 2px solid blue; margin: 0}
-    </style>
-        
     <div class="banner">
-    	<a href="/ctf/#/home">
+    	<a data-ui-sref="home">
     		<img class="bp-logo" alt="bowtime image" src="images/bowtie-comic.png" title="Consider the following, paying tribute to Bill Nye!"/>
     	</a>
-    	<h1><a href="/ctf">Consider the following ...</a></h1>
+    	<h1><a data-ui-sref="home">Consider the following ...</a></h1>
     	<div class="headline">
             <div class="carousel-position">
                 <div class="carousel-container">

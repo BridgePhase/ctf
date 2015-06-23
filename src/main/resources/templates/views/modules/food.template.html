@@ -35,7 +35,7 @@
 											data-ng-bind="$index + 1 + ') ' + recall.product_description">
 										</a> <br />
 									</div>
-									<div class="pure-u-1-4" style="text-align: right">
+									<div class="pure-u-1-4 metadata">
 										{{recall.recall_initiation_date_iso | date: 'mediumDate'}}
 									</div>
 									<div class="pure-u-1">
@@ -55,6 +55,7 @@
 			</div>
 			<div data-ng-if="food.selectedRecall" class="section">
 				<h2  data-ng-bind="food.selectedRecall.product_description"></h2>
+				<a href="" data-ng-click="backToTop()">^ Back to top</a>
 				<div class="pure-g">
 					<div class="pure-u-1 pure-u-md-1-2">
 						<h3>Reason for recall:</h3>
@@ -63,14 +64,6 @@
 						<p data-ng-bind="food.selectedRecall.code_info"></p>
 						<h3>Quantity affected:</h3>
 						<p data-ng-bind="food.selectedRecall.product_quantity"></p>
-
-						<h3>In the news</h3>
-						<div>
-							<ul>
-								<li>Article in the news</li>
-								<li>Other article in the news</li>
-							</ul>
-						</div>
 						<h3>Contact information</h3>
 						<div>
 							<a target="_blank" href="https://www.google.com/#q={{food.selectedRecall.recalling_firm}}+{{food.selectedRecall.city}}+{{food.selectedRecall.state}}">

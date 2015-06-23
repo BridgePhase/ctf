@@ -2,6 +2,8 @@ function MedicineController($scope, $timeout, MedicineService) {
 	var that = this;
 	
 	that.currentIndex = 1;
+	that.adverseEventMetadata = null;
+	that.adverseEvents = [];
 	
 	that.medications = [{
 		input: ''
@@ -19,16 +21,10 @@ function MedicineController($scope, $timeout, MedicineService) {
 	
 	that.search = function() {
 		MedicineService.search(that.medications).then(function(results) {
-			console.log(results);
+			that.adverseEventMetadata = results.meta;
+			that.adverseEvents = results.results;
 		});
 	}
-	
-	$timeout(function() {
-		$scope.$broadcast('update-datatable-medicineAdverseEvents');	
-	}, 0);
-	
-	
-	
 }
 
 MedicineController.$inject = ['$scope', '$timeout', 'MedicineService'];

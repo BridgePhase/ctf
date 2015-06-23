@@ -19,56 +19,41 @@
 						</div>
 					</fieldset>
 				</div>
+				<div data-ng-if="medicine.adverseEventMetadata" >
+					<div class="list-container">
+						<div class="pure-g list">
+							<div class="pure-u-1 listheader" role="listitem">
+								Adverse events reported in the last year
+							</div>
+						</div>
+					</div>
+					<div class="list-container scrollable">
+						<div class="pure-g list" role="list">
+							<div class="pure-u-1" role="listitem" data-ng-repeat="event in medicine.adverseEvents">
+								<div class="pure-g listitem">
+									<div class="pure-u-3-4">
+										<a class="inline-block short-description" href="" 
+											data-ng-click="event." 
+											data-ng-bind="$index + 1 + ') ' + event.mostDangerousEffect">
+										</a> <br />
+									</div>
+									<div class="pure-u-1-4 metadata">
+										{{event.receiveDateIso | date: "mediumDate"}}
+									</div>
+									<div class="pure-u-1">
+										<div class="description">
+											{{event.patient.patientsexString}} patient taking {{event.patient.drug.length}} different medications
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>				
 			</div>
 		</div>
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div id="resultsSection"></div>
-			<div class="section" data-ng-if="!medicine.selectedEvent">
-				<p>
-				Enter the medicines you take and click on <strong>Search</strong>. From there you'll see 
-				adverse events that have been reported to the FDA when a patient took the same combination of 
-				medicines. The presence of an event, does not mean a medication is unsafe. 
-				Consult a physician for further details.
-				</p>
-			</div>
-			<div class="section" data-ng-if="medicine.selectedEvent">
-				<h2 data-ng-bind="medicine.selectedEvent.device[0].brand_name"></h2>
-				<div class="pure-g fields">
-					<div class="pure-u-1 pure-u-md-1-4">
-						<strong>Manufacturer:</strong>
-					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
-						<span data-ng-bind="medicine.selectedEvent.manufacturer_name"></span>
-					</div>
-					<div class="pure-u-1 pure-u-md-1-4">
-						<strong>Type of event:</strong>
-					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
-						<span data-ng-bind="medicine.selectedEvent.event_type"></span>
-					</div>
-					<div class="pure-u-1 pure-u-md-1-4">
-						<strong>Description of event:</strong>
-					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
-						<div class="scrollable-container">
-						<span data-ng-bind="medicine.selectedEventNarrative"></span>
-						</div>
-					</div>
-					<div class="pure-u-1 pure-u-md-1-4">
-						<strong>Manufacturer Contact:</strong>
-					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
-						<a href="https://www.google.com/#q={{medicine.selectedEvent.manufacturer_name}}+{{medicine.selectedEvent.manufacturer_contact_address_1}}+{{medicine.selectedEvent.manufacturer_contact_city}}+{{medicine.selectedEvent.manufacturer_contact_state}}+{{medicine.selectedEvent.manufacturer_contact_zip_code}}" target="_blank">
-							<span data-ng-bind="medicine.selectedEvent.manufacturer_contact_address_1"></span> <br />
-							<span data-ng-bind="medicine.selectedEvent.manufacturer_contact_address_2"></span> <br data-ng-if="medicine.selectedEvent.manufacturer_contact_address_2"/>
-							<span data-ng-bind="medicine.selectedEvent.manufacturer_contact_city"></span>, <span data-ng-bind="medicine.selectedEvent.manufacturer_contact_state"></span> <span data-ng-bind="medicine.selectedEvent.manufacturer_contact_zip_code"></span><br />
-						</a>
-						<a href="tel:{{medicine.selectedEvent.manufacturer_contact_area_code}}-{{medicine.selectedEvent.manufacturer_contact_exchange}}-{{medicine.selectedEvent.manufacturer_contact_phone_number}}" target="_blank">
-							({{medicine.selectedEvent.manufacturer_contact_area_code}}) {{medicine.selectedEvent.manufacturer_contact_exchange}}-{{medicine.selectedEvent.manufacturer_contact_phone_number}}
-						</a>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>

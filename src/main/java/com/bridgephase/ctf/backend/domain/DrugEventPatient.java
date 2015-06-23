@@ -84,4 +84,14 @@ public class DrugEventPatient {
 	public void setReaction(List<Reaction> reaction) {
 		this.reaction = reaction;
 	}
+
+	@JsonProperty("patientSexString")
+	public String getPatientSexString() {
+		if ("1".equals(patientSex)) {
+			return "Male";
+		} else if ("2".equals(patientSex)) {
+			return "Female";
+		}
+		return "Unknown";
+	}
 }
