@@ -121,15 +121,6 @@ public class OpenFdaService {
 				DrugLabelResponse.class);
 	}
 	
-	public DeviceEventResponse deviceEvent() {
-		return restOperations.getForObject(
-				RequestBuilder.builder(fdaProtocol, fdaHost)
-					.withDataNoun(DataNoun.DEVICE)
-					.withContext(DataContext.EVENT)
-					.build(),
-				DeviceEventResponse.class);
-	}
-	
 	public DrugEventResponse drugEvent() {
 		return restOperations.getForObject(
 				RequestBuilder.builder(fdaProtocol, fdaHost)
@@ -137,6 +128,15 @@ public class OpenFdaService {
 					.withContext(DataContext.EVENT)
 					.build(),
 				DrugEventResponse.class);
+	}
+	
+	public DeviceEventResponse deviceEvent() {
+		return restOperations.getForObject(
+				RequestBuilder.builder(fdaProtocol, fdaHost)
+					.withDataNoun(DataNoun.DEVICE)
+					.withContext(DataContext.EVENT)
+					.build(),
+				DeviceEventResponse.class);
 	}
 	
 	private String errorResponse(DataNoun noun, DataContext context) {
