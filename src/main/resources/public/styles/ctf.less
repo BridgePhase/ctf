@@ -19,6 +19,10 @@
 @medicine-color: #036109;
 @device-color: #2B24A0;
 
+* {
+	box-sizing: border-box;	
+}
+
 /* Elements */
 a, a:visited, a:active, a:focus {
 	text-decoration: none;
@@ -240,10 +244,15 @@ h1 {
 	}
 	
 	.listheader {
-		padding: @default-padding;
 		background: #eee;
 		border-top: 1px solid #ccc;
 		border-bottom: 1px solid #ccc;
+		
+		h3 {
+			margin: @default-padding;
+			font-size: @font-size;
+			font-weight: normal;
+		}
 	}
 }
 

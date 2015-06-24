@@ -21,14 +21,14 @@
 					<div class="list-container">
 						<div class="pure-g list">
 							<div class="pure-u-1 listheader" role="listitem">
-								Recalls in {{food.selectedState.name}} - {{food.recalls.length}} results
+								<h3>Recalls in {{food.selectedState.name}} - {{food.recalls.length}} results</h3>
 							</div>
 						</div>
 					</div>
 					<div class="list-container scrollable">
 						<div class="pure-g list" role="list">
-							<div class="pure-u-1" role="listitem" data-ng-repeat="recall in food.recalls">
-								<div class="pure-g listitem">
+							<div class="pure-u-1 listitem" role="listitem" data-ng-repeat="recall in food.recalls">
+								<div class="pure-g">
 									<div class="pure-u-3-4">
 										<a class="inline-block short-description" href="" 
 											data-ng-click="food.selectRecall(recall)" 
