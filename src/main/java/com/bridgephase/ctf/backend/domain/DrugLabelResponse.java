@@ -8,15 +8,15 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DrugEventResponse extends FdaApiResponse {
+public class DrugLabelResponse extends FdaApiResponse {
 	
-	private List<DrugEvent> results;
+	private List<DrugLabel> results;
 	
-	public List<DrugEvent> getResults() {
+	public List<DrugLabel> getResults() {
 		return results;
 	}
 	
-	public void setResults(List<DrugEvent> results) {
+	public void setResults(List<DrugLabel> results) {
 		this.results = results;
 	}
 	

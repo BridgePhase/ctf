@@ -7,16 +7,14 @@
  * 
  * @author Jaime Garcia
  */
-angular.module('ctf', [ 'ui.router' ]).config(
+angular.module('ctf', [ 'ui.router', 'angular-carousel' ]).config(
 	[ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		// this will set the default state to be /home
-		$urlRouterProvider.otherwise('/home')
+		$urlRouterProvider.otherwise('/home');
 
 		$stateProvider.state('home', {
 			url: '/home',
-			controller: function() {
-				document.title = 'Consider the following';	
-			},
+			controller: 'HomeController',
 			templateUrl: 'partials/main'
 		}).state('noun', {
 			url: '/noun/:noun',
@@ -27,8 +25,8 @@ angular.module('ctf', [ 'ui.router' ]).config(
 		}).state('noun.food', {
 			templateUrl: 'partials/food'
 		}).state('noun.medicine', {
-			templateUrl: 'partials/food'
+			templateUrl: 'partials/medicine'
 		}).state('noun.device', {
 			templateUrl: 'partials/device'
 		});
-	} ])
+	} ]);

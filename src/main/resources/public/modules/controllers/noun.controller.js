@@ -16,6 +16,10 @@ function NounController($scope, $stateParams) {
 	$scope.friendlyNoun = friendlyNames[that.noun];
 	that.friendlyNoun = friendlyNames[that.noun];
 	document.title = 'Consider the following - ' + that.friendlyNoun;
+	
+	$scope.backToTop = function() {
+		window.scroll(0, 0);
+	}
 }
 
 NounController.$inject = ['$scope', '$stateParams'];

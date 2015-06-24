@@ -1,6 +1,6 @@
 // Structure
 @default-padding: 0.5em;
-@section-padding: 3 * @default-padding 2 * @default-padding;
+@section-padding: 1 * @default-padding 2 * @default-padding;
 @logo-width: 80px;
 @icon-width: 2em;
 
@@ -22,14 +22,21 @@
 /* Elements */
 a, a:visited, a:active, a:focus {
 	text-decoration: none;
+	color: #395A77;
 }
 
 p {
 	line-height: @line-height;
 }
 
+h1 {
+	margin-top: @default-padding;
+	margin-bottom: @default-padding;
+}
+
 /* Global elements */
-.pure-g, .pure-g[class *= "pure-u"] {
+.pure-g, .pure-g[class *= "pure-u"],
+.pure-g [class *="pure-u"] {
 	font-family: @font-family;
 	font-size: @font-size;
 }
@@ -59,7 +66,7 @@ p {
 	
 	h1 {
 		margin: 0;
-		padding-left: @logo-width / 2 + 10px; 
+		padding-left: @logo-width / 2 + 10px;
 	}
 	
 	.bp-logo {
@@ -76,6 +83,40 @@ p {
 .headline {
 	font-size: @headline-font-size;
 	font-style: italic;
+	
+	.carousel-position {
+		position: relative;
+	}
+	
+	.carousel-container {
+		position: absolute;
+		width: 100%;
+	}
+	
+	.carousel {
+		margin: 0;
+		
+		p {
+			padding: 0 4 * @default-padding;
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+	}
+	
+	.carousel-position, .carousel-container, .carousel {
+		height: 2 * @headline-font-size + @default-padding ;
+	}
+	
+	.rn-carousel-control {
+		top: 0%;
+		font-style: normal;
+	}
+	
+	ul[rn-carousel] > li {
+		color: @banner-text-color;		
+	}
+
+
 }
 
 .section {
@@ -109,6 +150,24 @@ p {
 	}
 }
 
+.link-button {
+	font-size: @font-size + 4pt !important;
+	&:hover, &:focus {
+		background: #eee;
+	}
+}
+
+.button-remove {
+	color: red;
+	
+	&:visited {
+		color: red;
+	}
+}
+
+.button-remove:visited
+
+
 /* Functionality specific */
 .main-content {
 	background-color: @main-color;
@@ -138,6 +197,44 @@ p {
 
 .device {
 	background-color: @device-color;
+}
+
+.list-container {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	
+	&.scrollable {
+		height: 400px;
+		-webkit-overflow-scrolling: touch;
+		overflow-y: auto;
+		border-bottom: 1px solid #ddd;
+	}
+}
+
+.list {
+	
+	.listitem {
+		border-bottom: 1px solid #ddd;
+		padding: @default-padding;
+		
+		.metadata {
+			font-size: @font-size - 2pt;
+			color: lighten(black, 30%);
+			text-align: right;
+		}
+		
+		.description {
+			font-size: @font-size - 1pt;
+			color: lighten(black, 20%);
+		}
+	}
+	
+	.listheader {
+		padding: @default-padding;
+		background: #eee;
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+	}
 }
 
 /* Datatable */
@@ -190,13 +287,14 @@ p {
 }
 
 .inline-block {
-	display: inline-block;
+	display: inline-block !important;
 }
 
 .short-description {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	width: 100%;
 }
 
 /* Map */
@@ -232,10 +330,26 @@ p {
 
 
 @media screen and (max-width: 35.5em) {
+	body {
+		font-size: 14px;
+	}
+	
+	h1 {
+		font-size: 1.25em;
+	}
+	
+	.headline {
+		font-size: @headline-font-size * 0.7;
+	}
+	
+	.starship {
+		font-size: @headline-font-size * 0.7;
+	}
+	
 	.bp-logo {
-		position: relative;
-		top: auto;
-		left: auto;
-		
+		position: absolute;
+		top: 5px;
+		left: 0;
+		width: 20px; 
 	}
 }

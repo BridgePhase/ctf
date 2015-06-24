@@ -1,4 +1,4 @@
-function FoodController($scope, RegionService, FoodService) {	
+function FoodController($scope, $timeout, RegionService, FoodService) {	
 	var that = this;
 
 	that.selectedState = null;
@@ -25,7 +25,12 @@ function FoodController($scope, RegionService, FoodService) {
 		FoodService.recallsByState(that.selectedState.abbreviation).then(function(result) {
 			that.recallMetadata = result.meta;
 			that.recalls = result.results;
-		})
+			$timeout(function() {
+				$scope.$broadcast('update-datatable-foodRecallsTable', {
+					sort: [[1, 'desc']]
+				});
+			}, 0);
+		});
 	}
 	
 	that.selectRecall = function(recall) {
@@ -66,6 +71,6 @@ function FoodController($scope, RegionService, FoodService) {
 	}
 }
 
-FoodController.$inject = ['$scope', 'RegionService', 'FoodService'];
+FoodController.$inject = ['$scope', '$timeout', 'RegionService', 'FoodService'];
 
 angular.module('ctf').controller('FoodController', FoodController)
