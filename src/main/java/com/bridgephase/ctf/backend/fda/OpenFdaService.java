@@ -44,6 +44,7 @@ public class OpenFdaService {
 		Date sixMonthsAgo = calendar.getTime();
 		String searchQuery = "";
 		searchQuery = SearchBuilder.builder()
+			//.withField("distribution_pattern", "nationwide")
 			.withField("distribution_pattern", state)
 			.withExactField("status", "Ongoing")
 			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)

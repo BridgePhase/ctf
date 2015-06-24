@@ -13,11 +13,18 @@
 // Colors
 @main-color: #fafafa;
 @banner-background-color: #395A77;
+@banner-background-color: #045591;
 @banner-text-color:#fafafa;
 @icon-text-color: #fff;
 @food-color: #7B0704;
 @medicine-color: #036109;
 @device-color: #2B24A0;
+@midnight-color: #052090;
+
+html, body {
+	background: white;
+	height: 100%;	
+}
 
 * {
 	box-sizing: border-box;	
@@ -37,7 +44,19 @@ h1 {
 	margin-top: @default-padding;
 	margin-bottom: @default-padding;
 	text-shadow: 1px 1px 1px #000;
-	
+}
+
+h2 {
+	color: @midnight-color;
+}
+
+h3, h4 {
+	color: lighten(black, 30%);
+	font-weight: 600;
+}
+
+strong {
+	font-weight: normal; // since we're using a lighter font for the rest
 }
 
 /* Global elements */
@@ -45,6 +64,7 @@ h1 {
 .pure-g [class *="pure-u"] {
 	font-family: @font-family;
 	font-size: @font-size;
+	font-weight: 300;
 }
 
 .bp-center {
@@ -66,8 +86,7 @@ h1 {
 	text-align: center;
 	padding: @default-padding;
 	
-	margin-bottom: 1.5em;
-	box-shadow: 0px 5px 15px #777;
+	//box-shadow: 0px 5px 15px #777;
 }
 
 
@@ -133,8 +152,14 @@ h1 {
 
 }
 
+.section,.subsection {
+	margin: @section-padding;
+}
+
 .section {
 	padding: @section-padding;
+	background: white;
+	box-shadow: 1px 1px 5px #777;
 }
 
 .big-icon {
@@ -193,12 +218,20 @@ h1 {
 	font-family: 'Orbitron';
 	margin-bottom: @default-padding * 6;
 }
+
+.main {
+	padding: 1.5em 0em;
+	background-color: #D6D6D6;
+}
+
 .footer {
 	padding: 2em;
 	background: darken(@main-color, 10%);
 	border-top: 1px solid darken(@main-color, 20%);
 	color:darken(@main-color, 60%);
 	font-size: smaller;
+	background: #045591;
+	background: lighten(@banner-background-color, 60%);
 }
 
 .food {
@@ -348,7 +381,12 @@ h1 {
 }
 
 
-@media screen and (max-width: 35.5em) {
+.mobile-only {
+	position: fixed;
+	left: -9999px;
+}
+
+@media screen and (max-width: 768px) {
 	body {
 		font-size: 14px;
 	}
@@ -371,4 +409,34 @@ h1 {
 		left: 0;
 		width: 20px; 
 	}
+	
+	.mobile-only {
+		position: static;
+	}
+	
+	.section {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	.big-icon {
+	text-align: center;
+	padding: @section-padding;
+	
+	a.fa {
+		display: inline-block;
+		width: @icon-width;
+		height: @icon-width;
+		line-height: @icon-width;
+		color: @icon-text-color;
+		border-radius: 100%;
+		font-size: 3.5em;
+		cursor: pointer;
+		
+		&:hover, &:focus {
+			opacity: 0.75;
+			filter: alpha(opacity=75);
+		}
+	}
+}
 }
