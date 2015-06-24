@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * This is the main driver of the application. Using Spring Boot, this runs the application in an embedded Tomcat
@@ -25,6 +26,7 @@ import org.springframework.context.annotation.Import;
  *
  */
 @SpringBootApplication
+@EnableScheduling
 @Import(value = { 
 	ViewConfiguration.class,
 	ModelConfiguration.class 
