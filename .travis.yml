@@ -17,6 +17,31 @@ after_success:
   - ./tag-release.sh
 
 deploy:
+# Test deployments
+- provider: s3
+  access_key_id: $AWS_ACCESS_ID
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: $AWS_S3_BUCKET
+  skip_cleanup: true
+  local_dir: build/distributions
+  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+  on:
+    branch: /^sprint_.*$/
+    condition: $DEPLOY_TO_AWS = true
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_ID
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: $AWS_S3_BUCKET
+  skip_cleanup: true
+  local_dir: build/distributions
+  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+  key: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER/ctf.zip
+  application: $AWS_CODEDEPLOY_APPLICATION
+  deployment_group: $AWS_CODEDEPLOY_SPRINT_GROUP
+  on:
+    branch: /^sprint_.*$/
+    condition: $DEPLOY_TO_AWS = true
+# Production deployments
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
   secret_access_key: $AWS_SECRET_KEY
