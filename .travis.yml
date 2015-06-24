@@ -26,7 +26,7 @@ deploy:
   local_dir: build/distributions
   upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
   on:
-    branch: /^sprint_.*$/
+    branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
 - provider: codedeploy
   access_key_id: $AWS_ACCESS_ID
@@ -39,7 +39,7 @@ deploy:
   application: $AWS_CODEDEPLOY_APPLICATION
   deployment_group: $AWS_CODEDEPLOY_SPRINT_GROUP
   on:
-    branch: /^sprint_.*$/
+    branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
 # Production deployments
 - provider: s3
