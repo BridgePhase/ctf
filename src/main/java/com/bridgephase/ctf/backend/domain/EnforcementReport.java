@@ -1,5 +1,7 @@
 package com.bridgephase.ctf.backend.domain;
 
+import java.text.BreakIterator;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -218,6 +220,30 @@ public class EnforcementReport {
 		return Formats.dateAsIso(Formats.openFdaDate(getRecallInitiationDate()));
 	}
 	
+	@JsonProperty("friendlyProductName")
+	public String getFriendlyProductDescription() {
+		if ("Food".equals(productType)) {
+			return trimFood();
+		}
+		return productDescription;
+	}
+	
+	private String trimFood() {
+		if (productDescription.indexOf("UPC") > 0) {
+			return productDescription.substring(0, productDescription.indexOf("UPC")).trim();
+		} else {
+			// try to parse it as a sentence
+			BreakIterator it = BreakIterator.getSentenceInstance();
+			it.setText(productDescription);
+			int start = it.first();
+			int end = it.next();
+			if (end == BreakIterator.DONE) {
+				return productDescription.substring(start);
+			} else {
+				return productDescription.substring(start, end);
+			}
+		}
+	}
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
