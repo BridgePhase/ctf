@@ -32,6 +32,8 @@ p {
 h1 {
 	margin-top: @default-padding;
 	margin-bottom: @default-padding;
+	text-shadow: 1px 1px 1px #000;
+	
 }
 
 /* Global elements */
@@ -59,7 +61,11 @@ h1 {
 	color: @banner-text-color;
 	text-align: center;
 	padding: @default-padding;
+	
+	margin-bottom: 1.5em;
+	box-shadow: 0px 5px 15px #777;
 }
+
 
 .small-banner:extend(.banner) {
 	text-align: left;
@@ -114,6 +120,10 @@ h1 {
 	
 	ul[rn-carousel] > li {
 		color: @banner-text-color;		
+	}
+	
+	.rn-carousel-indicator {
+		font-style: normal;
 	}
 
 
