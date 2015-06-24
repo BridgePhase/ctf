@@ -22,7 +22,7 @@
 @midnight-color: #052090;
 
 html, body {
-	background: white;
+	background: #eee;;
 	height: 100%;	
 }
 
@@ -153,13 +153,14 @@ strong {
 }
 
 .section,.subsection {
-	margin: @section-padding;
+	margin: @section-padding;	
 }
 
 .section {
 	padding: @section-padding;
 	background: white;
 	box-shadow: 1px 1px 5px #777;
+	min-height: 200px;
 }
 
 .big-icon {
@@ -208,11 +209,6 @@ strong {
 
 
 /* Functionality specific */
-.main-content {
-	background-color: @main-color;
-	padding-bottom: @default-padding * 6;	
-}
-
 .starship {
 	font-size: @headline-font-size;
 	font-family: 'Orbitron';
@@ -221,7 +217,7 @@ strong {
 
 .main {
 	padding: 1.5em 0em;
-	background-color: #D6D6D6;
+	background-color: #eee;
 }
 
 .footer {
@@ -357,11 +353,11 @@ strong {
 }
 
 .selectable-map {
-	height: 400px;
+	min-height: 200px;
 }
 
 .affected-states {
-	height: 300px;
+	min-height: 100px;
 }
 
 /* Turn on styles for local development */
