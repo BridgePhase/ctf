@@ -28,7 +28,8 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 @EnableJpaRepositories(basePackages = { "com.bridgephase.ctf.model.repository" })
 @ComponentScan(basePackages = { 
 	"com.bridgephase.ctf.model",
-	"com.bridgephase.ctf.backend.fda"
+	"com.bridgephase.ctf.backend.fda",
+	"com.bridgephase.ctf.backend.notifications"
 })
 @EnableTransactionManagement
 public class ModelConfiguration {

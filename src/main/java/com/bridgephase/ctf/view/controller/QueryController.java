@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
+import com.bridgephase.ctf.backend.domain.Notification;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.fda.OpenFdaService;
+import com.bridgephase.ctf.backend.notifications.NotificationService;
 
 @Controller
 public class QueryController {
 	
 	@Autowired
 	private OpenFdaService openFda;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@RequestMapping(value = "/api/food/{state}")
 	@ResponseBody
@@ -47,4 +52,11 @@ public class QueryController {
 		DataContext dataContext = DataContext.valueOf(context.toUpperCase());
 		return openFda.latest(dataNoun, dataContext);
 	}
+	
+	@RequestMapping(value = "/app/notifications")
+	@ResponseBody
+	public List<Notification> notifications() {
+		return notificationService.getNotifications();
+	}
+	
 }
