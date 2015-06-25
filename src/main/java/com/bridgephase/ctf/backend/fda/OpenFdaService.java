@@ -14,6 +14,7 @@ import com.bridgephase.ctf.backend.domain.DrugEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
+import com.bridgephase.ctf.backend.domain.SearchCountResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
@@ -165,5 +166,66 @@ public class OpenFdaService {
 			.withLimit(100)
 			.withContext(DataContext.EVENT);
 		return restOperations.getForObject(builder.buildUri(), DrugEventResponse.class);
+	}
+	
+	public SearchCountResponse mostCommonReactionTypes(String medication) {
+		String searchQuery = SearchBuilder.builder()
+				.withField("patient.drug.medicinalproduct", medication)
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(DataNoun.DRUG)
+				.withSearch(searchQuery)
+				.withCount("patient.reaction.reactionmeddrapt.exact")
+				.withLimit(50)
+				.withContext(DataContext.EVENT);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
+	
+	public SearchCountResponse drugPurposeRoute(String purpose) {
+		String searchQuery = SearchBuilder.builder()
+				.withField("purpose", purpose)
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(DataNoun.DRUG)
+				.withSearch(searchQuery)
+				.withCount("openfda.route")
+				.withLimit(50)
+				.withContext(DataContext.LABEL);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
+	
+	public SearchCountResponse deviceEventCountByOperator(String operator) {
+		String searchQuery = SearchBuilder.builder()
+				.withField("device.device_operator", operator)
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(DataNoun.DEVICE)
+				.withSearch(searchQuery)
+				.withCount("event_type.exact")
+				.withLimit(100)
+				.withContext(DataContext.EVENT);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
+	
+	public SearchCountResponse recallClassifications(DataNoun noun) {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -12);
+		Date sixMonthsAgo = calendar.getTime();
+		String searchQuery = "";
+		searchQuery = SearchBuilder.builder()
+			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
+			.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(noun)
+				.withSearch(searchQuery)
+				.withCount("classification")
+				.withLimit(5)
+				.withContext(DataContext.ENFORCEMENT);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
 }
