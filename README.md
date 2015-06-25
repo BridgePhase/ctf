@@ -2,6 +2,8 @@
 
 Take the [CTF Application](http://bp-testdeployslb-1690116647.us-east-1.elb.amazonaws.com/ctf) for a test drive!
 
+[CTF Application - Testing Environment](http://54.175.58.210:8080/ctf) for a test drive!
+
 [![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
 
 ## Agile Delivery Services Prototype
