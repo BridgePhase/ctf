@@ -42,7 +42,7 @@ public class OpenFdaServiceTest {
 		calendar.add(Calendar.MONTH, -6);
 		Date sixMonthsAgo = calendar.getTime();
 		String expectedSearchQuery = SearchBuilder.builder()
-			.withField("distribution_pattern", "VA")
+			.withField("distribution_pattern", "nationwide VA")
 			.withExactField("status", "Ongoing")
 			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
 			.build();
