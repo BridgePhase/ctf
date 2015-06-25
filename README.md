@@ -32,7 +32,7 @@ Take the [CTF Application](http://bp-testdeployslb-1690116647.us-east-1.elb.amaz
   versions of the prototype   
 * Provided sufficient documentation to install and run their prototype on another machine   
   prototype and underlying platforms used to create and run the prototype are openly   
-  licensed and free of charge
+  licensed and free of charge - **COMPLETED @ [Getting Started](documentation/GettingStarted.md)**
 
 
 ### Technology Stack
