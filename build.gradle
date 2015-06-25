@@ -17,8 +17,8 @@ apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
 /* Project Information */
-def projectName = 'Bridgephase MVC Starter'
-def deployableName = 'BridgePhaseMVC'
+def projectName = 'Consider the following'
+def deployableName = 'ctf'
 def projectVersion = '1.0'
 
 /* This requires Java 7 */
