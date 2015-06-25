@@ -2,11 +2,8 @@
   "name": "ctf",
   "version": "0.0.1",
   "dependencies": {
-    // Our main MVC framework for the User Interface
     "angularjs": "1.3.16",
-    // Provides useful routing logic for the various URLs we support
     "angular-ui-router": "0.2.14",
-    // Neat little component that lets us display our carousel of notifications
     "angular-carousel": "~0.3.12"
   },
   "ignore": [

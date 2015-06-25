@@ -9,22 +9,13 @@
   "author": "BridgePhase LLC",
   "license": "ISC",
   "devDependencies": {
-    // our user interface dependency manager
     "bower": "^1.4.1",
-    // JavaScript task runner, helps us run our minification and concatenation 
-    // tasks
     "gulp": "^3.9.0",
-    // plugin - allow us to concatenate files in Gulp
     "gulp-concat": "^2.5.2",
-    // plugin - allows us to debug our Gulp file
     "gulp-debug": "^2.0.1",
-    // plugin - allows us to "compile"" our LESS into CSS
     "gulp-less": "^3.0.3",
-    // plugin - minimizes our JavaScript files
     "gulp-uglify": "^1.2.0",
-    // plugin - minimizes our CSS files
     "gulp-uglifycss": "^1.0.4",
-    // plugin - allows Gulp tasks to run as a sequence
     "run-sequence": "^1.1.1"
   }
 }
