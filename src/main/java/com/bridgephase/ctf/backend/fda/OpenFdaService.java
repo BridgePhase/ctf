@@ -181,4 +181,51 @@ public class OpenFdaService {
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
+	
+	public SearchCountResponse drugPurposeRoute(String purpose) {
+		String searchQuery = SearchBuilder.builder()
+				.withField("purpose", purpose)
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(DataNoun.DRUG)
+				.withSearch(searchQuery)
+				.withCount("openfda.route")
+				.withLimit(50)
+				.withContext(DataContext.LABEL);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
+	
+	public SearchCountResponse deviceEventCountByOperator(String operator) {
+		String searchQuery = SearchBuilder.builder()
+				.withField("device.device_operator", operator)
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(DataNoun.DEVICE)
+				.withSearch(searchQuery)
+				.withCount("event_type.exact")
+				.withLimit(100)
+				.withContext(DataContext.EVENT);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
+	
+	public SearchCountResponse recallClassifications(DataNoun noun) {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -12);
+		Date sixMonthsAgo = calendar.getTime();
+		String searchQuery = "";
+		searchQuery = SearchBuilder.builder()
+			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
+			.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(noun)
+				.withSearch(searchQuery)
+				.withCount("classification")
+				.withLimit(5)
+				.withContext(DataContext.ENFORCEMENT);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
 }

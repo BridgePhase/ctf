@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgephase.ctf.backend.domain.SearchCountResponse;
 import com.bridgephase.ctf.backend.domain.SearchCountResult;
+import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
+import com.bridgephase.ctf.backend.domain.enumeration.RecallClassification;
 import com.bridgephase.ctf.backend.fda.OpenFdaService;
 import com.bridgephase.ctf.model.jpa.Notification;
 import com.bridgephase.ctf.model.repository.NotificationRepository;
@@ -61,11 +63,11 @@ public class NotificationService {
 	private List<Notification> generateNotifications() {
 		List<Notification> notifications = new ArrayList<>();
 		notifications.add(drugReaction());
-		notifications.add(deviceRecall());
+		notifications.add(recallNotification(DataNoun.DEVICE));
 		notifications.add(drugLabel());
-		notifications.add(foodRecall());
+		notifications.add(recallNotification(DataNoun.FOOD));
 		notifications.add(deviceEvent());
-		notifications.add(drugRecall());
+		notifications.add(recallNotification(DataNoun.DRUG));
 		return notifications;
 	}
 	
@@ -82,61 +84,165 @@ public class NotificationService {
 				break;
 			}
 		}
-		notification.setHeadline(String.format("The most common reaction to %s is %s.", medication, reaction));
+		notification.setHeadline(String.format("The most commonly reported reaction to %s is %s.", medication, reaction));
 		return notification;
 	}
 	
 	private Notification drugLabel() {
 		Notification notification = new Notification();
-		notification.setHeadline("Of pain relievers on the market, 87% are administered topically.");
+		String purpose = randomDrugPurpose();
+		SearchCountResponse response = openFda.drugPurposeRoute(purpose);
+		List<SearchCountResult> results = response.getResults();
+		String route = "unknown";
+		int max = 0, total = 0;
+		for (SearchCountResult result : results) {
+			int current = result.getCount();
+			total += current;
+			if (current > max) {
+				max = current;
+				route = result.getTerm().toLowerCase();
+			}
+		}
+		double ratio = 100 * ((double)max / total);
+		int percent = (int)Math.floor(ratio);
+		notification.setHeadline(String.format("Of drugs with a purpose of %s, %d%% are administered via %s route.",purpose, percent, route));
 		return notification;
 	}
 	
-	private Notification drugRecall() {
+	private Notification recallNotification(DataNoun noun) {
 		Notification notification = new Notification();
-		notification.setHeadline("In the past year, 11 drugs have been recalled.");
+		RecallClassification classification = randomRecallClassification();
+		SearchCountResponse response = openFda.recallClassifications(noun);
+		List<SearchCountResult> results = response.getResults();
+		int value = 0, total = 0;
+		for (SearchCountResult result : results) {
+			String term = result.getTerm();
+			if (term.toLowerCase().equals("class")) {
+				continue;
+			}
+			int current = result.getCount();
+			if (classification.shortLabel().equals(term.toUpperCase())) {
+				value = current;
+			}
+			total += current;
+		}
+		double ratio = 100 * ((double)value / total);
+		int percent = (int)Math.floor(ratio);
+		notification.setHeadline(
+				String.format("Of the %d %s recalls initiated within the past year, %d%% are considered %s.", 
+				total, noun.toString().toLowerCase(), percent, classification.description()));
 		return notification;
 	}
 	
 	private Notification deviceEvent() {
 		Notification notification = new Notification();
-		notification.setHeadline("Two people were recently hospitalized while using beard trimmers.");
-		return notification;
-	}
-	
-	private Notification deviceRecall() {
-		Notification notification = new Notification();
-		notification.setHeadline("The most recently recalled device was the Super Soaker 5000");
-		return notification;
-	}
-	
-	private Notification foodRecall() {
-		Notification notification = new Notification();
-		notification.setHeadline("The most recently recalled food was cumin.");
+		String operator = randomDeviceOperator();
+		SearchCountResponse response = openFda.deviceEventCountByOperator(operator);
+		List<SearchCountResult> results = response.getResults();
+		String eventType = "unkown";
+		int max = 0, total = 0;
+		for (SearchCountResult result : results) {
+			int current = result.getCount();
+			total += current;
+			if (current > max) {
+				max = current;
+				eventType = result.getTerm().toLowerCase();
+			}
+		}
+		double ratio = 100 * ((double)max / total);
+		int percent = (int)Math.floor(ratio);
+		notification.setHeadline(String.format("Device events in which a %s was the operator, were reported due to %s %d%% "
+				+ "of the time.", operator, eventType, percent));
 		return notification;
 	}
 	
 	private String randomMedication() {
 		Random random = new Random();
-		int value = random.nextInt(6);
+		int value = random.nextInt(5);
 		String med = "Tylenol";
 		switch (value) {
-		case 1:
+		case 0:
 			med = "Tylenol";
 			break;
-		case 2:
-			med = "Nexium";
+		case 1:
+			med = "Robitussin";
 			break;
-		case 3:
+		case 2:
 			med = "Nyquil";
 			break;
-		case 4:
+		case 3:
 			med = "Claritin";
 			break;
-		case 5:
+		case 4:
 			med = "Tums";
 			break;
 		}
 		return med;
+	}
+	
+	private String randomDrugPurpose() {
+		Random random = new Random();
+		int value = random.nextInt(5);
+		String med = "pain relief";
+		switch (value) {
+		case 0:
+			med = "antiseptic";
+			break;
+		case 1:
+			med = "anti inflammatory";
+			break;
+		case 2:
+			med = "antihistamine";
+			break;
+		case 3:
+			med = "stimulant";
+			break;
+		case 4:
+			med = "sunscreen";
+			break;
+		}
+		return med;
+	}
+	
+	private String randomDeviceOperator() {
+		Random random = new Random();
+		int value = random.nextInt(5);
+		String med = "Dentist";
+		switch (value) {
+		case 0:
+			med = "Nurse";
+			break;
+		case 1:
+			med = "Physician";
+			break;
+		case 2:
+			med = "Biomedical engineer";
+			break;
+		case 3:
+			med = "Phlebotomist";
+			break;
+		case 4:
+			med = "Dentist";
+			break;
+		}
+		return med;
+	}
+	
+	private RecallClassification randomRecallClassification() {
+		Random random = new Random();
+		int value = random.nextInt(3);
+		RecallClassification classification = RecallClassification.CLASS_I;
+		switch (value) {
+		case 0:
+			classification = RecallClassification.CLASS_I;
+			break;
+		case 1:
+			classification = RecallClassification.CLASS_II;
+			break;
+		case 2:
+			classification = RecallClassification.CLASS_III;
+			break;
+		}
+		return classification;
 	}
 }
