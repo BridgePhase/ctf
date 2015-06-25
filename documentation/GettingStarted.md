@@ -11,7 +11,8 @@ of them:
 
 **In order to build the application, a Java Development Kit (1.7+) is required.**
 
-## Sprint Boot Gradle application <a name="sprintBootDeployment"></a>
+<a name="sprintBootDeployment"></a>
+## Sprint Boot Gradle application 
 This is by far the easiest deployment model, it's suitable for local deployments where
 you just want to get the application up and running as quick as possible.
 
@@ -22,7 +23,8 @@ you just want to get the application up and running as quick as possible.
 3. After a few seconds (more on the first run) you should see an output of 
 `Started Application in #### seconds `, you're up and running 
  
-## Runnable JAR standalone deployment <a name="jarDeployment"></a>
+<a name="jarDeployment"></a>
+## Runnable JAR standalone deployment 
 This option allows you to build a distributable `jar` file which can be run from 
 the command line.
 
@@ -38,9 +40,10 @@ the command line.
 6. After a few seconds you should see an output of 
 `Started Application in #### seconds `, you're up and running 
 
-## WAR file on a Java container <a name="warDeployment"></a>
+<a name="warDeployment"></a>
+## WAR file on a Java container 
 This option allows you to build a distributable `war` file which can be run on a
-Java Container server (for example Tomcat)
+Java container (for example Tomcat)
 
 1. Clone the repository and open a terminal window
 2. From the repository directory (defaults to `ctf`) run:
