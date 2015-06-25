@@ -2,13 +2,17 @@ package com.bridgephase.ctf.backend.notifications;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bridgephase.ctf.backend.domain.SearchCountResponse;
+import com.bridgephase.ctf.backend.domain.SearchCountResult;
 import com.bridgephase.ctf.backend.fda.OpenFdaService;
 import com.bridgephase.ctf.model.jpa.Notification;
 import com.bridgephase.ctf.model.repository.NotificationRepository;
@@ -38,8 +42,11 @@ public class NotificationService {
 	@Transactional
 	public void updateNotifications() {
 		logger.info("Updating notifications.");
-		repository.deleteAll();
 		List<Notification> notifications = generateNotifications();
+		// Only remove the existing notifications is new ones are generated.
+		if (!notifications.isEmpty()) {
+			repository.deleteAll();
+		}
 		repository.save(notifications);
 	}
 	
@@ -47,7 +54,7 @@ public class NotificationService {
 		logger.info("No notifications were available. Attempting to update.");
 		updateNotifications();
 		List<Notification> items = repository.findAll();
-		logger.info(String.format("%s notifications were retrieved.", items.size()));
+		logger.info(String.format("%s notifications were added.", items.size()));
 		return items;
 	}
 	
@@ -64,7 +71,18 @@ public class NotificationService {
 	
 	private Notification drugReaction() {
 		Notification notification = new Notification();
-		notification.setHeadline("The most common reaction to Tylenol is nausea.");
+		String medication = randomMedication();
+		SearchCountResponse response = openFda.mostCommonReactionTypes(medication);
+		List<SearchCountResult> results = response.getResults();
+		String reaction = "happiness";
+		for (SearchCountResult result : results) {
+			String text = result.getTerm();
+			if (!StringUtils.isEmpty(text)) {
+				reaction = text.toLowerCase();
+				break;
+			}
+		}
+		notification.setHeadline(String.format("The most common reaction to %s is %s.", medication, reaction));
 		return notification;
 	}
 	
@@ -96,5 +114,29 @@ public class NotificationService {
 		Notification notification = new Notification();
 		notification.setHeadline("The most recently recalled food was cumin.");
 		return notification;
+	}
+	
+	private String randomMedication() {
+		Random random = new Random();
+		int value = random.nextInt(6);
+		String med = "Tylenol";
+		switch (value) {
+		case 1:
+			med = "Tylenol";
+			break;
+		case 2:
+			med = "Nexium";
+			break;
+		case 3:
+			med = "Nyquil";
+			break;
+		case 4:
+			med = "Claritin";
+			break;
+		case 5:
+			med = "Tums";
+			break;
+		}
+		return med;
 	}
 }

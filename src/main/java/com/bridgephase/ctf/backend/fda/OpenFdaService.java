@@ -14,6 +14,7 @@ import com.bridgephase.ctf.backend.domain.DrugEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
+import com.bridgephase.ctf.backend.domain.SearchCountResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
@@ -165,5 +166,19 @@ public class OpenFdaService {
 			.withLimit(100)
 			.withContext(DataContext.EVENT);
 		return restOperations.getForObject(builder.buildUri(), DrugEventResponse.class);
+	}
+	
+	public SearchCountResponse mostCommonReactionTypes(String medication) {
+		String searchQuery = SearchBuilder.builder()
+				.withField("patient.drug.medicinalproduct", medication)
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+				.withDataNoun(DataNoun.DRUG)
+				.withSearch(searchQuery)
+				.withCount("patient.reaction.reactionmeddrapt.exact")
+				.withLimit(50)
+				.withContext(DataContext.EVENT);
+			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
 }
