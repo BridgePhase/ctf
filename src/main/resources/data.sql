@@ -1,1 +1,2 @@
-insert into person values(1, 'Jaime', 'Garcia');
+/* Sample script */
+/* insert into person values(1, 'Jaime', 'Garcia'); */

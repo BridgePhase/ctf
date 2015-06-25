@@ -18,7 +18,7 @@ public final class Cron {
 	
 	@Scheduled(cron = "${cron_notifications:0 * * * * *}")
 	public void updateNotifications() {
-		logger.info("Updating notifications.");
+		logger.info("Cron task initiated.");
 		notificationService.updateNotifications();
 	}
 }
