@@ -22,7 +22,7 @@
 @midnight-color: #052090;
 
 html, body {
-	background: #eee;;
+	background: lighten(#FECB6E, 20%);
 	height: 100%;	
 }
 
@@ -48,6 +48,11 @@ h1 {
 
 h2 {
 	color: @midnight-color;
+	
+	&.caption {
+		margin-bottom: 0.1em;
+		text-align: center;
+	}
 }
 
 h3, h4 {
@@ -156,6 +161,7 @@ strong {
 	margin: @section-padding;	
 }
 
+
 .section {
 	padding: @section-padding;
 	background: white;
@@ -205,9 +211,6 @@ strong {
 	}
 }
 
-.button-remove:visited
-
-
 /* Functionality specific */
 .starship {
 	font-size: @headline-font-size;
@@ -251,6 +254,44 @@ strong {
 		-webkit-overflow-scrolling: touch;
 		overflow-y: auto;
 		border-bottom: 1px solid #ddd;
+	}
+}
+
+.big-search {
+	display:table;
+	width:100%;
+	height:200px;
+	background: lighten(@banner-background-color, 10%);
+	color: white;
+	
+	.cell-container {
+		display:table-cell;
+		vertical-align:middle;
+	}
+	
+	.search-field {
+		
+		input {
+			width: 90%;
+			border-radius: 0;
+			color: black;
+			border: 0;
+			margin: 0;
+		}
+		
+		button {
+			border-radius: 0;
+			margin: 0;
+			position: relative;
+			border-left: 1px solid #aaa;
+			left: -1 * @default-padding;
+		}
+		
+	}
+	
+	label {
+		font-size: 2 * @font-size;
+		text-shadow: 0px 1px 1px #333;
 	}
 }
 
@@ -334,6 +375,10 @@ strong {
 	width: 50%;
 }
 
+.w-100pc {
+	width: 100%;
+}
+
 .inline-block {
 	display: inline-block !important;
 }
@@ -382,6 +427,15 @@ strong {
 	left: -9999px;
 }
 
+.sr-only {
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+
 @media screen and (max-width: 768px) {
 	body {
 		font-size: 14px;
@@ -416,23 +470,33 @@ strong {
 	}
 	
 	.big-icon {
-	text-align: center;
-	padding: @section-padding;
-	
-	a.fa {
-		display: inline-block;
-		width: @icon-width;
-		height: @icon-width;
-		line-height: @icon-width;
-		color: @icon-text-color;
-		border-radius: 100%;
-		font-size: 3.5em;
-		cursor: pointer;
+		text-align: center;
+		padding: @section-padding;
 		
-		&:hover, &:focus {
-			opacity: 0.75;
-			filter: alpha(opacity=75);
+		a.fa {
+			display: inline-block;
+			width: @icon-width;
+			height: @icon-width;
+			line-height: @icon-width;
+			color: @icon-text-color;
+			border-radius: 100%;
+			font-size: 3.5em;
+			cursor: pointer;
+			
+			&:hover, &:focus {
+				opacity: 0.75;
+				filter: alpha(opacity=75);
+			}
 		}
+	
 	}
+	.big-search .search-field {
+		input {
+			display: inline-block;
+			width: 80%;
+		}
+		button {
+			margin-top: @default-padding;
+		}
 }
 }
