@@ -28,7 +28,7 @@ public final class Cron {
 		notificationService.updateNotifications();
 	}
 
-	@Scheduled(cron = "${cron_notifications:0 * * * * *}")
+	@Scheduled(cron = "${cron_cache_clear:0 * * * * *}")
 	public void clearCache() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -1);
