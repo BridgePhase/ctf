@@ -31,7 +31,8 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 	"com.bridgephase.ctf.model",
 	"com.bridgephase.ctf.backend.fda",
 	"com.bridgephase.ctf.backend.notifications",
-	"com.bridgephase.ctf.backend.task"
+	"com.bridgephase.ctf.backend.task",
+	"com.bridgephase.ctf.backend.cache"
 })
 @EnableTransactionManagement
 public class ModelConfiguration {

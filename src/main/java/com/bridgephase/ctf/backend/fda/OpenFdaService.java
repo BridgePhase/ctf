@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -35,7 +36,7 @@ public class OpenFdaService {
 	public OpenFdaService(
 		@Value("${com.bridgephase.ctf.fdaProtocol}") String protocol,
 		@Value("${com.bridgephase.ctf.fdaHost}") String host,
-		RestOperations restTemplate) {
+		@Qualifier("CachedRestOperations") RestOperations restTemplate) {
 		this.fdaProtocol = Protocol.valueOf(protocol.toUpperCase());
 		this.fdaHost = host;
 		this.restOperations = restTemplate;

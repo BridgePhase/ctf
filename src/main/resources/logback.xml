@@ -4,4 +4,5 @@ framework, so we're still going to use it here -->
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="org.springframework.web" level="WARN"/>
+    <logger name="com.bridgephase.ctf" level="INFO"/>
 </configuration>
