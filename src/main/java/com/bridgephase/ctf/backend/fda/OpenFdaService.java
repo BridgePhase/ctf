@@ -1,5 +1,6 @@
 package com.bridgephase.ctf.backend.fda;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
@@ -15,6 +17,7 @@ import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
 import com.bridgephase.ctf.backend.domain.SearchCountResponse;
+import com.bridgephase.ctf.backend.domain.SearchCountResult;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
@@ -226,6 +229,30 @@ public class OpenFdaService {
 				.withCount("classification")
 				.withLimit(5)
 				.withContext(DataContext.ENFORCEMENT);
-			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+		return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
+	}
+	
+	public SearchCountResponse adverseDrugEventsByTypeGroupBy(String drug, String effect) {
+		String searchQuery = SearchBuilder.builder()
+			.withField("patient.drug.medicinalproduct", drug)
+			.withField("patient.patientonsetageunit", "801")
+			.withField(effect, "1")
+			.build();
+		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
+			.withDataNoun(DataNoun.DRUG)
+			.withContext(DataContext.EVENT)
+			.withSearch(searchQuery)
+			.withCount("patient.patientonsetage")
+			.withLimit(100);
+		SearchCountResponse response = new SearchCountResponse();
+		try {
+			response = restOperations.getForObject(builder.buildUri(), SearchCountResponse.class); 
+		} catch (HttpClientErrorException e) {
+			// some error happened
+			List<SearchCountResult> results = new ArrayList<SearchCountResult>();
+			response.setResults(results);
+			e.printStackTrace();
+		}
+		return response;
 	}
 }
