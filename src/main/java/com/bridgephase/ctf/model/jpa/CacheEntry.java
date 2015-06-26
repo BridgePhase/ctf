@@ -2,6 +2,7 @@ package com.bridgephase.ctf.model.jpa;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -10,6 +11,8 @@ import javax.persistence.Lob;
 public class CacheEntry {
 
 	@Id
+	@Column(
+		length=1024)
 	private String key;
 	
 	@Lob

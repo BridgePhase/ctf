@@ -1,5 +1,6 @@
 package com.bridgephase.ctf.view.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,9 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
@@ -44,9 +44,13 @@ public class QueryController {
 		return openFda.deviceDeathRecallEvent();
 	}
 	
-	@RequestMapping(value = "/api/drug/search", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/drug/search")
 	@ResponseBody
-	public FdaApiResponse searchDrugs(@RequestBody List<String> medications) {
+	public FdaApiResponse searchDrugs(@RequestParam("medications") String query) {
+		List<String> medications = new ArrayList<String>();
+		for (String med : query.split(",")) {
+			medications.add(med.trim());
+		}
 		return openFda.searchAdverseDrugEvents(medications);
 	}
 	
@@ -64,22 +68,27 @@ public class QueryController {
 		return notificationService.getNotifications();
 	}
 	
-	@RequestMapping(value = "/api/drug/{medication}/stats")
+	@RequestMapping(value = "/api/drug/stats")
 	@ResponseBody
-	public Map<String, AgeGroupCountSummary> countAdverseEffects(@PathVariable("medication") String medication) {
+	public Map<String, AgeGroupCountSummary> countAdverseEffects(
+		@RequestParam("medications") String medication) {
 		Map<String, AgeGroupCountSummary> response = new HashMap<String, AgeGroupCountSummary>();
+		List<String> medications = new ArrayList<String>();
+		for (String med : medication.split(",")) {
+			medications.add(med.trim());
+		}
 		response.put("deaths", 
-			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medication, "seriousnessdeath")));
+			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medications, "seriousnessdeath")));
 		response.put("congenital", 
-			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medication, "seriousnesscongenitalanomali")));
+			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medications, "seriousnesscongenitalanomali")));
 		response.put("disabling", 
-			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medication, "seriousnessdisabling")));
+			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medications, "seriousnessdisabling")));
 		response.put("hospitalization", 
-			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medication, "seriousnesshospitalization")));
+			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medications, "seriousnesshospitalization")));
 		response.put("threatening", 
-			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medication, "seriousnesslifethreatening")));
+			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medications, "seriousnesslifethreatening")));
 		response.put("other", 
-			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medication, "seriousnessother")));
+			toCountSummary(openFda.adverseDrugEventsByTypeGroupBy(medications, "seriousnessother")));
 		return response;
 	}
 	

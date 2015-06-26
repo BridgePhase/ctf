@@ -1,28 +1,35 @@
 <div data-ng-controller="MedicineController as medicine">
 	<div class="pure-g">
+		<div class="pure-u-1 big-search">
+			<div class="bp-center big-search">
+				<div class="cell-container">
+					<form class="pure-form" >
+						<label>Search adverse events involving medications</label>
+						<div class="pure-g">
+							<div class="pure-u-1 search-field">
+								<input type="search" data-ng-model="medicine.searchQuery"
+									autofocus="true"								
+									style="width:90%; margin-right: 0" 
+									placeholder="Enter medication names, separated by commas"/>
+								<button class="pure-button" data-ng-click="medicine.search()"
+									style="margin-left: 0"
+									>Search</button>
+						</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		<div class="pure-u-1 section">
-			<h2>Should see a chart here</h2>
-			<div id="chart"></div>
+			<a id="chartSection"></a>
+			<h2 class="caption">Adverse events reported in which the patient took {{medicine.searchQuery}}</h2>
+			<div class="blab">
+				<div id="chart"></div>
+			</div>
 		</div>
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="section">
 				<h2>What medicines are you taking?</h2>
-				<div class="pure-form pure-form-aligned">
-					<fieldset>
-						<div class="pure-control-group" data-ng-repeat="medication in medicine.medications">
-							<label for="medicine{{$index + 1}}">Medication {{$index + 1}}:</label>
-							<input class="inline-block" id="medicine{{$index + 1}}" type="text" data-ng-model="medication.input"/>
-							<a href="" data-ng-if="$index != 0" 							
-								data-ng-click="medicine.removeMedication($index)" title="Remove medication {{$index + 1}}" 
-								class="link-button button-remove fa fa-times"></a>
-						</div>
-						<a href="" data-ng-click="medicine.addMedication()">Add another medication</a>
-						<div class="pure-u-1">
-							<hr />
-							<button data-ng-click="medicine.search()" class="pure-button pure-button-primary">Search</button>
-						</div>
-					</fieldset>
-				</div>
 				<div data-ng-if="medicine.adverseEventMetadata" >
 					<div class="list-container">
 						<div class="pure-g list">

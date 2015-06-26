@@ -233,12 +233,15 @@ public class OpenFdaService {
 		return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
 	
-	public SearchCountResponse adverseDrugEventsByTypeGroupBy(String drug, String effect) {
-		String searchQuery = SearchBuilder.builder()
-			.withField("patient.drug.medicinalproduct", drug)
-			.withField("patient.patientonsetageunit", "801")
-			.withField(effect, "1")
-			.build();
+	public SearchCountResponse adverseDrugEventsByTypeGroupBy(List<String> drugs, String effect) {
+		SearchBuilder searchBuilder = SearchBuilder.builder();
+		for (String drug : drugs) {
+			searchBuilder.withField("patient.drug.medicinalproduct", drug);
+		}
+		searchBuilder.withField("patient.patientonsetageunit", "801")
+			.withField(effect, "1");
+		String searchQuery = searchBuilder.build();
+		
 		RequestBuilder builder = RequestBuilder.builder(fdaProtocol, fdaHost)
 			.withDataNoun(DataNoun.DRUG)
 			.withContext(DataContext.EVENT)
