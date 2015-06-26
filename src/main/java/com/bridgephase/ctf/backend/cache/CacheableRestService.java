@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class CacheableRestService extends RestTemplate implements CacheService {
 	private CacheEntryRepository repo;
 	
 	@Autowired
+	@Qualifier("ArrayAwareConverter")
 	private MappingJackson2HttpMessageConverter converter;
 	
 	@Override
@@ -47,7 +49,7 @@ public class CacheableRestService extends RestTemplate implements CacheService {
 
 		if (entry == null) {
 			logger.info("Serving real response for {}", url);
-			response = super.getForObject(url, responseType);
+			response = operations.getForObject(url, responseType);
 			entry = new CacheEntry();
 			entry.setKey(url.toString());
 			ObjectMapper mapper = converter.getObjectMapper();
@@ -69,7 +71,7 @@ public class CacheableRestService extends RestTemplate implements CacheService {
 				return mapper.readValue(json, responseType);
 			} catch (IOException e) {
 				logger.warn("Failed to return cached entry for {}, returning real response instead", url);
-				return super.getForObject(url, responseType);
+				return operations.getForObject(url, responseType);
 			}
 		}
 		return response; 

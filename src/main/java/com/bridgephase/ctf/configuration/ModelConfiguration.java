@@ -77,7 +77,7 @@ public class ModelConfiguration {
 	    return jtx;
     }
 	
-	@Bean
+	@Bean(name="ArrayAwareConverter")
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 		MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
 		ObjectMapper objectMapper = new ObjectMapper();
