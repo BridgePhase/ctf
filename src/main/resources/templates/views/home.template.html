@@ -39,13 +39,16 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 	<link th:if="${!production}" rel="stylesheet" type="text/css" href="styles/angular-carousel.css" />
 	<link th:if="${!production}" rel="stylesheet/less" type="text/css" href="styles/ctf.less" />
 	<script th:if="${!production}" src="webjars/less/2.5.0/less.js" type="text/javascript"></script>
+
+	<link th:if="${!production}" rel="stylesheet" href="styles/font-awesome.css"/>
+	<link th:if="${!production}" rel='stylesheet' type='text/css' href="styles/google-fonts.css"/>
 	
 	<!-- For production we minimize,-->
 	<script th:if="${production}" src="ctf-app.js"></script>
 	<link th:if="${production}" rel="stylesheet" type="text/css" href="ctf-styles.css" />
 
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
-	<link href='http://fonts.googleapis.com/css?family=Lato|Orbitron' rel='stylesheet' type='text/css' />
+	<link th:if="${production}" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+	<link th:if="${production}" href='http://fonts.googleapis.com/css?family=Lato:300,400|Orbitron' rel='stylesheet' type='text/css' />
 </head>
 <body class="bp">	
 	<div id="pageTemplate" class="main-content" data-ui-view=""></div>	
@@ -56,9 +59,9 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 				using data from <a href="https://open.fda.gov">open.fda.gov</a> 
 			</div>
 			<div class="pure-u-1-2">
-			    <div class="pure-u-1-4">Visit us on <a target="_blank" href="https://github.com/BridgePhase/ctf">Github</a></div>
-				<div class="pure-u-1-4"><a href="#">About the project</a></div>
-				<div class="pure-u-1-4"><a href="#">Team members</a></div>
+			    <div class="pure-u-1 pure-u-md-1-4">Visit us on <a target="_blank" href="https://github.com/BridgePhase/ctf">Github</a></div>
+				<div class="pure-u-1 pure-u-md-1-4"><a href="#">About the project</a></div>
+				<div class="pure-u-1 pure-u-md-1-4"><a href="#">Team members</a></div>
 			</div>
 		</div>
 		<div class="version" th:if="${production}">

@@ -1,18 +1,19 @@
 package com.bridgephase.ctf.configuration;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -28,7 +29,9 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 @EnableJpaRepositories(basePackages = { "com.bridgephase.ctf.model.repository" })
 @ComponentScan(basePackages = { 
 	"com.bridgephase.ctf.model",
-	"com.bridgephase.ctf.backend.fda"
+	"com.bridgephase.ctf.backend.fda",
+	"com.bridgephase.ctf.backend.notifications",
+	"com.bridgephase.ctf.backend.task"
 })
 @EnableTransactionManagement
 public class ModelConfiguration {
@@ -43,9 +46,10 @@ public class ModelConfiguration {
 
 	@Bean
 	public DataSource dataSource() {
-		final EmbeddedDatabaseBuilder embeddedDatabaseBuilder = new EmbeddedDatabaseBuilder();
-		embeddedDatabaseBuilder.setType(EmbeddedDatabaseType.H2);
-		return embeddedDatabaseBuilder.build();
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("org.h2.Driver");
+		dataSource.setUrl("jdbc:h2:~/ctf/data");
+		return dataSource;
 	}
 
 	@Bean
@@ -62,12 +66,15 @@ public class ModelConfiguration {
 		return localContainerEntityManagerFactoryBean;
 	}
 
-	@Autowired
-	@Bean(name = "transactionManager")
-	public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
-		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
-		return transactionManager;
-	}
+    @Primary
+    @Autowired
+	@Bean(name="transactionManager")
+    public JpaTransactionManager getTransactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf){
+	    JpaTransactionManager jtx = new JpaTransactionManager();
+	    jtx.setEntityManagerFactory(emf);
+	    jtx.afterPropertiesSet();
+	    return jtx;
+    }
 	
 	@Bean
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {

@@ -25,6 +25,7 @@ public class RequestBuilder {
 	private String format = ".json";
 	private String noun;
 	private String search = "";
+	private String count = "";
 	private int limit = 1;
 	
 	protected RequestBuilder(Protocol protocol, String host) {
@@ -56,6 +57,16 @@ public class RequestBuilder {
 		return this;
 	}
 	
+	public RequestBuilder withCount(String count) {
+		this.count = count;
+		return this;
+	}
+	
+	public RequestBuilder withCountExact(String count) {
+		this.count = count + ".exact";
+		return this;
+	}
+	
 	public RequestBuilder withLimit(int limit) {
 		this.limit = limit;
 		return this;
@@ -71,6 +82,8 @@ public class RequestBuilder {
 			.append("?").append("api_key=").append(KeyStore.API)
 			.append("&search=")
 			.append(search)
+			.append("&count=")
+			.append(count)
 			.append("&limit=" + limit);
 		
 		logger.debug("Request string generated: " + builder.toString());

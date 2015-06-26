@@ -1,25 +1,20 @@
-function HomeController() {
+function HomeController($http) {
 	var that = this;
 	
 	that.notificationIndex = 0;
 	
-	that.notifications = [
-		{
-			text: "In February 2015, there were 190 reports of recalls on ice cream"
-		},
-		{
-			text: "notification II"	
-		},
-		{
-			text: "notification tres"	
-		},
-		{
-			text: "notification 4"	
-		},
-	];
+	that.notifications = [];
+	
+	$http.get("/ctf/app/notifications").then(function(response) {
+		notifications = response.data;
+		for (var i = 0; i < notifications.length; i++) {
+			that.notifications.push({ text: notifications[i].headline });
+		}
+	});
+	
 	document.title = 'Consider the following';
 }
 
-HomeController.$inject = [];
+HomeController.$inject = ['$http'];
 
 angular.module('ctf').controller('HomeController', HomeController);
