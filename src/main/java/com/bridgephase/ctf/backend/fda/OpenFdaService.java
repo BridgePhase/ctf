@@ -154,7 +154,7 @@ public class OpenFdaService {
 	public DrugEventResponse searchAdverseDrugEvents(List<String> medications) {
 		Calendar calendar = Calendar.getInstance();
 		Date today = calendar.getTime();
-		calendar.add(Calendar.YEAR, -1);
+		calendar.add(Calendar.MONTH, -6);
 		Date oneYearAgo = calendar.getTime();
 		String searchQuery = "";
 		SearchBuilder searchBuilder = SearchBuilder.builder();

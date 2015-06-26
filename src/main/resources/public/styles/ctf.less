@@ -470,23 +470,33 @@ strong {
 	}
 	
 	.big-icon {
-	text-align: center;
-	padding: @section-padding;
-	
-	a.fa {
-		display: inline-block;
-		width: @icon-width;
-		height: @icon-width;
-		line-height: @icon-width;
-		color: @icon-text-color;
-		border-radius: 100%;
-		font-size: 3.5em;
-		cursor: pointer;
+		text-align: center;
+		padding: @section-padding;
 		
-		&:hover, &:focus {
-			opacity: 0.75;
-			filter: alpha(opacity=75);
+		a.fa {
+			display: inline-block;
+			width: @icon-width;
+			height: @icon-width;
+			line-height: @icon-width;
+			color: @icon-text-color;
+			border-radius: 100%;
+			font-size: 3.5em;
+			cursor: pointer;
+			
+			&:hover, &:focus {
+				opacity: 0.75;
+				filter: alpha(opacity=75);
+			}
 		}
+	
 	}
+	.big-search .search-field {
+		input {
+			display: inline-block;
+			width: 80%;
+		}
+		button {
+			margin-top: @default-padding;
+		}
 }
 }

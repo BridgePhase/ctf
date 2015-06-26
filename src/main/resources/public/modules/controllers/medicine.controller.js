@@ -4,12 +4,15 @@ function MedicineController($scope, $timeout, MedicineService) {
 	var that = this;
 	
 	that.currentIndex = 1;
-	that.adverseEventMetadata = null;
-	that.adverseEvents = [];
 	that.searchQuery = '';
+	that.resultsAvailable = null;
+	that.finalQuery = '';
 	
 	that.search = function() {
+		that.resultsAvailable = false;
 		MedicineService.drugCount(that.searchQuery).then(function(results) {
+			that.resultsAvailable = true
+			that.finalQuery = that.searchQuery;
 			displayChart(results);
 		});
 		MedicineService.search(that.searchQuery).then(function(results) {
@@ -45,7 +48,11 @@ function MedicineController($scope, $timeout, MedicineService) {
 	
 	function displayChart(result) {
 		$timeout(function() {
-			window.chart = c3.generate({
+			if (that.chart) {
+				that.chart.destroy();
+			}
+			
+			that.chart = c3.generate({
 			    data: {
 			        columns: [
 			            buildUpData(result.deaths, 'Death'),
@@ -90,9 +97,8 @@ function MedicineController($scope, $timeout, MedicineService) {
 					right: 10,
 					bottom: 10
 				},
-			    bindto: '#chart',
+				bindTo: '#chart'
 			});
-			
 			gotoElement('chartSection');
 		}, 0);
 	};

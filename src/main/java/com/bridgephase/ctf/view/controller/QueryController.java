@@ -7,13 +7,17 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.FdaApiResponse;
+import com.bridgephase.ctf.backend.domain.Meta;
+import com.bridgephase.ctf.backend.domain.MetaResult;
 import com.bridgephase.ctf.backend.domain.SearchCountResponse;
 import com.bridgephase.ctf.backend.domain.SearchCountResult;
 import com.bridgephase.ctf.backend.domain.dto.AgeGroupCountSummary;
@@ -98,5 +102,19 @@ public class QueryController {
 			r.add(result.getTerm(), result.getCount());
 		}
 		return r;
+	}
+	
+	@ExceptionHandler(HttpClientErrorException.class)
+	@ResponseBody
+	public FdaApiResponse handleErrors(Exception e) {
+		// this exception is usually caused because OpenFDA sends us a
+		// 404 error which shouldn't be the case it should return 
+		// a 200 with an appropriately empty result set
+		FdaApiResponse response = new FdaApiResponse();
+		Meta meta = new Meta();
+		meta.setResults(new MetaResult());
+		meta.getResults().setTotal(0);
+		response.setMeta(meta);
+		return response;
 	}
 }
