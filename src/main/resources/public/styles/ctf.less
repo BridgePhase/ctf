@@ -242,6 +242,23 @@ strong {
 	text-align: center;
 }
 
+.bio {
+	text-align: center;
+	margin-bottom: 2em;
+	.name {
+		display: block;
+	}
+	
+	.title {
+		margin: 0.1em 0;
+	}
+		
+	img {
+		max-width: 250px;
+		width: 100%;
+	}
+	
+}
 
 /* Functionality specific */
 .starship {
@@ -569,9 +586,19 @@ strong {
 	.rn-carousel-control.rn-carousel-control-prev,
 	.rn-carousel-control.rn-carousel-control-next {
 		font-size: 1em;
-	}
+	}	
 }
 
+@media screen and (max-width: 568px) {
+	.bio {
+	text-align: center;
+	
+	img {
+		width: 80%;
+	}
+}
+	
+}
 
 @media screen and (max-width: 414px) {
 	.big-search .search-field button {

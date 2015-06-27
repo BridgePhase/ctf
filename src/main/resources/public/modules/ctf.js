@@ -22,6 +22,9 @@ angular.module('ctf', [ 'ui.router', 'angular-carousel' ]).config(
 			controller: ['$state', '$stateParams', function($state, $stateParams) {
 				$state.go('noun.' + $stateParams.noun);
 			}]
+		}).state('aboutUs', {
+			url: '/aboutus',
+			templateUrl: 'partials/about' 
 		}).state('noun.food', {
 			templateUrl: 'partials/food'
 		}).state('noun.medicine', {
