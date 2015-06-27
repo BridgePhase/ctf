@@ -19,4 +19,12 @@ public enum RecallClassification {
 	public String shortLabel() { return shortLabel; }
 	public String description() { return description; }
 
+	public static RecallClassification parse(String key) {
+		for (RecallClassification e : RecallClassification.values()) {
+			if (e.label().equalsIgnoreCase(key)) {
+				return e;
+			}
+		}
+		return null;
+	}
 }
