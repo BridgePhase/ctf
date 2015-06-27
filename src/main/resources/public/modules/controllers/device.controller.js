@@ -20,14 +20,13 @@ function DeviceController($scope, $timeout, DeviceService) {
 		that.selectedEvent = event;
 		
 		that.selectedEventNarrative = '';
-		console.log(event);
 		for (var i = 0; i < event.mdr_text.length; i++) {
 			var mdr = event.mdr_text[i];
 			if (mdr.text_type_code.indexOf('Description') >= 0) {
 				that.selectedEventNarrative = mdr.text;
 			}
 		}
-		window.scroll(0, document.getElementById("resultsSection").offsetTop);
+		gotoElement('resultsSection');
 	}
 	
 	
