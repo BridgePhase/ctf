@@ -19,4 +19,4 @@ _Consider the Following_ uses 2 AWS EC2 instances for the production (`master`) 
 
 Our deployments were created through AWS Code Deploy by setting up two deployment groups (one for production, one for our staging). In order to prevent downtime to our application during a production deployment, the production deploy group is configured to deploy to half our instances at a time (since we only have 2, it deploys to one at a time). The 2 production EC2 instances are load balanced so that during deployments, the production application can remain alive. 
 
-Following this strategy, we are able to have deployments to our production environment in an average of 6 minutes from a merge into the `master` branch.
+Following this strategy, we are able to have deployments to our production environment in an average of 6 minutes from a merge into the `master` branch.  
