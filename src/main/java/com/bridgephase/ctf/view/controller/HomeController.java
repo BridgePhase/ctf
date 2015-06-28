@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Jaime Garcia
  */
 @Controller
-public class HomeController {
+public class HomeController implements ErrorController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Value("${production:false}")
@@ -97,15 +97,19 @@ public class HomeController {
 		return "modules/" + partial;
 	}
 	
-	@ExceptionHandler(Exception.class)
-	@ResponseBody
-	public ModelAndView handleError(HttpServletRequest req, Exception exception) {
-	    logger.error("Request: " + req.getRequestURL() + " raised " + exception);
-
+	@RequestMapping("/error")
+	public ModelAndView handleError(HttpServletRequest request) {
+		logger.error("Did not find the address being requested, returning an error page: {}", request.getRequestURL());
 	    ModelAndView mav = new ModelAndView();
-	    mav.addObject("exception", exception);
-	    mav.addObject("url", req.getRequestURL());
+	    mav.addObject("version", version());
+		mav.addObject("production", Boolean.parseBoolean(inProduction));
 	    mav.setViewName("errorpage");
 	    return mav;
-	  }
 	}
+	
+	@Override
+	public String getErrorPath() {
+		return "/errorpage";
+	}
+
+}
