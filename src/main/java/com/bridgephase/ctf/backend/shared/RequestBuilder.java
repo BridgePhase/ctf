@@ -62,11 +62,6 @@ public class RequestBuilder {
 		return this;
 	}
 	
-	public RequestBuilder withCountExact(String count) {
-		this.count = count + ".exact";
-		return this;
-	}
-	
 	public RequestBuilder withLimit(int limit) {
 		this.limit = limit;
 		return this;

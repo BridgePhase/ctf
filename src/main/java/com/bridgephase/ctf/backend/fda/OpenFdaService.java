@@ -118,7 +118,7 @@ public class OpenFdaService {
 			RequestBuilder.builder(fdaProtocol, fdaHost)
 				.withDataNoun(noun)
 				.withContext(DataContext.ENFORCEMENT)
-				.build(),
+				.buildUri(),
 			EnforcementReportResponse.class);
 	}
 	
@@ -127,7 +127,7 @@ public class OpenFdaService {
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DRUG)
 					.withContext(DataContext.LABEL)
-					.build(),
+					.buildUri(),
 				DrugLabelResponse.class);
 	}
 	
@@ -136,7 +136,7 @@ public class OpenFdaService {
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DRUG)
 					.withContext(DataContext.EVENT)
-					.build(),
+					.buildUri(),
 				DrugEventResponse.class);
 	}
 	
@@ -145,7 +145,7 @@ public class OpenFdaService {
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DEVICE)
 					.withContext(DataContext.EVENT)
-					.build(),
+					.buildUri(),
 				DeviceEventResponse.class);
 	}
 	

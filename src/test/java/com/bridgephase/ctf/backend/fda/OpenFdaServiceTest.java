@@ -1,11 +1,9 @@
 package com.bridgephase.ctf.backend.fda;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -15,15 +13,22 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.web.client.RestOperations;
 
+import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugEventResponse;
+import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
 import com.bridgephase.ctf.backend.domain.EnforcementReport;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
+import com.bridgephase.ctf.backend.domain.SearchCountResponse;
+import com.bridgephase.ctf.backend.domain.SearchCountResult;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
+import com.bridgephase.ctf.backend.domain.enumeration.RecallClassification;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -31,6 +36,9 @@ public class OpenFdaServiceTest {
 
 	private static final String TEST_PROTOCOL = "http";
 	private static final String TEST_HOST = "test.fda.gov";
+	
+	@Rule
+	public ExpectedException thrown= ExpectedException.none();
 	
 	private OpenFdaService service;
 	private RestOperations mockRest;
@@ -126,6 +134,149 @@ public class OpenFdaServiceTest {
 			expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery), DrugEventResponse.class);
 	}
 	
+	@Test
+	public void testDeviceDeathRecallEvent() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -12);
+		Date sixMonthsAgo = calendar.getTime();
+		String expectedSearchQuery = "";
+		expectedSearchQuery = SearchBuilder.builder()
+			.withField("remedial_action", "Recall")
+			.withField("event_type", "Death")
+			.withDateRangeField("date_of_event", sixMonthsAgo, today)
+			.build();
+		
+		service.deviceDeathRecallEvent();
+		
+		verify(mockRest).getForObject(
+				expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery), 
+				DeviceEventResponse.class);
+	}
+	
+	@Test
+	public void testLatest() {
+		service.latest(DataNoun.DRUG, DataContext.EVENT);
+		service.latest(DataNoun.DRUG, DataContext.LABEL);
+		service.latest(DataNoun.DRUG, DataContext.ENFORCEMENT);
+		
+		service.latest(DataNoun.DEVICE, DataContext.EVENT);
+		thrown.expect(IllegalArgumentException.class); // Next invocation should throw
+		service.latest(DataNoun.DEVICE, DataContext.LABEL);
+		service.latest(DataNoun.DEVICE, DataContext.ENFORCEMENT);
+		
+		thrown.expect(IllegalArgumentException.class); // Next invocation should throw
+		service.latest(DataNoun.FOOD, DataContext.EVENT);
+		thrown.expect(IllegalArgumentException.class); // Next invocation should throw
+		service.latest(DataNoun.FOOD, DataContext.LABEL);
+		service.latest(DataNoun.FOOD, DataContext.ENFORCEMENT);
+	}
+	
+	@Test
+	public void testEnforcement() {
+		for (DataNoun noun : DataNoun.values()) {
+			service.enforcement(noun);
+			verify(mockRest).getForObject(
+					expectUrl(noun, DataContext.ENFORCEMENT, "", 1, ""), 
+					EnforcementReportResponse.class);
+		}
+	}
+	
+	@Test
+	public void testDrugLabel() {
+			service.drugLabel();
+			verify(mockRest).getForObject(
+					expectUrl(DataNoun.DRUG, DataContext.LABEL, "", 1, ""), 
+					DrugLabelResponse.class);
+	}
+	
+	@Test
+	public void testDrugEvent() {
+			service.drugEvent();
+			verify(mockRest).getForObject(
+					expectUrl(DataNoun.DRUG, DataContext.EVENT, "", 1, ""), 
+					DrugEventResponse.class);
+	}
+	
+	@Test
+	public void testDeviceEvent() {
+			service.deviceEvent();
+			verify(mockRest).getForObject(
+					expectUrl(DataNoun.DEVICE, DataContext.EVENT, "", 1, ""), 
+					DeviceEventResponse.class);
+	}
+	
+	@Test
+	public void testMostCommonReactionTypes() {
+		SearchCountResponse mockResponse =initMockSearchCountReponse("Nausea", "Headache");
+		String medication = "Tylenol";
+		String expectedSearchQuery = SearchBuilder.builder()
+				.withField("patient.drug.medicinalproduct", medication)
+				.build();
+		
+		SearchCountResponse response = service.mostCommonReactionTypes(medication);
+		verify(mockRest).getForObject(
+				expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
+						50, "patient.reaction.reactionmeddrapt.exact"), SearchCountResponse.class);
+		assertTrue(mockResponse.equals(response));
+	}
+	
+	@Test
+	public void testDrugPurposeRoute() {
+		SearchCountResponse mockResponse =initMockSearchCountReponse("Oral", "Topical");
+		String purpose = "sleep aid";
+		String expectedSearchQuery = SearchBuilder.builder()
+				.withField("purpose", purpose)
+				.build();
+		
+		SearchCountResponse response = service.drugPurposeRoute(purpose);
+		verify(mockRest).getForObject(
+				expectUrl(DataNoun.DRUG, DataContext.LABEL, expectedSearchQuery, 
+						50, "openfda.route"), SearchCountResponse.class);
+		assertTrue(mockResponse.equals(response));
+	}
+	
+	@Test
+	public void testDeviceEventCountByOperator() {
+		SearchCountResponse mockResponse =initMockSearchCountReponse("Injury", "Death");
+		String operator = "nurse";
+		String expectedSearchQuery = SearchBuilder.builder()
+				.withField("device.device_operator", operator)
+				.build();
+		
+		SearchCountResponse response = service.deviceEventCountByOperator(operator);
+		verify(mockRest).getForObject(
+				expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery, 
+						100, "event_type.exact"), SearchCountResponse.class);
+		assertTrue(mockResponse.equals(response));
+	}
+	
+	@Test
+	public void testRecallClassifications() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		calendar.add(Calendar.MONTH, -12);
+		Date sixMonthsAgo = calendar.getTime();
+		String expectedSearchQuery = "";
+		expectedSearchQuery = SearchBuilder.builder()
+			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
+			.build();
+		
+		SearchCountResponse mockResponse =initMockSearchCountReponse(
+				RecallClassification.CLASS_I.shortLabel(),
+				RecallClassification.CLASS_II.shortLabel(),
+				RecallClassification.CLASS_III.shortLabel());
+		
+		for (DataNoun noun : DataNoun.values()) {
+			SearchCountResponse response = service.recallClassifications(noun);
+			verify(mockRest).getForObject(
+					expectUrl(noun, DataContext.ENFORCEMENT, expectedSearchQuery, 
+							5, "classification"), SearchCountResponse.class);
+			assertTrue(mockResponse.equals(response));
+		}
+		
+	}
+	
 	private URI expectUrl(DataNoun noun, DataContext context, String search) {
 		return RequestBuilder.builder(Protocol.valueOf(TEST_PROTOCOL.toUpperCase()), TEST_HOST)
 			.withDataNoun(noun)
@@ -134,4 +285,34 @@ public class OpenFdaServiceTest {
 			.withLimit(100)
 			.buildUri();
 	}
+	
+	private URI expectUrl(DataNoun noun, DataContext context, String search, int limit, String count) {
+		return RequestBuilder.builder(Protocol.valueOf(TEST_PROTOCOL.toUpperCase()), TEST_HOST)
+			.withDataNoun(noun)
+			.withContext(context)
+			.withSearch(search)
+			.withCount(count)
+			.withLimit(limit)
+			.buildUri();
+	}
+	
+	private SearchCountResponse initMockSearchCountReponse(String... terms) {
+		SearchCountResponse mockResponse = new SearchCountResponse();
+		List<SearchCountResult> mockResults = new ArrayList<>();
+		mockResponse.setResults(mockResults);
+		int startCount = 100;
+		for (String term : terms) {
+			addSearchCountResult(mockResults, term, startCount--);
+		}
+		when(mockRest.getForObject(any(URI.class), eq(SearchCountResponse.class))).thenReturn(mockResponse);
+		return mockResponse;
+	}
+	
+	private void addSearchCountResult(List<SearchCountResult> resultList, String term, Integer count) {
+		SearchCountResult mockResult = new SearchCountResult();
+		mockResult.setTerm(term);
+		mockResult.setCount(count);
+		resultList.add(mockResult);
+	}
+	
 }
