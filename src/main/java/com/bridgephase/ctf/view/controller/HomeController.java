@@ -33,7 +33,6 @@ public class HomeController implements ErrorController {
 	@Value("${production:false}")
 	private String inProduction;
 	
-	
 	@Autowired
 	private MappingJackson2HttpMessageConverter converter;
 	
@@ -90,6 +89,13 @@ public class HomeController implements ErrorController {
 		return "home";
 	}
 	
+	/**
+	 * Partials are not just HTML partials, instead they are Thymeleaf templates which allows
+	 * us to add server-side data if necessary.
+	 * @param model	- Spring model to return to the partial
+	 * @param partial - represents which template to load
+	 * @return The views are stored in the <code>modules/</code> directory
+	 */
 	@RequestMapping(value = "/partials/{partial}")
 	public String partial(Model model, @PathVariable("partial") String partial) {
 		model.addAttribute("version", version());
@@ -97,6 +103,11 @@ public class HomeController implements ErrorController {
 		return "modules/" + partial;
 	}
 	
+	/**
+	 * This is the default error handler, basically directs the user to an error page
+	 * @param request	The http request in case we need it
+	 * @return A model and view to point to the correct error page.
+	 */
 	@RequestMapping("/error")
 	public ModelAndView handleError(HttpServletRequest request) {
 		logger.error("Did not find the address being requested, returning an error page: {}", request.getRequestURL());
@@ -107,6 +118,10 @@ public class HomeController implements ErrorController {
 	    return mav;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.boot.autoconfigure.web.ErrorController#getErrorPath()
+	 */
 	@Override
 	public String getErrorPath() {
 		return "/errorpage";
