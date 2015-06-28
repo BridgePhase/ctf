@@ -6,17 +6,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * This controller is responsible for providing health check urls and the template for rendering 
@@ -25,7 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Jaime Garcia
  */
 @Controller
-public class HomeController implements ErrorController {
+public class HomeController {
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Value("${production:false}")
 	private String inProduction;
@@ -94,16 +97,15 @@ public class HomeController implements ErrorController {
 		return "modules/" + partial;
 	}
 	
-	@RequestMapping(value = "/error")
-	public String error(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		System.out.println("An error occurred");
-		model.addAttribute("version", version());
-		model.addAttribute("production", Boolean.parseBoolean(inProduction));
-        return "errorpage";
-    }
-	
-	@Override
-	public String getErrorPath() {
-		return "/error";
+	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+	    logger.error("Request: " + req.getRequestURL() + " raised " + exception);
+
+	    ModelAndView mav = new ModelAndView();
+	    mav.addObject("exception", exception);
+	    mav.addObject("url", req.getRequestURL());
+	    mav.setViewName("errorpage");
+	    return mav;
+	  }
 	}
-}

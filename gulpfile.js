@@ -36,6 +36,8 @@ gulp.task('concatenateJs', function() {
 		'src/main/resources/public/libraries/angular-ui-router/release/angular-ui-router.min.js',
 		'src/main/resources/public/libraries/angular-touch/angular-touch.min.js',
 		'src/main/resources/public/libraries/angular-carousel/dist/angular-carousel.min.js',
+		'src/main/resources/public/libraries/d3/d3.min.js',
+		'src/main/resources/public/libraries/c3/c3.min.js',
 		'src/main/resources/public/ctf-app-module.js'
 	])
 	.pipe(debug({title: 'concatenatejs'}))
@@ -67,6 +69,7 @@ gulp.task('concatenateCss', function() {
 		'src/main/resources/public/styles/pure-min.css',
 		'src/main/resources/public/styles/grids-responsive-min.css',
 		'src/main/resources/public/libraries/angular-carousel/dist/angular-carousel.min.css',
+		'src/main/resources/public/libraries/c3/c3.min.css',
 		'src/main/resources/public/styles/ctf.min.css'
 	])
 	.pipe(debug({title:'concatenateCss'}))

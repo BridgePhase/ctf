@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,10 +32,14 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 	"com.bridgephase.ctf.model",
 	"com.bridgephase.ctf.backend.fda",
 	"com.bridgephase.ctf.backend.notifications",
-	"com.bridgephase.ctf.backend.task"
+	"com.bridgephase.ctf.backend.task",
+	"com.bridgephase.ctf.backend.cache"
 })
 @EnableTransactionManagement
 public class ModelConfiguration {
+	
+	@Value("${h2location:~/ctf/data}")
+	private String h2location;
 	
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {
@@ -48,7 +53,8 @@ public class ModelConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
-		dataSource.setUrl("jdbc:h2:~/ctf/data");
+		System.out.println("Blab: " + h2location);
+		dataSource.setUrl("jdbc:h2:" + h2location);
 		return dataSource;
 	}
 
@@ -76,7 +82,7 @@ public class ModelConfiguration {
 	    return jtx;
     }
 	
-	@Bean
+	@Bean(name="ArrayAwareConverter")
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 		MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
 		ObjectMapper objectMapper = new ObjectMapper();

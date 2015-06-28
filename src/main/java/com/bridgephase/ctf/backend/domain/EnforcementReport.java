@@ -5,6 +5,7 @@ import java.text.BreakIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.bridgephase.ctf.backend.domain.enumeration.RecallClassification;
 import com.bridgephase.ctf.backend.shared.Formats;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -244,6 +245,17 @@ public class EnforcementReport {
 			}
 		}
 	}
+	
+	@JsonProperty("classificationDescription")
+	public String getClassificationDescription() {
+		RecallClassification classified = RecallClassification.parse(classification);
+		if (classified != null) {
+			return classified.label() + " - " + classified.description();
+		} else {
+			return classification;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
