@@ -1,21 +1,35 @@
 language: java
 
+# We don't want to build tags, since our tags 
+# start with the name of "build-" we added this step
 branches:
   except:
     - /^build-[0-9a-z\-]*/
-  
+
+# Creating the tag for the current release allows us to be able to 
+# include a version file as part of the deployable artifacts. This version
+# file is read from the application to be able to provide it through 
+# an endpoint (in our case ctf/alive). This approach was based off of 
+# http://stackoverflow.com/questions/28217556/travis-ci-auto-tag-build-for-github-release  
 before_install:
 - chmod +x gradlew
 - chmod +x tag-release.sh
 - export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
 - echo -n $GIT_TAG > src/main/resources/public/version
 
+# So we don't just want to build our application but also create a 
+# deployment artifact that can be deployed using AWS Code Deploy
 script:
 - ./gradlew build awsRevision
 
+# If the build is successful, we do actually create a tag for the release if necessary
 after_success:
   - ./tag-release.sh
 
+# We have 2 types of deployable branches, one is a Staging environment
+# triggered by pushes to branches that start with "sprint_".
+# The other deployment is our real production deployment and that 
+# one bases off of "master"
 deploy:
 # Test deployments
 - provider: s3
@@ -66,6 +80,8 @@ deploy:
     branch: master
     condition: $DEPLOY_TO_AWS = true
 
+# Our team used Slack to notify us of build failures, it proved very useful to catch 
+# failing builds quickly
 notifications:
   slack:
     secure: e5mcmbcOLDxaH+acYvl56FOVYZqAo2/SvWVolaPgFLrne1I4YQ/T2obXbYJijLHN296TAhXB/Q5pEoxtm3URXPdXno2RN/pjOvNTjygA2riEC798eEjC9ovk+DSs7gcPz3H3/HucAAbt2QCeylqrCzEmrSrdcKEcEoqbwDCjBSsZrI2J3D6bHaiChb48im77RbS+Qk4t+VzFg4yA1CSZRH6SsTGQLV3e9I7FZu/dDlyb34B3IXhcnpFNqU8ZOZl4HNkUX3sPNn0x2yx1CHPAGbaVRTV69jSEYkuO0/zw3FdsNslUiVXClFZgLIBfD4wA8C8XdN4shE7ooG7aeZzumqBtykSHWUmR3EDHSGhB13RjDrymxu5a9xnj/8/3DFTL2imlswXO+k2lNTyyrf5JfMmyaIoVXXVuxuE5dXWGAUZ3m54NQf5y3CyBLQ5zkGIDjwZtxqOfo5pF/79yWXLP/fd7Pz+2+WmYxLndFT1WtiOFcKNdkDtxGMWWE15vo9YXe+0TpYh6vaM4053lXE7vbBHA4YZEXZwybaq3SVI4BdBmSxGqSJS0PhnF3tw6r6DPCxQFhRQLxZyuFwgE4iaUzfM6RedI8Jn7Mx1KcIJjadDqfxmwsO1dA+Rs8/5Eauob/tQyi1xl6f/0QpPv3+YflKwxuykBCB4Jf/Ee0bgY6lw=
