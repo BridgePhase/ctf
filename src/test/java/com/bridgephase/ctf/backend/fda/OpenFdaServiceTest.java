@@ -43,6 +43,7 @@ public class OpenFdaServiceTest {
 	
 	@Test
 	public void correctRestUrlIsCreatedForFoodRecallsByState() {
+		setupMockResponseForFoodRecallQuery("VA");
 		Calendar calendar = Calendar.getInstance();
 		Date today = calendar.getTime();
 		calendar.add(Calendar.MONTH, -6);
