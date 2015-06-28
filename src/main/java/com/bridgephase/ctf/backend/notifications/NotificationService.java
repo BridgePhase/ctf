@@ -25,10 +25,10 @@ public class NotificationService {
 	private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
 	
 	@Autowired
-	private NotificationRepository repository;
+	protected NotificationRepository repository;
 	
 	@Autowired
-	private OpenFdaService openFda;
+	protected OpenFdaService openFda;
 	
 	@Transactional
 	public List<Notification> getNotifications() {
