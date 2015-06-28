@@ -18,7 +18,7 @@ function NounController($scope, $stateParams) {
 	document.title = 'Consider the following - ' + that.friendlyNoun;
 	
 	$scope.backToTop = function() {
-		window.scroll(0, 0);
+		scrollTo(0, 150);
 	}
 }
 

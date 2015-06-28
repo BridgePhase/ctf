@@ -56,9 +56,10 @@ dependencies {
     compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
     compile 'org.webjars:less:2.5.0'                          // LESS compiler
     compile 'org.webjars:datatables:1.10.7'
-	compile 'org.aspectj:aspectjweaver:1.6.10'
-	
+    compile 'org.webjars:c3:0.4.9-1'
   }
+  
+	compile 'org.aspectj:aspectjweaver:1.6.10'
   
   compile 'org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE'   	// spring boot
   compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'                     // Tie in to Thymeleaf
