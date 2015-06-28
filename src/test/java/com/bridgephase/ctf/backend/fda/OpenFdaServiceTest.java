@@ -1,5 +1,9 @@
 package com.bridgephase.ctf.backend.fda;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -7,6 +11,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,6 +19,7 @@ import org.junit.Test;
 import org.springframework.web.client.RestOperations;
 
 import com.bridgephase.ctf.backend.domain.DrugEventResponse;
+import com.bridgephase.ctf.backend.domain.EnforcementReport;
 import com.bridgephase.ctf.backend.domain.EnforcementReportResponse;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
@@ -53,6 +59,56 @@ public class OpenFdaServiceTest {
 			EnforcementReportResponse.class);
 	}
 	
+	@Test
+	public void returnsResultsSortedByClassificationAndDate() {
+		setupMockResponseForFoodRecallQuery("VA");
+		
+		EnforcementReportResponse response = service.latestFoodRecallsByState("VA");
+		
+		verifySortOrderOfFoodRecalls(response);
+	}
+	
+	private void setupMockResponseForFoodRecallQuery(String state) {
+		EnforcementReportResponse mockResponse = new EnforcementReportResponse();
+		List<EnforcementReport> reports = new ArrayList<EnforcementReport>(10);
+		reports.add(enforcementReport("Product 1", "Class II", "20140401", state));
+		reports.add(enforcementReport("Product 2", "Class II", "20140101", state));
+		reports.add(enforcementReport("Product 3", "Class I", "20140401", state));
+		reports.add(enforcementReport("Product 4", "Class I", "20140101", state));
+		reports.add(enforcementReport("Product 5", "Class III", "20140501", state));
+		reports.add(enforcementReport("Product 6", "Class III", "20140301", state));
+		mockResponse.setResults(reports);
+		doReturn(mockResponse).when(mockRest).getForObject(any(URI.class), eq(EnforcementReportResponse.class));
+	}
+
+	private EnforcementReport enforcementReport(String product, String classification, 
+		String dateAsString, String state) {
+		EnforcementReport report = new EnforcementReport();
+		report.setProductDescription(product);
+		report.setClassification(classification);
+		report.setRecallInitiationDate(dateAsString);
+		report.setDistributionPattern(state);
+		return report;
+	}
+
+	private void verifySortOrderOfFoodRecalls(EnforcementReportResponse response) {
+		for (EnforcementReport r : response.getResults()) {
+			System.out.println(r.getProductDescription()  + " - " + r.getClassification() + " - " + r.getRecallInitiationDate());
+		}
+		Iterator<EnforcementReport> actualReports = response.getResults().iterator();
+		// sort by classification ascending, date descending
+		verifyProductIs("Product 3", actualReports.next());
+		verifyProductIs("Product 4", actualReports.next());
+		verifyProductIs("Product 1", actualReports.next());
+		verifyProductIs("Product 2", actualReports.next());
+		verifyProductIs("Product 5", actualReports.next());
+		verifyProductIs("Product 6", actualReports.next());
+	}
+
+	private void verifyProductIs(String productDescription, EnforcementReport report) {
+		assertEquals(productDescription, report.getProductDescription());
+	}
+
 	@Test
 	public void correctRestUrlIsCreatedForSearchesForMedications() {
 		Calendar calendar = Calendar.getInstance();

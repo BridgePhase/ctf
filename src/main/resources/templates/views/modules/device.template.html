@@ -41,30 +41,30 @@
 				<h2 data-ng-bind="device.selectedEvent.device[0].brand_name"></h2>
 				<a class="mobile-only" href="" data-ng-click="backToTop()">^ Back to top</a>
 				<div class="pure-g fields">
-					<div class="pure-u-1 pure-u-md-1-4">
+					<div class="pure-u-1 pure-u-md-1-3 aligned-field">
 						<strong>Manufacturer:</strong>
 					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
+					<div class="pure-u-1 pure-u-md-2-3">
 						<span data-ng-bind="device.selectedEvent.manufacturer_name"></span>
 					</div>
-					<div class="pure-u-1 pure-u-md-1-4">
+					<div class="pure-u-1 pure-u-md-1-3 aligned-field">
 						<strong>Type of event:</strong>
 					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
+					<div class="pure-u-1 pure-u-md-2-3">
 						<span data-ng-bind="device.selectedEvent.event_type"></span>
 					</div>
-					<div class="pure-u-1 pure-u-md-1-4">
+					<div class="pure-u-1 pure-u-md-1-3 aligned-field">
 						<strong>Description of event:</strong>
 					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
+					<div class="pure-u-1 pure-u-md-2-3">
 						<div class="scrollable-container">
 						<span data-ng-bind="device.selectedEventNarrative"></span>
 						</div>
 					</div>
-					<div class="pure-u-1 pure-u-md-1-4">
+					<div class="pure-u-1 pure-u-md-1-3 aligned-field">
 						<strong>Manufacturer Contact:</strong>
 					</div>
-					<div class="pure-u-1 pure-u-md-3-4">
+					<div class="pure-u-1 pure-u-md-2-3">
 						<a href="https://www.google.com/#q={{device.selectedEvent.manufacturer_name}}+{{device.selectedEvent.manufacturer_contact_address_1}}+{{device.selectedEvent.manufacturer_contact_city}}+{{device.selectedEvent.manufacturer_contact_state}}+{{device.selectedEvent.manufacturer_contact_zip_code}}" target="_blank">
 							<span data-ng-bind="device.selectedEvent.manufacturer_contact_address_1"></span> <br />
 							<span data-ng-bind="device.selectedEvent.manufacturer_contact_address_2"></span> <br data-ng-if="device.selectedEvent.manufacturer_contact_address_2"/>
