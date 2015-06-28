@@ -53,7 +53,6 @@ public class ModelConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
-		System.out.println("Blab: " + h2location);
 		dataSource.setUrl("jdbc:h2:" + h2location);
 		return dataSource;
 	}
