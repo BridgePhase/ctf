@@ -1,6 +1,9 @@
 package com.bridgephase.ctf.backend.shared;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -45,5 +48,26 @@ public class SearchBuilderTest {
 			.withExactField("blab", "value")
 			.build();
 		assertEquals(URLEncoder.encode("blab:\"value\"", "UTF-8"), searchQuery);
+	}
+	
+	@Test
+	public void errorConditionsWithEncoding() throws UnsupportedEncodingException, ParseException {
+		SearchBuilder builder = spy(SearchBuilder.builder());
+		doThrow(new UnsupportedEncodingException()).when(builder).encode(anyString());
+		assertEquals("field:value with space", 
+			builder.withField("field", "value with space").build());
+
+		builder = spy(SearchBuilder.builder());
+		doThrow(new UnsupportedEncodingException()).when(builder).encode(anyString());
+		assertEquals("field:\"value with space\"", 
+			builder.withExactField("field", "value with space").build());
+
+		builder = spy(SearchBuilder.builder());
+		doThrow(new UnsupportedEncodingException()).when(builder).encode(anyString());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		assertEquals("field with space:[2014-01-01+TO+2015-01-01]", 
+			builder.withDateRangeField("field with space", 
+				format.parse("2014-01-01"), 
+				format.parse("2015-01-01")).build());
 	}
 }
