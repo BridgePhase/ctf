@@ -37,6 +37,10 @@ a, a:visited, a:active, a:focus {
 	color: #395A77;
 }
 
+a.underline, a.underline:visited, a.underline:active, a.underline:focus {
+	text-decoration: underline;
+}
+
 p {
 	line-height: @line-height;
 }
@@ -70,6 +74,11 @@ strong {
 
 .bp-center {
 	text-align: center;
+}
+
+.aligned-field {
+	text-align: right;
+	padding-right: @default-padding;
 }
 
 /* Components */
@@ -113,7 +122,7 @@ strong {
 	background-size: 100% 50px, auto auto, 100%;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
 	
-	height: 400px;
+	height: 300px;
 	z-index: -1;
 	h1 {
 		margin: 0;

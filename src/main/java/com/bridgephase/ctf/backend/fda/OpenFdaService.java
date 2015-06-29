@@ -2,6 +2,7 @@ package com.bridgephase.ctf.backend.fda;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.bridgephase.ctf.backend.domain.SearchCountResult;
 import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
+import com.bridgephase.ctf.backend.fda.comparators.RecallByClassificationAndInitiationDate;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -54,7 +56,7 @@ public class OpenFdaService {
 			.withDateRangeField("recall_initiation_date", sixMonthsAgo, today)
 			.build();
 
-		return restOperations.getForObject(
+		EnforcementReportResponse response = restOperations.getForObject(
 			RequestBuilder.builder(fdaProtocol, fdaHost)
 				.withDataNoun(DataNoun.FOOD)
 				.withContext(DataContext.ENFORCEMENT)
@@ -62,6 +64,8 @@ public class OpenFdaService {
 				.withLimit(100)
 				.buildUri(),
 			EnforcementReportResponse.class);
+		Collections.sort(response.getResults(), new RecallByClassificationAndInitiationDate());
+		return response;
 	}
 	
 	public DeviceEventResponse deviceDeathRecallEvent() {
@@ -114,7 +118,7 @@ public class OpenFdaService {
 			RequestBuilder.builder(fdaProtocol, fdaHost)
 				.withDataNoun(noun)
 				.withContext(DataContext.ENFORCEMENT)
-				.build(),
+				.buildUri(),
 			EnforcementReportResponse.class);
 	}
 	
@@ -123,7 +127,7 @@ public class OpenFdaService {
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DRUG)
 					.withContext(DataContext.LABEL)
-					.build(),
+					.buildUri(),
 				DrugLabelResponse.class);
 	}
 	
@@ -132,7 +136,7 @@ public class OpenFdaService {
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DRUG)
 					.withContext(DataContext.EVENT)
-					.build(),
+					.buildUri(),
 				DrugEventResponse.class);
 	}
 	
@@ -141,7 +145,7 @@ public class OpenFdaService {
 				RequestBuilder.builder(fdaProtocol, fdaHost)
 					.withDataNoun(DataNoun.DEVICE)
 					.withContext(DataContext.EVENT)
-					.build(),
+					.buildUri(),
 				DeviceEventResponse.class);
 	}
 	
