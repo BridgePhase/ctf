@@ -73,7 +73,7 @@ public class NotificationServiceTest {
 	private void testNotificationsReturnedAfterUpdate() {
 		List<Notification> mockResult = new ArrayList<Notification>();
 		List<Notification> filledMockResult = new ArrayList<Notification>();
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 25; i++) {
 			filledMockResult.add(new Notification());
 		}
 		when(repository.findAll()).thenReturn(mockResult, filledMockResult);
@@ -151,17 +151,22 @@ public class NotificationServiceTest {
 	}
 	
 	private void verifySavedList(List<Notification> list) {
-		verifyItem(list, 0, DRUG_REACTION);
-		verifyItem(list, 1, RECALL);
-		verifyItem(list, 2, DRUG_ROUTE);
-		verifyItem(list, 3, RECALL);
-		verifyItem(list, 4, DEVICE_EVENT);
-		verifyItem(list, 5, RECALL);
+		verifyItem(list, 5, DRUG_REACTION);
+		verifyItem(list, 25, RECALL);
+		verifyItem(list, 6, DRUG_ROUTE);
+		verifyItem(list, 25, RECALL);
+		verifyItem(list, 5, DEVICE_EVENT);
+		verifyItem(list, 25, RECALL);
 	}
 	
-	private void verifyItem(List<Notification> savedList, int index, String keyWord) {
-		Notification item = savedList.get(index);
-		assertTrue(item.getHeadline().contains(keyWord.toLowerCase()));
+	private void verifyItem(List<Notification> savedList,int expectedCount, String keyWord) {
+		int count = 0;
+		for (Notification item : savedList) {
+			if (item.getHeadline().contains(keyWord.toLowerCase())) {
+				count++;
+			}
+		}
+		assertEquals(count, expectedCount);
 	}
 
 }

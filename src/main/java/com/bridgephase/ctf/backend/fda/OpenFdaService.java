@@ -185,7 +185,6 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DRUG)
 				.withSearch(searchQuery)
 				.withCount("patient.reaction.reactionmeddrapt.exact")
-				.withLimit(50)
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -199,7 +198,6 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DRUG)
 				.withSearch(searchQuery)
 				.withCount("openfda.route")
-				.withLimit(50)
 				.withContext(DataContext.LABEL);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -213,7 +211,6 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DEVICE)
 				.withSearch(searchQuery)
 				.withCount("event_type.exact")
-				.withLimit(100)
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -232,7 +229,6 @@ public class OpenFdaService {
 				.withDataNoun(noun)
 				.withSearch(searchQuery)
 				.withCount("classification")
-				.withLimit(5)
 				.withContext(DataContext.ENFORCEMENT);
 		return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
