@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
@@ -156,20 +158,28 @@ public class OpenFdaServiceTest {
 	
 	@Test
 	public void testLatest() {
+		testLatestFailurePaths(DataNoun.DEVICE, DataContext.LABEL);;
+		testLatestFailurePaths(DataNoun.FOOD, DataContext.EVENT);;
+		testLatestFailurePaths(DataNoun.FOOD, DataContext.LABEL);;
+		
 		service.latest(DataNoun.DRUG, DataContext.EVENT);
 		service.latest(DataNoun.DRUG, DataContext.LABEL);
 		service.latest(DataNoun.DRUG, DataContext.ENFORCEMENT);
 		
 		service.latest(DataNoun.DEVICE, DataContext.EVENT);
-		thrown.expect(IllegalArgumentException.class); // Next invocation should throw
-		service.latest(DataNoun.DEVICE, DataContext.LABEL);
 		service.latest(DataNoun.DEVICE, DataContext.ENFORCEMENT);
 		
-		thrown.expect(IllegalArgumentException.class); // Next invocation should throw
-		service.latest(DataNoun.FOOD, DataContext.EVENT);
-		thrown.expect(IllegalArgumentException.class); // Next invocation should throw
-		service.latest(DataNoun.FOOD, DataContext.LABEL);
 		service.latest(DataNoun.FOOD, DataContext.ENFORCEMENT);
+	}
+	
+	private void testLatestFailurePaths(DataNoun noun, DataContext context) {
+		IllegalArgumentException e = null;
+		try {
+			service.latest(noun, context);
+		} catch (IllegalArgumentException ex) {
+			e = ex;
+		}
+		assertNotNull(e);
 	}
 	
 	@Test
@@ -275,6 +285,36 @@ public class OpenFdaServiceTest {
 			assertTrue(mockResponse.equals(response));
 		}
 		
+	}
+	
+	@Test
+	public void testAdverseDrugEventsByTypeGroupBy() {
+		SearchCountResponse mockResponse =initMockSearchCountReponse("0-10", "11-20", "21-30");
+		List<String> drugs = new ArrayList<>();
+		drugs.add("Zarah");
+		drugs.add("Tylenol");
+		drugs.add("Zycam");
+		
+		String effect = "seriousnessdeath";
+		
+		SearchBuilder searchBuilder = SearchBuilder.builder();
+		for (String drug : drugs) {
+			searchBuilder.withField("patient.drug.medicinalproduct", drug);
+		}
+		searchBuilder.withField("patient.patientonsetageunit", "801")
+			.withField(effect, "1");
+		String expectedSearchQuery = searchBuilder.build();
+		
+		SearchCountResponse response = service.adverseDrugEventsByTypeGroupBy(drugs, effect);
+		verify(mockRest).getForObject(
+				expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
+						100, "patient.patientonsetage"), SearchCountResponse.class);
+		assertTrue(mockResponse.equals(response));
+		
+		when(service.adverseDrugEventsByTypeGroupBy(drugs, effect)).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
+		response = service.adverseDrugEventsByTypeGroupBy(drugs, effect);
+		assertTrue(!mockResponse.equals(response));
+		assertTrue(response.getResults().isEmpty());
 	}
 	
 	private URI expectUrl(DataNoun noun, DataContext context, String search) {
