@@ -74,12 +74,12 @@
 						<strong>Manufacturer Contact:</strong>
 					</div>
 					<div class="pure-u-1 pure-u-md-2-3">
-						<a href="https://www.google.com/#q={{device.selectedEvent.manufacturer_name}}+{{device.selectedEvent.manufacturer_contact_address_1}}+{{device.selectedEvent.manufacturer_contact_city}}+{{device.selectedEvent.manufacturer_contact_state}}+{{device.selectedEvent.manufacturer_contact_zip_code}}" target="_blank">
+						<a data-ng-if="device.selectedEvent.manufacturer_contact_city" href="https://www.google.com/#q={{device.selectedEvent.manufacturer_name}}+{{device.selectedEvent.manufacturer_contact_address_1}}+{{device.selectedEvent.manufacturer_contact_city}}+{{device.selectedEvent.manufacturer_contact_state}}+{{device.selectedEvent.manufacturer_contact_zip_code}}" target="_blank">
 							<span data-ng-bind="device.selectedEvent.manufacturer_contact_address_1"></span> <br />
 							<span data-ng-bind="device.selectedEvent.manufacturer_contact_address_2"></span> <br data-ng-if="device.selectedEvent.manufacturer_contact_address_2"/>
 							<span data-ng-bind="device.selectedEvent.manufacturer_contact_city"></span>, <span data-ng-bind="device.selectedEvent.manufacturer_contact_state"></span> <span data-ng-bind="device.selectedEvent.manufacturer_contact_zip_code"></span><br />
 						</a>
-						<a href="tel:{{device.selectedEvent.manufacturer_contact_area_code}}-{{device.selectedEvent.manufacturer_contact_exchange}}-{{device.selectedEvent.manufacturer_contact_phone_number}}" target="_blank">
+						<a data-ng-if="device.selectedEvent.manufacturer_contact_area_code" href="tel:{{device.selectedEvent.manufacturer_contact_area_code}}-{{device.selectedEvent.manufacturer_contact_exchange}}-{{device.selectedEvent.manufacturer_contact_phone_number}}" target="_blank">
 							({{device.selectedEvent.manufacturer_contact_area_code}}) {{device.selectedEvent.manufacturer_contact_exchange}}-{{device.selectedEvent.manufacturer_contact_phone_number}}
 						</a>
 					</div>
