@@ -25,6 +25,8 @@ html, body {
 	background: lighten(#FECB6E, 20%);
 	background: none;
 	height: 100%;	
+	width: 100%;
+	//overflow-x: hidden;
 }
 
 * {
@@ -92,6 +94,7 @@ strong {
 
 .banner {
 	color: @banner-text-color;
+	background: @banner-background-color;
 	/* Pier image from https://stocksnap.io/photo/YQ2YMLHFSQ */
 	background: linear-gradient(to right, rgba(10, 10, 10, 0.6),  rgba(10, 10, 10, 0.5)),
 		url(/ctf/images/pier.jpg),
@@ -123,7 +126,7 @@ strong {
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
 	
 	height: 300px;
-	z-index: -1;
+	z-index: 1;
 	h1 {
 		margin: 0;
 		padding-left: @logo-width / 2 + 10px;
@@ -318,6 +321,12 @@ strong {
 .overlay {
 	margin-top: 50px;
 	background: none;
+	z-index: 2;
+	position: relative;
+}
+
+.filler {
+	height: 270px;
 }
 
 .opaque {
@@ -538,6 +547,10 @@ strong {
 	h1 {
 		font-size: 1.25em;
 	}
+
+	.aligned-field {
+		text-align: left;
+	}
 	
 	.headline {
 		font-size: @headline-font-size * 0.7;
@@ -613,12 +626,26 @@ strong {
 	.big-search .search-field button {
 		margin-top: @default-padding;
 	}
-	
+		
 	.small-banner {
 		background-size: 100% 50px, auto auto, 100% 300px;
 	}
 	
 	.headline .carousel-position, .headline .carousel-container, .headline .carousel {
 		height: 7em;
+	}
+}
+
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	@-ms-viewport {
+ 		width: device-width;
+	}
+	.affected-states {
+		height: 200px;
+	}
+	
+	.selectable-map {
+		height: 400px;
 	}
 }

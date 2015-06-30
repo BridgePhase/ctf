@@ -24,6 +24,7 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 import com.bridgephase.ctf.backend.fda.comparators.RecallByClassificationAndInitiationDate;
+import com.bridgephase.ctf.backend.fda.comparators.RecallByDateOfEvent;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -33,6 +34,7 @@ public class OpenFdaService {
 	private Protocol fdaProtocol;
 	private String fdaHost;
 	private RestOperations restOperations;
+	protected static final int COUNT_LIMIT = 10;
 	
 	@Autowired
 	public OpenFdaService(
@@ -79,15 +81,16 @@ public class OpenFdaService {
 			.withField("event_type", "Death")
 			.withDateRangeField("date_of_event", sixMonthsAgo, today)
 			.build();
-		
-		return restOperations.getForObject(
-				RequestBuilder.builder(fdaProtocol, fdaHost)
-					.withDataNoun(DataNoun.DEVICE)
-					.withContext(DataContext.EVENT)
-					.withSearch(searchQuery)
-					.withLimit(100)
-					.buildUri(),
-					DeviceEventResponse.class);
+		DeviceEventResponse response = restOperations.getForObject(
+			RequestBuilder.builder(fdaProtocol, fdaHost)
+			.withDataNoun(DataNoun.DEVICE)
+			.withContext(DataContext.EVENT)
+			.withSearch(searchQuery)
+			.withLimit(100)
+			.buildUri(),
+			DeviceEventResponse.class); 
+		Collections.sort(response.getResults(), new RecallByDateOfEvent());
+		return response;
 	}
 	
 	public FdaApiResponse latest(DataNoun noun, DataContext context) {
@@ -185,7 +188,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DRUG)
 				.withSearch(searchQuery)
 				.withCount("patient.reaction.reactionmeddrapt.exact")
-				.withLimit(50)
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -199,7 +202,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DRUG)
 				.withSearch(searchQuery)
 				.withCount("openfda.route")
-				.withLimit(50)
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.LABEL);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -213,7 +216,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DEVICE)
 				.withSearch(searchQuery)
 				.withCount("event_type.exact")
-				.withLimit(100)
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -232,7 +235,7 @@ public class OpenFdaService {
 				.withDataNoun(noun)
 				.withSearch(searchQuery)
 				.withCount("classification")
-				.withLimit(5)
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.ENFORCEMENT);
 		return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}

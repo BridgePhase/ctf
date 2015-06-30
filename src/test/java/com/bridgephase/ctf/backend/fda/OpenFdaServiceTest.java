@@ -10,16 +10,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
+import com.bridgephase.ctf.backend.domain.DeviceEvent;
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
@@ -31,6 +34,7 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 import com.bridgephase.ctf.backend.domain.enumeration.RecallClassification;
+import com.bridgephase.ctf.backend.shared.KeyStore;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -65,9 +69,11 @@ public class OpenFdaServiceTest {
 			.build();
 		service.latestFoodRecallsByState("VA");
 		
-		verify(mockRest).getForObject(
-			expectUrl(DataNoun.FOOD, DataContext.ENFORCEMENT, expectedSearchQuery), 
-			EnforcementReportResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(EnforcementReportResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.FOOD, DataContext.ENFORCEMENT, expectedSearchQuery);
+		verifyUrl(actual, expected);
 	}
 	
 	@Test
@@ -105,12 +111,12 @@ public class OpenFdaServiceTest {
 	private void verifySortOrderOfFoodRecalls(EnforcementReportResponse response) {
 		Iterator<EnforcementReport> actualReports = response.getResults().iterator();
 		// sort by classification ascending, date descending
-		verifyProductIs("Product 3", actualReports.next());
-		verifyProductIs("Product 4", actualReports.next());
-		verifyProductIs("Product 1", actualReports.next());
-		verifyProductIs("Product 2", actualReports.next());
 		verifyProductIs("Product 5", actualReports.next());
+		verifyProductIs("Product 3", actualReports.next());
+		verifyProductIs("Product 1", actualReports.next());
 		verifyProductIs("Product 6", actualReports.next());
+		verifyProductIs("Product 4", actualReports.next());
+		verifyProductIs("Product 2", actualReports.next());
 	}
 
 	private void verifyProductIs(String productDescription, EnforcementReport report) {
@@ -132,8 +138,11 @@ public class OpenFdaServiceTest {
 		medications.add("Tylenol");
 		service.searchAdverseDrugEvents(medications);
 		
-		verify(mockRest).getForObject(
-			expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery), DrugEventResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(DrugEventResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery);
+		verifyUrl(actual, expected);
 	}
 	
 	@Test
@@ -148,12 +157,17 @@ public class OpenFdaServiceTest {
 			.withField("event_type", "Death")
 			.withDateRangeField("date_of_event", sixMonthsAgo, today)
 			.build();
+		DeviceEventResponse mockResponse = new DeviceEventResponse();
+		mockResponse.setResults(new LinkedList<DeviceEvent>());
+		doReturn(mockResponse).when(mockRest).getForObject(any(URI.class), eq(DeviceEventResponse.class));
 		
 		service.deviceDeathRecallEvent();
 		
-		verify(mockRest).getForObject(
-				expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery), 
-				DeviceEventResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(DeviceEventResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery);
+		verifyUrl(actual, expected);
 	}
 	
 	@Test
@@ -184,36 +198,46 @@ public class OpenFdaServiceTest {
 	
 	@Test
 	public void testEnforcement() {
+		int count = 0;
 		for (DataNoun noun : DataNoun.values()) {
+			count++;
 			service.enforcement(noun);
-			verify(mockRest).getForObject(
-					expectUrl(noun, DataContext.ENFORCEMENT, "", 1, ""), 
-					EnforcementReportResponse.class);
+			ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+			verify(mockRest, times(count)).getForObject(captor.capture(), eq(EnforcementReportResponse.class));
+			URI actual = captor.getValue();
+			URI expected = expectUrl(noun, DataContext.ENFORCEMENT, "", 1, "");
+			verifyUrl(actual, expected);
 		}
 	}
 	
 	@Test
 	public void testDrugLabel() {
 			service.drugLabel();
-			verify(mockRest).getForObject(
-					expectUrl(DataNoun.DRUG, DataContext.LABEL, "", 1, ""), 
-					DrugLabelResponse.class);
+			ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+			verify(mockRest).getForObject(captor.capture(), eq(DrugLabelResponse.class));
+			URI actual = captor.getValue();
+			URI expected = expectUrl(DataNoun.DRUG, DataContext.LABEL, "", 1, "");
+			verifyUrl(actual, expected);
 	}
 	
 	@Test
 	public void testDrugEvent() {
 			service.drugEvent();
-			verify(mockRest).getForObject(
-					expectUrl(DataNoun.DRUG, DataContext.EVENT, "", 1, ""), 
-					DrugEventResponse.class);
+			ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+			verify(mockRest).getForObject(captor.capture(), eq(DrugEventResponse.class));
+			URI actual = captor.getValue();
+			URI expected = expectUrl(DataNoun.DRUG, DataContext.EVENT, "", 1, "");
+			verifyUrl(actual, expected);
 	}
 	
 	@Test
 	public void testDeviceEvent() {
 			service.deviceEvent();
-			verify(mockRest).getForObject(
-					expectUrl(DataNoun.DEVICE, DataContext.EVENT, "", 1, ""), 
-					DeviceEventResponse.class);
+			ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+			verify(mockRest).getForObject(captor.capture(), eq(DeviceEventResponse.class));
+			URI actual = captor.getValue();
+			URI expected = expectUrl(DataNoun.DEVICE, DataContext.EVENT, "", 1, "");
+			verifyUrl(actual, expected);
 	}
 	
 	@Test
@@ -225,9 +249,12 @@ public class OpenFdaServiceTest {
 				.build();
 		
 		SearchCountResponse response = service.mostCommonReactionTypes(medication);
-		verify(mockRest).getForObject(
-				expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
-						50, "patient.reaction.reactionmeddrapt.exact"), SearchCountResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
+				OpenFdaService.COUNT_LIMIT, "patient.reaction.reactionmeddrapt.exact");
+		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 	}
 	
@@ -240,9 +267,11 @@ public class OpenFdaServiceTest {
 				.build();
 		
 		SearchCountResponse response = service.drugPurposeRoute(purpose);
-		verify(mockRest).getForObject(
-				expectUrl(DataNoun.DRUG, DataContext.LABEL, expectedSearchQuery, 
-						50, "openfda.route"), SearchCountResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.DRUG, DataContext.LABEL, expectedSearchQuery, OpenFdaService.COUNT_LIMIT, "openfda.route");
+		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 	}
 	
@@ -255,9 +284,12 @@ public class OpenFdaServiceTest {
 				.build();
 		
 		SearchCountResponse response = service.deviceEventCountByOperator(operator);
-		verify(mockRest).getForObject(
-				expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery, 
-						100, "event_type.exact"), SearchCountResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery, 
+				OpenFdaService.COUNT_LIMIT, "event_type.exact");
+		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 	}
 	
@@ -277,14 +309,17 @@ public class OpenFdaServiceTest {
 				RecallClassification.CLASS_II.shortLabel(),
 				RecallClassification.CLASS_III.shortLabel());
 		
+		int count = 0;
 		for (DataNoun noun : DataNoun.values()) {
+			count++;
 			SearchCountResponse response = service.recallClassifications(noun);
-			verify(mockRest).getForObject(
-					expectUrl(noun, DataContext.ENFORCEMENT, expectedSearchQuery, 
-							5, "classification"), SearchCountResponse.class);
+			ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+			verify(mockRest, times(count)).getForObject(captor.capture(), eq(SearchCountResponse.class));
+			URI actual = captor.getValue();
+			URI expected = expectUrl(noun, DataContext.ENFORCEMENT, expectedSearchQuery, OpenFdaService.COUNT_LIMIT, "classification");
+			verifyUrl(actual, expected);
 			assertTrue(mockResponse.equals(response));
 		}
-		
 	}
 	
 	@Test
@@ -306,15 +341,16 @@ public class OpenFdaServiceTest {
 		String expectedSearchQuery = searchBuilder.build();
 		
 		SearchCountResponse response = service.adverseDrugEventsByTypeGroupBy(drugs, effect);
-		verify(mockRest).getForObject(
-				expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
-						100, "patient.patientonsetage"), SearchCountResponse.class);
+		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
+		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
+		URI actual = captor.getValue();
+		URI expected = expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
+				100, "patient.patientonsetage");
+		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 		
 		when(service.adverseDrugEventsByTypeGroupBy(drugs, effect)).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
 		response = service.adverseDrugEventsByTypeGroupBy(drugs, effect);
-		assertTrue(!mockResponse.equals(response));
-		assertTrue(response.getResults().isEmpty());
 	}
 	
 	private URI expectUrl(DataNoun noun, DataContext context, String search) {
@@ -334,6 +370,19 @@ public class OpenFdaServiceTest {
 			.withCount(count)
 			.withLimit(limit)
 			.buildUri();
+	}
+	
+	private void verifyUrl(URI actual, URI expected) {
+		String actualString = actual.toString();
+		String expectedString = expected.toString();
+		String matchKey = "api_key=";
+		int startIndex = expectedString.indexOf(matchKey);
+		int endIndex = startIndex + KeyStore.KEY_LENGTH + matchKey.length();
+		String expectedKey = expectedString.substring(startIndex, endIndex);
+		String actualKey = actualString.substring(startIndex, endIndex);
+		actualString = actualString.replace(actualKey, "");
+		expectedString = expectedString.replace(expectedKey, "");
+		assertEquals(actualString, expectedString);
 	}
 	
 	private SearchCountResponse initMockSearchCountReponse(String... terms) {

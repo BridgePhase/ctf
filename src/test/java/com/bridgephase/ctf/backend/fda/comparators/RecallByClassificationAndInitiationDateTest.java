@@ -26,9 +26,11 @@ public class RecallByClassificationAndInitiationDateTest {
 	
 	private void testClassificationsDifferent() {
 		EnforcementReport report1 = new EnforcementReport();
+		report1.setRecallInitiationDate("20150514");
 		report1.setClassification("classification");
 		
 		EnforcementReport report2 = new EnforcementReport();
+		report2.setRecallInitiationDate("20150514");
 		report2.setClassification("other");
 		
 		int result = comparator.compare(report1, report2);

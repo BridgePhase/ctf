@@ -3,6 +3,7 @@ package com.bridgephase.ctf.backend.shared;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,12 +75,18 @@ public class RequestBuilder {
 			.append("/").append(noun)
 			.append("/").append(context)
 			.append(format)
-			.append("?").append("api_key=").append(KeyStore.API)
-			.append("&search=")
-			.append(search)
-			.append("&count=")
-			.append(count)
-			.append("&limit=" + limit);
+			.append("?").append("api_key=").append(KeyStore.instance().key());
+		if (StringUtils.isNotEmpty(search)) {
+			builder.append("&search=")
+			.append(search);
+		}
+		if (StringUtils.isNotEmpty(count)) {
+			builder.append("&count=")
+			.append(count);
+		}
+		if (limit > 0) {
+			builder.append("&limit=" + limit);
+		}
 		
 		logger.debug("Request string generated: " + builder.toString());
 		return builder.toString();
