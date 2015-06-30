@@ -7,25 +7,119 @@
     	<p class="headline">About this project</p>
     </div>
 	<div class="pure-g section">
-		<h2>Our approach</h2>
-		<p>Our goal was to create an application using data from  <a href="https://open.fda.gov" target="_blank">Open FDA</a> that demonstrated various ways of consumption. This application 
-		shows 4 different approaches of consuming and presenting said data.
-		</p>
-		
-		<p>When starting the project during our whiteboarding sessions, our initial concern was 
-			formulating an idea to proceed with the various types of data provided. We saw that 
-			the Open FDA site already provided graphical information about some sample queries 
-			so we understood that we would need to go beyond simple graphing. One part that jumped 
-			out was the statistic on one of the Open FDA graphs about recalls with the word "ice cream"
-			in the description. So as a first go, we came up with the idea that it would be very 
-			informative to generate headlines using the data from Open FDA in a human readable format
-			as opposed to a graph. 
-			<img src="images/whiteboarding.png"
-				class="picture-right" 
-				alt="Whiteboard picture with the teams' original ideas" 
-				title="Our initial whiteboarding ideas" />
-		</p>
-		
-		
+		<div class="pure-u-1">
+			<h2>Our approach</h2>
+			<p>Our goal was to create an application using data from  <a class="underline" href="https://open.fda.gov" target="_blank">Open FDA</a> that demonstrated various ways of consumption. This application 
+			shows 4 different approaches of consuming and presenting said data.
+			</p>
+			
+			<h3>Initial stage</h3>
+			<p>
+				<img src="/ctf/images/whiteboarding.jpg"
+					class="article-picture article-right" 
+					alt="Whiteboard picture with the teams' original ideas" 
+					title="Our initial whiteboarding ideas" />
+
+				When starting the project during our whiteboarding sessions, our initial concern was 
+				formulating an idea to proceed with the various types of data provided. We saw that 
+				the Open FDA site already provided graphical information about some sample queries 
+				so we understood that we would need to go beyond simple graphing. One part that jumped 
+				out was the statistic on one of the Open FDA graphs about recalls with the word "ice cream"
+				in the description. So as a first go, we came up with the idea that it would be very 
+				informative to generate headlines using the data from Open FDA in a human readable format
+				as opposed to a graph. 
+			</p>
+			<p>
+				This idea worked well, and some of us being Bill Nye fans, we decided to name the site
+				"Consider the following", based on a segment of his "Bill Nye the Science Guy" show. His
+				segment presented viewers with cool facts about various subjects so we decided to present
+				cool automatically generated statistics derived from the Open FDA data. With our main idea
+				in place, we decided to work with all three types of datasets (food, medicines, and
+				 medical devices). Our goal was to show three types of data interaction based on the amount
+				 and usability of the data Open FDA provides. 
+			</p>
+			<p>
+				Through some brainstorming, we came up with the following:
+				<ol>
+					<li>For Food, we show the site user recalls by state</li>
+					<li>For Medicines, we allow the user to search for events related to a certain medicine</li>
+					<li>For Medical Devices, we show the user a pre-defined search and allow them to view details.</li>
+				</ol>
+			</p>
+			
+			<h3>Food</h3>
+			<p>
+				The goal of this page is to show food recalls that affect a given state. In order to make 
+				it more usable, the application pre-selects the current user's state based on 
+				geolocation information. The application also highlights information about the recall and
+				populates a US map based on other areas affected by the same recall. If the user needs more
+				information about the manufacturer, the application provides a link to Google search results
+				based on the manufacturer's name and address.
+			</p>
+			
+			<h3>Medicines</h3>
+			<p>
+				The medicines page allows the user to search for one or many medcines to generate a graph of
+				adverse events reported in which the patient was known to be taking those medicines. The application
+				queries Open FDA for counts of various serious adverse events including deaths, hopitalizations,
+				and life threatening events. Using this data, the application generates a stacked bar chart using
+				the <a class="underline" href="http://c3js.com" target="_blank">C3 graphing library</a>.
+			</p>
+			
+			<h3>Medical Devices</h3>
+			<p>
+				The data the Open FDA API provides for medical devices doesn't lend itself to the general public.
+				Due to this, the application keeps this screen simple and renders the results of a pre-defined query
+				to a list of results. The user can then see the details for each result to get information about 
+				a potential device recall including manufacturer information. The manufacturer information is also 
+				linked to Google and their telephone number is optimized for quick communication with the manufacturer
+				(tap it on a mobile phone to dial directly).
+			</p>
+		</div>
+		<div class="pure-u-1">
+			<h2>Our technology</h2>
+			<p> 
+				This application is built entirely on an open-source application stack. We use the very popular
+				Spring framework to create a Java Web Application which can run as a standalone application or 
+				inside a Java container. For the front-end we use 
+				<a class="underline" href="http://angularjs.org" target="_blank">AngularJS</a> and 
+				<a class="underline" href="http://purecss.io" target="_blank">PureCSS</a> as our JavaScript MVC framework and CSS
+				framework respectively.   
+			</p>
+			<p>
+				Running on an open-source stack we were able to build this application from the bottom up in 
+				a matter of 2 weeks. A more detailed explanation of our technology stack can be found at 
+				<a class="underline" href="https://github.com/BridgePhase/ctf/README.md" target="_blank">our github repository</a>
+			</p>
+		</div>
+		<div class="pure-u-1">
+			<h2>Our processes</h2>
+			<p>
+				One of our goals was to manage the creation of this prototype as an Agile project. Therefore, our
+				processes were at a minimum and evolved from day one. We used Github's issue tracking mechanism 
+				to track our user stories, tasks, and bugs. We created sprints by grouping issues into milestones.
+				This break up allowed us to have focused tasks during our short sprint intervals. Each person in 
+				our team had defined roles but it did not mean we didn't help each other when necessary. 
+			</p>
+			<h3>Bashing bugs!</h3>
+			<p>
+				Various people from our team took an active part in finding and documenting bugs as Github issues 
+				during our development. On Monday June 29, 2015 we also held a _Bug Bash_ session to find as many
+				issues as we could on the application in a two hour period. The testing performed by our team 
+				helped polish the application and led to various design changes ranging from the UI to our backend
+				(we had to implement 
+				<a class="underline"
+					href="https://github.com/BridgePhase/ctf/documentation/WorkingWithOpenFDA.md" target="_blank">
+				smart caching logic</a>). 
+			</p>
+				
+			<p>
+				Deployments to our production environment were controlled through Github pull requests that needed
+				approval by our Product Owner. All the builds and deployments were automatically done by TravisCI.
+				You can get more information about the technical aspects of our builds and deployments by visiting
+				<a class="underline" href="https://github.com/BridgePhase/ctf/documentation/CI-CD.md">our CI/CD documentation</a> on 
+				Github.
+			</p>
+		</div>		
 	</div>
 </div>

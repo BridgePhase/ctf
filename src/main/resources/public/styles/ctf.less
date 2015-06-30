@@ -406,11 +406,16 @@ strong {
 	}
 }
 
-.picture-left {
-	float: right;
+.article-picture {
+	width: 300px;
 }
 
-.picture-right {
+.article-left {
+	float: right;
+	margin-left: @default-padding;
+}
+
+.article-right {
 	float: right;
 }
 
@@ -621,12 +626,16 @@ strong {
 
 @media screen and (max-width: 568px) {
 	.bio {
-	text-align: center;
+		text-align: center;
 	
-	img {
-		width: 80%;
+		img {
+			width: 80%;
+		}
 	}
-}
+	
+	.article-left {
+		float: none;
+	}
 	
 }
 
