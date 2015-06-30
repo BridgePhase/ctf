@@ -111,12 +111,12 @@ public class OpenFdaServiceTest {
 	private void verifySortOrderOfFoodRecalls(EnforcementReportResponse response) {
 		Iterator<EnforcementReport> actualReports = response.getResults().iterator();
 		// sort by classification ascending, date descending
-		verifyProductIs("Product 3", actualReports.next());
-		verifyProductIs("Product 4", actualReports.next());
-		verifyProductIs("Product 1", actualReports.next());
-		verifyProductIs("Product 2", actualReports.next());
 		verifyProductIs("Product 5", actualReports.next());
+		verifyProductIs("Product 3", actualReports.next());
+		verifyProductIs("Product 1", actualReports.next());
 		verifyProductIs("Product 6", actualReports.next());
+		verifyProductIs("Product 4", actualReports.next());
+		verifyProductIs("Product 2", actualReports.next());
 	}
 
 	private void verifyProductIs(String productDescription, EnforcementReport report) {

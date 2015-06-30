@@ -7,12 +7,12 @@ import com.bridgephase.ctf.backend.domain.EnforcementReport;
 public class RecallByClassificationAndInitiationDate implements Comparator<EnforcementReport> {
 	@Override
 	public int compare(EnforcementReport report1, EnforcementReport report2) {
-		int initialCompare = report1.getClassification().compareToIgnoreCase(report2.getClassification());
+		int initialCompare = report1.getRecallInitiationDate().compareToIgnoreCase(report2.getRecallInitiationDate());
 		// the classifications are already different, we can stop here
 		if (initialCompare == 0) {
-			return -1 * report1.getRecallInitiationDate().compareToIgnoreCase(report2.getRecallInitiationDate());
+			return report1.getClassification().compareToIgnoreCase(report2.getClassification());
 		} else {
-			return initialCompare;
+			return -1 * initialCompare;
 		}
 	}
 }
