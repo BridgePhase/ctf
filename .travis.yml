@@ -12,7 +12,7 @@ before_install:
 - echo -n $GIT_TAG > src/main/resources/public/version
 - npm install -g protractor@2.1.0
 - "export DISPLAY=:99.0"
-- sh -e /etc/init.d/xvfb start - nohup bash -c "webdriver-manager start 2>&1 &" - sleep 5
+- sh -e /etc/init.d/xvfb start - nohup bash -c "webdriver-manager start --standalone &" - sleep 5
 
 script:
 - ./ci-script.sh
