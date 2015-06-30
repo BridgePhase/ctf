@@ -3,6 +3,6 @@
 echo "Starting server now" 
 ./gradlew bootRun &
 echo "Waiting for server now"
-sleep 15
+sleep 30
 echo "Running protractor tests now"
 protractor e2e/configuration.js
