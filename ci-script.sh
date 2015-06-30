@@ -1,6 +1,7 @@
 #!/bin/bash
 ./gradlew build awsRevision
 echo "Starting server now" 
+export production=true
 ./gradlew bootRun &
 echo "Waiting for server now"
 sleep 30
