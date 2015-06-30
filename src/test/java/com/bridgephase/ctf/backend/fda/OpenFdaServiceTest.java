@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
+import com.bridgephase.ctf.backend.domain.DeviceEvent;
 import com.bridgephase.ctf.backend.domain.DeviceEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugEventResponse;
 import com.bridgephase.ctf.backend.domain.DrugLabelResponse;
@@ -155,6 +157,9 @@ public class OpenFdaServiceTest {
 			.withField("event_type", "Death")
 			.withDateRangeField("date_of_event", sixMonthsAgo, today)
 			.build();
+		DeviceEventResponse mockResponse = new DeviceEventResponse();
+		mockResponse.setResults(new LinkedList<DeviceEvent>());
+		doReturn(mockResponse).when(mockRest).getForObject(any(URI.class), eq(DeviceEventResponse.class));
 		
 		service.deviceDeathRecallEvent();
 		
