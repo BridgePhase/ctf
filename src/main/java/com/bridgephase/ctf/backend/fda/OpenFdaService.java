@@ -24,6 +24,7 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 import com.bridgephase.ctf.backend.fda.comparators.RecallByClassificationAndInitiationDate;
+import com.bridgephase.ctf.backend.fda.comparators.RecallByDateOfEvent;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -79,15 +80,16 @@ public class OpenFdaService {
 			.withField("event_type", "Death")
 			.withDateRangeField("date_of_event", sixMonthsAgo, today)
 			.build();
-		
-		return restOperations.getForObject(
-				RequestBuilder.builder(fdaProtocol, fdaHost)
-					.withDataNoun(DataNoun.DEVICE)
-					.withContext(DataContext.EVENT)
-					.withSearch(searchQuery)
-					.withLimit(100)
-					.buildUri(),
-					DeviceEventResponse.class);
+		DeviceEventResponse response = restOperations.getForObject(
+			RequestBuilder.builder(fdaProtocol, fdaHost)
+			.withDataNoun(DataNoun.DEVICE)
+			.withContext(DataContext.EVENT)
+			.withSearch(searchQuery)
+			.withLimit(100)
+			.buildUri(),
+			DeviceEventResponse.class); 
+		Collections.sort(response.getResults(), new RecallByDateOfEvent());
+		return response;
 	}
 	
 	public FdaApiResponse latest(DataNoun noun, DataContext context) {
