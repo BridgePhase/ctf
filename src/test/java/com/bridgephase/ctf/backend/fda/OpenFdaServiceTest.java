@@ -34,7 +34,7 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 import com.bridgephase.ctf.backend.domain.enumeration.RecallClassification;
-import com.bridgephase.ctf.backend.shared.FdaApiKey;
+import com.bridgephase.ctf.backend.shared.KeyStore;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -377,7 +377,7 @@ public class OpenFdaServiceTest {
 		String expectedString = expected.toString();
 		String matchKey = "api_key=";
 		int startIndex = expectedString.indexOf(matchKey);
-		int endIndex = startIndex + FdaApiKey.KEY_LENGTH + matchKey.length();
+		int endIndex = startIndex + KeyStore.KEY_LENGTH + matchKey.length();
 		String expectedKey = expectedString.substring(startIndex, endIndex);
 		String actualKey = actualString.substring(startIndex, endIndex);
 		actualString = actualString.replace(actualKey, "");
