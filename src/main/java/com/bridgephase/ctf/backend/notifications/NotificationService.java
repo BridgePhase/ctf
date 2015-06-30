@@ -1,8 +1,10 @@
 package com.bridgephase.ctf.backend.notifications;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
@@ -177,8 +179,8 @@ public class NotificationService {
 			double ratio = 100 * ((double)value / total);
 			int percent = (int)Math.floor(ratio);
 			notification.setHeadline(
-					String.format("Of the %d %s recalls initiated within the past year, %d%% are considered %s.", 
-					total, noun.toString().toLowerCase(), percent, classification.description()));
+					String.format("Of the %s %s recalls initiated within the past year, %d%% are considered %s.", 
+					withCommas(total), noun.toString().toLowerCase(), percent, classification.description()));
 			notifications.add(notification);	
 		}
 		return notifications;
@@ -235,5 +237,9 @@ public class NotificationService {
 		int value = random.nextInt(3);
 		RecallClassification classification = recallClassifications[value];
 		return classification;
+	}
+	
+	private String withCommas(int value) {
+		return NumberFormat.getNumberInstance(Locale.US).format(value);
 	}
 }
