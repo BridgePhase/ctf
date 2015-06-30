@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.bridgephase.ctf.backend.domain.enumeration.RecallClassification;
+
 public class EnforcementReportTest {
 
 	@Test
@@ -34,5 +36,19 @@ public class EnforcementReportTest {
 			+ "4-pack shrink wrap of 7.25 oz boxes, and 5-pack shrink wrap of 7.25 oz boxes.");
 		assertEquals("Kraft Macaroni & Cheese Boxed Dinner Original Flavor, 7.25oz.", 
 			report.getFriendlyProductDescription());
+	}
+	
+	@Test
+	public void friendlyClassification() {
+		EnforcementReport report = new EnforcementReport();
+		report.setClassification("Class I");
+		assertEquals("Class I - " + RecallClassification.CLASS_I.description(), 
+			report.getClassificationDescription());
+		report.setClassification("Class II");
+		assertEquals("Class II - " + RecallClassification.CLASS_II.description(), 
+			report.getClassificationDescription());
+		report.setClassification("Class III");
+		assertEquals("Class III - " + RecallClassification.CLASS_III.description(), 
+			report.getClassificationDescription());
 	}
 }

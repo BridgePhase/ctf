@@ -22,7 +22,7 @@ public final class Cron {
 	@Autowired
 	private CacheService cacheService;
 	
-	@Scheduled(cron = "${cron_notifications:0 0 * * * *}")
+	@Scheduled(cron = "${cron_notifications:0 * * * * *}")
 	public void updateNotifications() {
 		logger.info("Cron task - Updating notifications initiated");
 		notificationService.updateNotifications();

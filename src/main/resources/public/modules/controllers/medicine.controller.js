@@ -7,18 +7,36 @@ function MedicineController($scope, $timeout, MedicineService) {
 	that.searchQuery = '';
 	that.resultsAvailable = null;
 	that.finalQuery = '';
+	that.searchFinished = false;
 	
 	that.search = function() {
 		that.resultsAvailable = false;
+		that.searchFinished = false;
 		MedicineService.drugCount(that.searchQuery).then(function(results) {
-			that.resultsAvailable = true
 			that.finalQuery = that.searchQuery;
-			displayChart(results);
-		});
-		MedicineService.search(that.searchQuery).then(function(results) {
-			console.log(results);
+			that.searchFinished = true;
+			if (hasData(results.deaths) || hasData(results.hospitalization) || hasData(results.threatening)
+				|| hasData(results.congenital) || hasData(results.disabling) || hasData(results.other)) {
+				that.resultsAvailable = true;
+				var deaths = buildUpData(results.deaths, 'Death');
+				var hospitalization = buildUpData(results.hospitalization, 'Hospitalization');
+				var lifeThreatening = buildUpData(results.threatening, 'Life Threatening Event');
+				var congenital = buildUpData(results.congenital, 'Congenital Anomaly');
+				var disability = buildUpData(results.disabling, 'Disability');
+				var other = buildUpData(results.other, 'Other Serious Condition');
+				displayChart(deaths, hospitalization, lifeThreatening, congenital, disability, other);
+			} else {
+				that.resultsAvailable = false;
+			}
 		});
 	};
+	
+	function hasData(category) {
+		for (var k in category.data) {
+			return true;	
+		}
+		return false;
+	}
 	
 	function getDataFor(data, category) {
 		var val = data.data[category];
@@ -46,22 +64,20 @@ function MedicineController($scope, $timeout, MedicineService) {
 	};
 	
 	
-	function displayChart(result) {
+	function displayChart(deaths, hospitalization, lifeThreatening, congenital, disability, other) {
 		$timeout(function() {
 			if (that.chart) {
 				that.chart.destroy();
 			}
-			
 			that.chart = c3.generate({
 			    data: {
 			        columns: [
-			            buildUpData(result.deaths, 'Death'),
-			            buildUpData(result.hospitalization, 'Hospitalization'),
-			            buildUpData(result.threatening, 'Life Threatening Event'),
-			            buildUpData(result.congenital, 'Congenital Anomaly'),
-			            buildUpData(result.disabling, 'Disability'),
-			            buildUpData(result.other, 'Other Serious Condition')
-			            
+			            deaths,
+			            hospitalization,
+			            lifeThreatening,
+			            congenital,
+			            disability,
+			            other
 			        ],
 			        type: 'bar',
 			        groups: [

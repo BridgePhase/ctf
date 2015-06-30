@@ -38,6 +38,44 @@ public class RequestBuilderTest {
 			.withLimit(100)
 			.build();
 		assertTrue("Real result was: " + result, result.contains("limit=100"));
-
+	}
+	
+	@Test
+	public void candHandleCount() {
+		String result = RequestBuilder.builder(Protocol.HTTP, "open.fda.gov")
+				.withCount("myfield")
+				.build();
+		assertTrue("Real result was: " + result, result.contains("&count=myfield"));
+	}
+	
+	@Test
+	public void candHandleSearchQuery() {
+		String search = SearchBuilder.builder()
+				.withField("distribution_pattern", "nationwide VA")
+				.withExactField("status", "Ongoing")
+				.build();
+		
+		String result = RequestBuilder.builder(Protocol.HTTP, "open.fda.gov")
+				.withSearch(search)
+				.build();
+		assertTrue("Real result was: " + result, result.contains(String.format("&search=%s", search)));
+	}
+	
+	@Test
+	public void testBuildUri() {
+		String search = SearchBuilder.builder()
+				.withField("distribution_pattern", "nationwide VA")
+				.withExactField("status", "Ongoing")
+				.build();
+		
+		RequestBuilder builder = RequestBuilder.builder(Protocol.HTTP, "open.fda.gov")
+				.withSearch(search)
+				.withCount("myField")
+				.withLimit(100);
+		
+		builder.buildUri();
+		
+		builder.withSearch(null);
+		builder.buildUri();
 	}
 }

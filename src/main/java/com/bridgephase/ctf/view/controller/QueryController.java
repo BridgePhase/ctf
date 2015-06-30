@@ -30,11 +30,14 @@ import com.bridgephase.ctf.model.jpa.Notification;
 @Controller
 public class QueryController {
 	
-	@Autowired
 	private OpenFdaService openFda;
+	private NotificationService notificationService;
 	
 	@Autowired
-	private NotificationService notificationService;
+	public QueryController(OpenFdaService openFda, NotificationService notifications) {
+		this.openFda = openFda;
+		this.notificationService = notifications;
+	}
 	
 	@RequestMapping(value = "/api/food/{state}")
 	@ResponseBody

@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,12 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Jaime Garcia
  */
 @Controller
-public class HomeController {
+public class HomeController implements ErrorController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Value("${production:false}")
 	private String inProduction;
-	
 	
 	@Autowired
 	private MappingJackson2HttpMessageConverter converter;
@@ -90,6 +89,13 @@ public class HomeController {
 		return "home";
 	}
 	
+	/**
+	 * Partials are not just HTML partials, instead they are Thymeleaf templates which allows
+	 * us to add server-side data if necessary.
+	 * @param model	- Spring model to return to the partial
+	 * @param partial - represents which template to load
+	 * @return The views are stored in the <code>modules/</code> directory
+	 */
 	@RequestMapping(value = "/partials/{partial}")
 	public String partial(Model model, @PathVariable("partial") String partial) {
 		model.addAttribute("version", version());
@@ -97,15 +103,28 @@ public class HomeController {
 		return "modules/" + partial;
 	}
 	
-	@ExceptionHandler(Exception.class)
-	@ResponseBody
-	public ModelAndView handleError(HttpServletRequest req, Exception exception) {
-	    logger.error("Request: " + req.getRequestURL() + " raised " + exception);
-
+	/**
+	 * This is the default error handler, basically directs the user to an error page
+	 * @param request	The http request in case we need it
+	 * @return A model and view to point to the correct error page.
+	 */
+	@RequestMapping("/error")
+	public ModelAndView handleError(HttpServletRequest request) {
+		logger.error("Did not find the address being requested, returning an error page: {}", request.getRequestURL());
 	    ModelAndView mav = new ModelAndView();
-	    mav.addObject("exception", exception);
-	    mav.addObject("url", req.getRequestURL());
+	    mav.addObject("version", version());
+		mav.addObject("production", Boolean.parseBoolean(inProduction));
 	    mav.setViewName("errorpage");
 	    return mav;
-	  }
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.boot.autoconfigure.web.ErrorController#getErrorPath()
+	 */
+	@Override
+	public String getErrorPath() {
+		return "/errorpage";
+	}
+
+}
