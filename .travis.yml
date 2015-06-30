@@ -10,6 +10,8 @@ before_install:
 - chmod +x tag-release.sh
 - export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
 - echo -n $GIT_TAG > src/main/resources/public/version
+
+install:
 - npm install -g protractor@2.1.0
 - webdriver-manager update --standalone
 
