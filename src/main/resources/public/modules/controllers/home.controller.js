@@ -5,7 +5,7 @@ function HomeController($http) {
 	
 	that.notifications = [];
 	
-	$http.get("/ctf/app/notifications").then(function(response) {
+	$http.get("/ctf/app/notifications?_"+(new Date().getTime())).then(function(response) {
 		notifications = response.data;
 		for (var i = 0; i < notifications.length; i++) {
 			that.notifications.push({ text: notifications[i].headline });
