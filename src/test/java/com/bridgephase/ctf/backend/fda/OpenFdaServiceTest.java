@@ -248,7 +248,7 @@ public class OpenFdaServiceTest {
 		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
 		URI actual = captor.getValue();
 		URI expected = expectUrl(DataNoun.DRUG, DataContext.EVENT, expectedSearchQuery, 
-				"patient.reaction.reactionmeddrapt.exact");
+				OpenFdaService.COUNT_LIMIT, "patient.reaction.reactionmeddrapt.exact");
 		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 	}
@@ -265,7 +265,7 @@ public class OpenFdaServiceTest {
 		ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
 		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
 		URI actual = captor.getValue();
-		URI expected = expectUrl(DataNoun.DRUG, DataContext.LABEL, expectedSearchQuery, "openfda.route");
+		URI expected = expectUrl(DataNoun.DRUG, DataContext.LABEL, expectedSearchQuery, OpenFdaService.COUNT_LIMIT, "openfda.route");
 		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 	}
@@ -283,7 +283,7 @@ public class OpenFdaServiceTest {
 		verify(mockRest).getForObject(captor.capture(), eq(SearchCountResponse.class));
 		URI actual = captor.getValue();
 		URI expected = expectUrl(DataNoun.DEVICE, DataContext.EVENT, expectedSearchQuery, 
-				"event_type.exact");
+				OpenFdaService.COUNT_LIMIT, "event_type.exact");
 		verifyUrl(actual, expected);
 		assertTrue(mockResponse.equals(response));
 	}
@@ -311,7 +311,7 @@ public class OpenFdaServiceTest {
 			ArgumentCaptor<URI> captor = ArgumentCaptor.forClass(URI.class);
 			verify(mockRest, times(count)).getForObject(captor.capture(), eq(SearchCountResponse.class));
 			URI actual = captor.getValue();
-			URI expected = expectUrl(noun, DataContext.ENFORCEMENT, expectedSearchQuery, "classification");
+			URI expected = expectUrl(noun, DataContext.ENFORCEMENT, expectedSearchQuery, OpenFdaService.COUNT_LIMIT, "classification");
 			verifyUrl(actual, expected);
 			assertTrue(mockResponse.equals(response));
 		}
@@ -354,15 +354,6 @@ public class OpenFdaServiceTest {
 			.withContext(context)
 			.withSearch(search)
 			.withLimit(100)
-			.buildUri();
-	}
-	
-	private URI expectUrl(DataNoun noun, DataContext context, String search, String count) {
-		return RequestBuilder.builder(Protocol.valueOf(TEST_PROTOCOL.toUpperCase()), TEST_HOST)
-			.withDataNoun(noun)
-			.withContext(context)
-			.withSearch(search)
-			.withCount(count)
 			.buildUri();
 	}
 	

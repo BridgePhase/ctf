@@ -33,6 +33,7 @@ public class OpenFdaService {
 	private Protocol fdaProtocol;
 	private String fdaHost;
 	private RestOperations restOperations;
+	protected static final int COUNT_LIMIT = 10;
 	
 	@Autowired
 	public OpenFdaService(
@@ -185,6 +186,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DRUG)
 				.withSearch(searchQuery)
 				.withCount("patient.reaction.reactionmeddrapt.exact")
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -198,6 +200,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DRUG)
 				.withSearch(searchQuery)
 				.withCount("openfda.route")
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.LABEL);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -211,6 +214,7 @@ public class OpenFdaService {
 				.withDataNoun(DataNoun.DEVICE)
 				.withSearch(searchQuery)
 				.withCount("event_type.exact")
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.EVENT);
 			return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}
@@ -229,6 +233,7 @@ public class OpenFdaService {
 				.withDataNoun(noun)
 				.withSearch(searchQuery)
 				.withCount("classification")
+				.withLimit(COUNT_LIMIT)
 				.withContext(DataContext.ENFORCEMENT);
 		return restOperations.getForObject(builder.buildUri(), SearchCountResponse.class);
 	}

@@ -1,8 +1,10 @@
 package com.bridgephase.ctf.backend.notifications;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -46,29 +48,8 @@ public class NotificationService {
 		if (items.isEmpty()) {
 			items = handleEmpty();
 		}
-		randomizedList(items);
+		items = randomizedList(items);
 		return items;
-	}
-	
-	private List<Notification> randomizedList(List<Notification> input) {
-		List<Notification> output = new ArrayList<>();
-		for (Notification notification : input) {
-			String text = notification.getHeadline();
-			if (StringUtils.isEmpty(text)) {
-				continue;
-			}
-			if (text.contains(randomMedication()) || 
-				text.contains(randomDrugPurpose()) || 
-				text.contains(randomDeviceOperator())) {
-				output.add(notification);
-			}
-			for (@SuppressWarnings("unused") DataNoun noun : DataNoun.values()) {
-				if (text.contains(randomRecallClassification().description())) {
-					output.add(notification);
-				}
-			}
-		}
-		return output;
 	}
 	
 	@Transactional
@@ -91,6 +72,7 @@ public class NotificationService {
 	}
 	
 	private List<Notification> generateNotifications() {
+		logger.info("Generating notifications.");
 		List<Notification> notifications = new ArrayList<>();
 		notifications.addAll(drugReactions());
 		notifications.addAll(recallNotifications(DataNoun.DEVICE));
@@ -99,6 +81,35 @@ public class NotificationService {
 		notifications.addAll(deviceEvents());
 		notifications.addAll(recallNotifications(DataNoun.DRUG));
 		return notifications;
+	}
+	
+	private List<Notification> randomizedList(List<Notification> input) {
+		logger.info("Randomizing return list.");
+		List<Notification> output = new ArrayList<>();
+		Set<Notification> unique = new HashSet<>();
+		String medication = randomMedication();
+		String purpose = randomDrugPurpose();
+		String operator = randomDeviceOperator();
+		RecallClassification classification = randomRecallClassification();
+		for (Notification notification : input) {
+			String text = notification.getHeadline();
+			if (StringUtils.isEmpty(text)) {
+				continue;
+			}
+			if (text.contains(medication) || 
+				text.contains(purpose) || 
+				text.contains(operator)) {
+				unique.add(notification);
+				continue;
+			}
+			for (@SuppressWarnings("unused") DataNoun noun : DataNoun.values()) {
+				if (text.contains(classification.description())) {
+					unique.add(notification);
+				}
+			}
+		}
+		output.addAll(unique);
+		return output;
 	}
 	
 	private List<Notification> drugReactions() {
