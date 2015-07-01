@@ -116,7 +116,7 @@ task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBow
 
 if ("true".equals(travisCI)) {
   clean.finalizedBy cleanupAllUiGeneratedComponents
-  processResources.finalizedBy buildUiArtifacts 
+  processResources.dependsOn buildUiArtifacts 
 }
 
 /* For AWS deployments, need to copy the appspec file to the libs directory */
