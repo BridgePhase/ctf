@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo docker stop ctf-deployment
-sudo docker rm ctf-deployment
+sudo docker stop ctf-deployment || true
+sudo docker rm ctf-deployment || true
