@@ -15,10 +15,10 @@ install:
 - npm install -g protractor@2.1.0
 - webdriver-manager update --standalone
 
+# Travis CI recommends these for browser testing
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-# Immune to logouts, but not VM deprovisions!
 - nohup bash -c "webdriver-manager start 2>&1 &"
 
 script:
