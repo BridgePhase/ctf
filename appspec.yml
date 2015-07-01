@@ -8,6 +8,8 @@ os: linux
 hooks:
  ApplicationStop:
    - location: stop-docker.sh
+     runas: ubuntu
  # Now we can start up Tomcat once again
  ApplicationStart:
    - location: start-docker.sh
+     runas: ubuntu
