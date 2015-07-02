@@ -18,11 +18,11 @@ The application will load at [http://localhost:8080/ctf](http://localhost:8080/c
 For other deployment options visit our [Getting Started document](documentation/GettingStarted.md) 
 
 ## Category Level II Requirements
-* Team members and roles are presented at the [About Us](http://considerbridgephase.com/ctf/#/aboutUs) page of our application
+* Team members and roles are presented at the [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application
 
 * This prototype is powered by Spring Boot, Hibernate, AngularJS, PureCSS, Gradle and others. For a full listing view our [Technologies document](documentation/Technologies.md)
 
-* Our implementation is deployed on Amazon Web Services (AWS) EC2 instances. Details are included
+* Our implementation is deployed on Amazon Web Services (AWS) EC2 instances using a [Docker](https://www.docker.com) image. Details are included
 in our [CI/CD](documentation/CI-CD.md) and [AWS](documentation/aws.md) documents
 
 * Our application includes unit tests for the Java backend services written in jUnit and an end-to-end UI test using [Protractor](http://protractor.org). The results of these tests are documented in [our Travis CI project](https://travis-ci.org/BridgePhase/ctf)
