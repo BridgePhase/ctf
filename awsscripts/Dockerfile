@@ -6,4 +6,4 @@ ENV h2location=/home/local/ctf/data
 ENV cron_notifications="0 5,17 * * * *"
 ENV cron_cache_clear="0 5,17 * * * *"
 ADD ctf.war /usr/local/tomcat/webapps/
-CMD ["/usr/local/tomcat/bin/catalina.sh", "start"]
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
