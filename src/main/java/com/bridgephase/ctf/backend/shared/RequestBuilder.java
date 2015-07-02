@@ -75,7 +75,7 @@ public class RequestBuilder {
 			.append("/").append(noun)
 			.append("/").append(context)
 			.append(format)
-			.append("?").append("api_key=").append(FdaApiKey.instance().key());
+			.append("?").append("api_key=").append(KeyStore.instance().key());
 		if (StringUtils.isNotEmpty(search)) {
 			builder.append("&search=")
 			.append(search);

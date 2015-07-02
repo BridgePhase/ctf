@@ -13,14 +13,25 @@ branches:
 # http://stackoverflow.com/questions/28217556/travis-ci-auto-tag-build-for-github-release  
 before_install:
 - chmod +x gradlew
+- chmod +x ci-script.sh
 - chmod +x tag-release.sh
 - export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
 - echo -n $GIT_TAG > src/main/resources/public/version
 
 # So we don't just want to build our application but also create a 
 # deployment artifact that can be deployed using AWS Code Deploy
+install:
+- npm install -g protractor@2.1.0
+- webdriver-manager update --standalone
+
+# Travis CI recommends these for browser testing
+before_script:
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- nohup bash -c "webdriver-manager start 2>&1 &"
+
 script:
-- ./gradlew build awsRevision
+- ./ci-script.sh
 
 # If the build is successful, we do actually create a tag for the release if necessary
 after_success:

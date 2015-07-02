@@ -132,29 +132,36 @@ task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBow
 /* When we're in a CI environment we'll need to run our UI tasks */
 if ("true".equals(travisCI)) {
   clean.finalizedBy cleanupAllUiGeneratedComponents
-  processResources.finalizedBy buildUiArtifacts 
+  processResources.dependsOn buildUiArtifacts 
 }
 
 /* For AWS deployments, need to copy the appspec file to the libs directory */
 task copyAppSpec(type: Copy) {
   from 'appspec.yml'
-  into 'build/libs'
+  into 'build/aws'
+}
+
+/* Copy the WAR file too */
+task copyWar(type: Copy) {
+  from 'build/libs/ctf.war'
+  into 'build/aws'
 }
 
 /* For AWS deployments, need to copy the scripts necessary to the libs directory */
 task copyScripts(type: Copy) {
   from 'awsscripts'
-  into 'build/libs'
+  into 'build/aws'
 }
 
 /* Now we need to zip up the AWS revision with all the contents under libs */
 task awsRevision(type: Zip) {
-  from 'build/libs'  
+  from 'build/aws'  
 }
 
 /* The AWS Revision is created by grouping all artifacts from the libs directory 
  * which should now include the appspec file and the scripts necessary for deployment
  */
 awsRevision.dependsOn war
+awsRevision.dependsOn copyWar
 awsRevision.dependsOn copyAppSpec
 awsRevision.dependsOn copyScripts
