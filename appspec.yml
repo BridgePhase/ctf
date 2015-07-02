@@ -2,19 +2,22 @@ version: 0.0
 # AppSpec Configuration for AWS Code Deploy
 os: linux 
 
-# We need to copy our artifacts over to the tomcat applications directory
-# This can be replaced with an environment variable reference defined in the 
-# AWS instance - for example $TOMCAT_DIR
 files:
-  - source: ctf.war
-    destination: /home/ubuntu/applications/apache-tomcat-7.0.62/webapps
+ - source: Dockerfile
+   destination: /home/ubuntu/docker/
+ - source: ctf.war
+   destination: /home/ubuntu/docker/
 
 # Before the application is deployed, Tomcat needs to be stopped and 
 # the existing applications cleaned up, otherwise, AWS Codedeploy will not
 # overwrite the files. 
 hooks:
  ApplicationStop:
-   - location: cleanup-tomcat.sh
+   - location: stop-docker.sh
+     timeout: 300
+     runas: ubuntu
  # Now we can start up Tomcat once again
  ApplicationStart:
-   - location: start-tomcat.sh
+   - location: start-docker.sh
+     timeout: 600
+     runas: ubuntu
