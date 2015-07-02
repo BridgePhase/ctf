@@ -3,6 +3,8 @@ version: 0.0
 os: linux 
 
 files:
+ - source: index.jsp
+   destination: /home/ubuntu/docker/
  - source: Dockerfile
    destination: /home/ubuntu/docker/
  - source: ctf.war
