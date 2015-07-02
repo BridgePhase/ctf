@@ -49,7 +49,7 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   on:
     branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
@@ -59,8 +59,8 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
-  key: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER/ctf.zip
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
+  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf.zip
   application: $AWS_CODEDEPLOY_APPLICATION
   deployment_group: $AWS_CODEDEPLOY_SPRINT_GROUP
   on:
@@ -73,7 +73,7 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   on:
     branch: master
     condition: $DEPLOY_TO_AWS = true
@@ -83,8 +83,8 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
-  key: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER/ctf.zip
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
+  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf.zip
   application: $AWS_CODEDEPLOY_APPLICATION
   deployment_group: $AWS_CODEDEPLOY_GROUP
   on:
