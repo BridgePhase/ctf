@@ -15,7 +15,7 @@ before_install:
 - chmod +x gradlew
 - chmod +x ci-script.sh
 - chmod +x tag-release.sh
-- export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
+- export GIT_TAG=ctf-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
 - echo -n $GIT_TAG > src/main/resources/public/version
 - sed -i "s/_TAG_/$GIT_TAG/g" dockerscripts/build-docker.sh
 
@@ -59,7 +59,7 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
-  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf.zip
+  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf-docker.zip
   application: DockerRelease
   deployment_group: DockerGroup
   on:
