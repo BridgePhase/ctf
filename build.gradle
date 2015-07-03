@@ -147,11 +147,31 @@ task copyWar(type: Copy) {
   into 'build/aws'
 }
 
+task copyDockerWar(type: Copy) {
+  from 'build/libs/ctf.war'
+  into 'build/aws-docker'
+}
+
 /* For AWS deployments, need to copy the scripts necessary to the libs directory */
 task copyScripts(type: Copy) {
   from 'awsscripts'
   into 'build/aws'
 }
+
+task copyDockerScripts(type: Copy) {
+  from 'dockerscripts'
+  into 'build/aws-docker'
+}
+
+task dockerRevision(type: Zip) {
+  destinationDir = new File("build/docker-distribution")
+  classifier = "docker"
+  from 'build/aws-docker'
+}
+
+dockerRevision.dependsOn war
+dockerRevision.dependsOn copyDockerWar
+dockerRevision.dependsOn copyDockerScripts
 
 /* Now we need to zip up the AWS revision with all the contents under libs */
 task awsRevision(type: Zip) {
@@ -165,3 +185,4 @@ awsRevision.dependsOn war
 awsRevision.dependsOn copyWar
 awsRevision.dependsOn copyAppSpec
 awsRevision.dependsOn copyScripts
+

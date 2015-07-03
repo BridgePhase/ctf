@@ -48,7 +48,7 @@ deploy:
   secret_access_key: $AWS_SECRET_KEY
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
-  local_dir: build/distributions
+  local_dir: build/docker-distribution
   upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   on:
     branch: docker_**
@@ -58,7 +58,6 @@ deploy:
   secret_access_key: $AWS_SECRET_KEY
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
-  local_dir: build/distributions
   upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf.zip
   application: DockerRelease
