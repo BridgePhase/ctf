@@ -182,7 +182,6 @@ task awsRevision(type: Zip) {
  * which should now include the appspec file and the scripts necessary for deployment
  */
 awsRevision.dependsOn war
-awsRevision.dependsOn copyWar
 awsRevision.dependsOn copyAppSpec
 awsRevision.dependsOn copyScripts
 

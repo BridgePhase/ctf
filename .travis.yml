@@ -18,6 +18,7 @@ before_install:
 - export GIT_TAG=ctf-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
 - echo -n $GIT_TAG > src/main/resources/public/version
 - sed -i "s/_TAG_/$GIT_TAG/g" dockerscripts/build-docker.sh
+- sed -i "s/_TAG_/$GIT_TAG/g" awsscripts/start-docker.sh
 
 # Need to install dependencies for testing 
 install:
@@ -51,7 +52,7 @@ deploy:
   local_dir: build/docker-distribution
   upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   on:
-    branch: docker_**
+    branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
 - provider: codedeploy
   access_key_id: $AWS_ACCESS_ID
@@ -63,7 +64,7 @@ deploy:
   application: DockerRelease
   deployment_group: DockerGroup
   on:
-    branch: docker_**
+    branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
 # Test deployments
 - provider: s3

@@ -2,18 +2,6 @@ version: 0.0
 # AppSpec Configuration for AWS Code Deploy
 os: linux 
 
-# I had to copy these files out of the revision
-# into their own directory. It appears that 
-# CodeDeploy was failing to create the images if this was
-# not the case
-files:
- - source: index.jsp
-   destination: /home/ubuntu/docker/
- - source: Dockerfile
-   destination: /home/ubuntu/docker/
- - source: ctf.war
-   destination: /home/ubuntu/docker/
-
 # Before the application is deployed, Docker needs to be stopped and 
 # the existing images cleaned up, otherwise the building of the 
 # new image and deployment will fail. 

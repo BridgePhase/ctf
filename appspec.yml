@@ -25,5 +25,5 @@ hooks:
  # Now we can start up Docker once again, we'll give it 10 minutes
  ApplicationStart:
    - location: start-docker.sh
-     timeout: 600
+     timeout: 1200
      runas: ubuntu
