@@ -1,11 +1,5 @@
 #!/bin/bash
-if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "docker" ]; then
-	echo "Running docker revision"
-	./gradlew clean build dockerRevision
-else
-	echo "Running regular revision"
-	./gradlew clean build awsRevision
-fi
+./gradlew clean build awsRevision dockerRevision
 echo "Starting server now" 
 export production=true
 java -jar build/libs/ctf-1.0.jar & >/dev/null 2>&1
