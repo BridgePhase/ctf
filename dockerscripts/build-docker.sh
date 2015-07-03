@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo docker build -t ctf-tomcat:_TAG_ /home/ubuntu/docker
+sudo docker build -t jramirez/bridgephase:_TAG_ /home/ubuntu/docker
