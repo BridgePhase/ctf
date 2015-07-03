@@ -43,6 +43,7 @@ after_success:
 # triggered by pushes to branches that start with "sprint_".
 # The other deployment is our real production deployment and that 
 # one bases off of "master"
+# Test deployments
 deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
@@ -66,7 +67,6 @@ deploy:
   on:
     branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
-# Test deployments
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
   secret_access_key: $AWS_SECRET_KEY
@@ -91,7 +91,6 @@ deploy:
     branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
 # Production deployments
-deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
   secret_access_key: $AWS_SECRET_KEY
