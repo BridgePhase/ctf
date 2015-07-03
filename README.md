@@ -1,7 +1,7 @@
 # Consider the Following
 Take [Consider the following](http://considerbridgephase.com) for a test drive!
 
-[Consider the following - testing environment.](http://54.175.58.210:8080/ctf)
+[Consider the following - testing environment.](http://ec2-54-209-151-190.compute-1.amazonaws.com:8080)
 
 [![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
 
