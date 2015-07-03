@@ -1,7 +1,7 @@
 #!/bin/bash
 # We run this in detached mode so that it doesn't hang code deploy
 found=0
-while[ $found -eq 0 ]; do
+while [ $found -eq 0 ]; do
 	echo "Waiting for image to appear"
 	sleep 30
 	found=1
