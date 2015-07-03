@@ -1,4 +1,6 @@
 # Consider the Following
+
+_Consider the Following_
 Take [Consider the following](http://considerbridgephase.com) for a test drive!
 
 [Consider the following - testing environment.](http://ec2-54-209-151-190.compute-1.amazonaws.com:8080)
@@ -25,7 +27,7 @@ For other deployment options visit our [Getting Started document](documentation/
 * Our implementation is deployed on Amazon Web Services (AWS) EC2 instances using a [Docker](https://www.docker.com) image. Details are included
 in our [CI/CD](documentation/CI-CD.md) and [AWS](documentation/aws.md) documents
 
-* Our application includes unit tests for the Java backend services written in jUnit and an end-to-end UI test using [Protractor](http://protractor.org). The results of these tests are documented in [our Travis CI project](https://travis-ci.org/BridgePhase/ctf)
+* Our application includes unit tests for the Java backend services written in jUnit and an end-to-end UI test using [Protractor](https://angular.github.io/protractor). The results of these tests are documented in [our Travis CI project](https://travis-ci.org/BridgePhase/ctf)
 
 * All branches under this repository run through [our Travis CI project](https://travis-ci.org/BridgePhase/ctf) after a push or pull request. Branches starting with `sprint_*` are automatically deployed to a [Staging environment](http://54.175.58.210:8080/ctf), pushes to `master` automatically deployed by Travis to our [Production environment](http://considerbridgephase.com)
 
