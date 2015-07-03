@@ -24,7 +24,7 @@ import com.bridgephase.ctf.backend.domain.enumeration.DataContext;
 import com.bridgephase.ctf.backend.domain.enumeration.DataNoun;
 import com.bridgephase.ctf.backend.domain.enumeration.Protocol;
 import com.bridgephase.ctf.backend.fda.comparators.RecallByClassificationAndInitiationDate;
-import com.bridgephase.ctf.backend.fda.comparators.RecallByDateOfEvent;
+import com.bridgephase.ctf.backend.fda.comparators.RecallByDeviceName;
 import com.bridgephase.ctf.backend.shared.RequestBuilder;
 import com.bridgephase.ctf.backend.shared.SearchBuilder;
 
@@ -89,7 +89,7 @@ public class OpenFdaService {
 			.withLimit(100)
 			.buildUri(),
 			DeviceEventResponse.class); 
-		Collections.sort(response.getResults(), new RecallByDateOfEvent());
+		Collections.sort(response.getResults(), new RecallByDeviceName());
 		return response;
 	}
 	
