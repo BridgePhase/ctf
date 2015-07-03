@@ -1,2 +1,4 @@
 #!/bin/bash
+# This was added so that we can be sure that developers run the correct version 
+# of Bower (the one installed by our package.json definition)
 node_modules/bower/bin/bower $@

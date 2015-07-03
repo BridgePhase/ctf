@@ -17,8 +17,8 @@ apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
 /* Project Information */
-def projectName = 'Bridgephase MVC Starter'
-def deployableName = 'BridgePhaseMVC'
+def projectName = 'Consider the following'
+def deployableName = 'ctf'
 def projectVersion = '1.0'
 
 /* This requires Java 7 */
@@ -50,12 +50,18 @@ String travisCI = "$System.env.CI"
 
 /* List of dependencies */
 dependencies {
-  // compile dependencies
+  /*
+   * When we're running in a CI environment, we don't need to innclude these
+   * because on a CI environment we'll be building up our dependencies using Bower
+   * instead of webjars. The production environment also does not need
+   * these to work since all JS and CSS components will be created by our Gulp task.
+   * What this also lets us do is that developers don't necessarily need node or npm
+   * installed to run the application.  
+   */ 
   if (!"true".equals(travisCI)) {
     compile 'org.webjars:angularjs:1.3.16'				            // AngularJS
     compile 'org.webjars.bower:angular-ui-router:0.2.14'			// Angular ui-router
     compile 'org.webjars:less:2.5.0'                          // LESS compiler
-    compile 'org.webjars:datatables:1.10.7'
     compile 'org.webjars:c3:0.4.9-1'
   }
   
@@ -63,6 +69,7 @@ dependencies {
   
   compile 'org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE'   	// spring boot
   compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'                     // Tie in to Thymeleaf
+  compile 'org.aspectj:aspectjweaver:1.6.10'
   
   compile 'org.springframework.data:spring-data-jpa:1.8.0.RELEASE'            // Spring data
   compile 'org.hibernate:hibernate-entitymanager:4.3.10.Final'                // Hibernate
@@ -78,42 +85,51 @@ dependencies {
   
 }
 
+/* Utility task to ensure that NPM dependencies are installed */
 task installNpmModules(type: Exec) {
   commandLine 'npm', 'install'
 }
 
+/* Our bower script wrapper needs permissions to run */
 task grantBowerPermissions(type: Exec) {
     commandLine 'chmod', '+x', './bower'
 }
 
+/* Install the Bower dependencies by executing our own Bower script */
 task installBowerComponents(type: Exec, dependsOn: ["installNpmModules", "grantBowerPermissions"]) {
   commandLine './bower', 'install'
 }
 
+/* Our Gulp script wrapper needs permissions to run */
 task grantGulpPermissions(type: Exec) {
   commandLine 'chmod', '+x', './gulp'
-  
 }
+
+/* This task triggers the minification and concatenation process using our gulpfile */
 task buildUiArtifacts(type: Exec, 
   dependsOn: ["installBowerComponents", "grantGulpPermissions"]) {
   commandLine './gulp', 'default'
 }
 
+/* Utility task to make sure we start with a fresh set of node modules */
 task cleanupNodeModules(type: Exec) {
   commandLine 'rm', '-rf', 'node_modules/'
 }
 
+/* Utility task to make sure we start with a fresh set of Bower dependencies */
 task cleanupBowerLibraries(type: Exec) {
   commandLine 'rm', '-rf', 'src/main/resources/public/libraries/'
 }
 
+/* Cleans up auto-generated CTF artifacts */
 task cleanupArtifacts(type: Exec) {
   commandLine 'rm', '-rf', 'src/main/resources/public/ctf-app.js'
 }
 
+/* And one task to bind them! */
 task cleanupAllUiGeneratedComponents(dependsOn: ["cleanupArtifacts", "cleanupBowerLibraries", "cleanupNodeModules"])
 
-
+/* When we're in a CI environment we'll need to run our UI tasks */
 if ("true".equals(travisCI)) {
   clean.finalizedBy cleanupAllUiGeneratedComponents
   processResources.dependsOn buildUiArtifacts 
@@ -131,12 +147,33 @@ task copyWar(type: Copy) {
   into 'build/aws'
 }
 
+task copyDockerWar(type: Copy) {
+  from 'build/libs/ctf.war'
+  into 'build/aws-docker'
+}
+
 /* For AWS deployments, need to copy the scripts necessary to the libs directory */
 task copyScripts(type: Copy) {
   from 'awsscripts'
   into 'build/aws'
 }
 
+task copyDockerScripts(type: Copy) {
+  from 'dockerscripts'
+  into 'build/aws-docker'
+}
+
+task dockerRevision(type: Zip) {
+  destinationDir = new File("build/docker-distribution")
+  classifier = "docker"
+  from 'build/aws-docker'
+}
+
+dockerRevision.dependsOn war
+dockerRevision.dependsOn copyDockerWar
+dockerRevision.dependsOn copyDockerScripts
+
+/* Now we need to zip up the AWS revision with all the contents under libs */
 task awsRevision(type: Zip) {
   from 'build/aws'  
 }
@@ -145,6 +182,6 @@ task awsRevision(type: Zip) {
  * which should now include the appspec file and the scripts necessary for deployment
  */
 awsRevision.dependsOn war
-awsRevision.dependsOn copyWar
 awsRevision.dependsOn copyAppSpec
 awsRevision.dependsOn copyScripts
+

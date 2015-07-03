@@ -1,2 +1,4 @@
 #!/bin/bash
+# We created a wrapper so that developers can execute the correct
+# version of Gulp (from our package.json)
 node node_modules/gulp/bin/gulp.js $@

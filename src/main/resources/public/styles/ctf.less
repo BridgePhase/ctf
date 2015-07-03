@@ -406,6 +406,19 @@ strong {
 	}
 }
 
+.article-picture {
+	width: 400px;
+}
+
+.article-left {
+	float: right;
+	margin-left: @default-padding;
+}
+
+.article-right {
+	float: right;
+}
+
 /* Datatable */
 .datatable {
 	table-layout: fixed;
@@ -613,12 +626,16 @@ strong {
 
 @media screen and (max-width: 568px) {
 	.bio {
-	text-align: center;
+		text-align: center;
 	
-	img {
-		width: 80%;
+		img {
+			width: 80%;
+		}
 	}
-}
+	
+	.article-left {
+		float: none;
+	}
 	
 }
 

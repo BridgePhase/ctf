@@ -1,16 +1,26 @@
 language: java
 
+# We don't want to build tags, since our tags 
+# start with the name of "build-" we added this step
 branches:
   except:
     - /^build-[0-9a-z\-]*/
-  
+
+# Creating the tag for the current release allows us to be able to 
+# include a version file as part of the deployable artifacts. This version
+# file is read from the application to be able to provide it through 
+# an endpoint (in our case ctf/alive). This approach was based off of 
+# http://stackoverflow.com/questions/28217556/travis-ci-auto-tag-build-for-github-release  
 before_install:
 - chmod +x gradlew
 - chmod +x ci-script.sh
 - chmod +x tag-release.sh
-- export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
+- export GIT_TAG=ctf-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
 - echo -n $GIT_TAG > src/main/resources/public/version
+- sed -i "s/_TAG_/$GIT_TAG/g" dockerscripts/build-docker.sh
+- sed -i "s/_TAG_/$GIT_TAG/g" awsscripts/start-docker.sh
 
+# Need to install dependencies for testing 
 install:
 - npm install -g protractor@2.1.0
 - webdriver-manager update --standalone
@@ -21,13 +31,41 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 - nohup bash -c "webdriver-manager start 2>&1 &"
 
+# This takes care of running the actual build and "smoke test" for the application
 script:
 - ./ci-script.sh
 
+# If the build is successful, we do actually create a tag for the release if necessary
 after_success:
   - ./tag-release.sh
 
+# We have 2 types of deployable branches, one is a Staging environment
+# triggered by pushes to branches that start with "sprint_".
+# The other deployment is our real production deployment and that 
+# one bases off of "master"
 deploy:
+- provider: s3
+  access_key_id: $AWS_ACCESS_ID
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: $AWS_S3_BUCKET
+  skip_cleanup: true
+  local_dir: build/docker-distribution
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
+  on:
+    branch: sprint_**
+    condition: $DEPLOY_TO_AWS = true
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_ID
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: $AWS_S3_BUCKET
+  skip_cleanup: true
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
+  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf-docker.zip
+  application: DockerRelease
+  deployment_group: DockerGroup
+  on:
+    branch: sprint_**
+    condition: $DEPLOY_TO_AWS = true
 # Test deployments
 - provider: s3
   access_key_id: $AWS_ACCESS_ID
@@ -35,7 +73,7 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   on:
     branch: sprint_**
     condition: $DEPLOY_TO_AWS = true
@@ -45,8 +83,8 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
-  key: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER/ctf.zip
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
+  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf.zip
   application: $AWS_CODEDEPLOY_APPLICATION
   deployment_group: $AWS_CODEDEPLOY_SPRINT_GROUP
   on:
@@ -59,7 +97,7 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
   on:
     branch: master
     condition: $DEPLOY_TO_AWS = true
@@ -69,14 +107,16 @@ deploy:
   bucket: $AWS_S3_BUCKET
   skip_cleanup: true
   local_dir: build/distributions
-  upload_dir: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER
-  key: $AWS_S3_DIRECTORY/build-$TRAVIS_BUILD_NUMBER/ctf.zip
+  upload_dir: $AWS_S3_DIRECTORY/$GIT_TAG
+  key: $AWS_S3_DIRECTORY/$GIT_TAG/ctf.zip
   application: $AWS_CODEDEPLOY_APPLICATION
   deployment_group: $AWS_CODEDEPLOY_GROUP
   on:
     branch: master
     condition: $DEPLOY_TO_AWS = true
 
+# Our team used Slack to notify us of build failures, it proved very useful to catch 
+# failing builds quickly
 notifications:
   slack:
     secure: e5mcmbcOLDxaH+acYvl56FOVYZqAo2/SvWVolaPgFLrne1I4YQ/T2obXbYJijLHN296TAhXB/Q5pEoxtm3URXPdXno2RN/pjOvNTjygA2riEC798eEjC9ovk+DSs7gcPz3H3/HucAAbt2QCeylqrCzEmrSrdcKEcEoqbwDCjBSsZrI2J3D6bHaiChb48im77RbS+Qk4t+VzFg4yA1CSZRH6SsTGQLV3e9I7FZu/dDlyb34B3IXhcnpFNqU8ZOZl4HNkUX3sPNn0x2yx1CHPAGbaVRTV69jSEYkuO0/zw3FdsNslUiVXClFZgLIBfD4wA8C8XdN4shE7ooG7aeZzumqBtykSHWUmR3EDHSGhB13RjDrymxu5a9xnj/8/3DFTL2imlswXO+k2lNTyyrf5JfMmyaIoVXXVuxuE5dXWGAUZ3m54NQf5y3CyBLQ5zkGIDjwZtxqOfo5pF/79yWXLP/fd7Pz+2+WmYxLndFT1WtiOFcKNdkDtxGMWWE15vo9YXe+0TpYh6vaM4053lXE7vbBHA4YZEXZwybaq3SVI4BdBmSxGqSJS0PhnF3tw6r6DPCxQFhRQLxZyuFwgE4iaUzfM6RedI8Jn7Mx1KcIJjadDqfxmwsO1dA+Rs8/5Eauob/tQyi1xl6f/0QpPv3+YflKwxuykBCB4Jf/Ee0bgY6lw=

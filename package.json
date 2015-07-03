@@ -4,13 +4,12 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git@bridgephase.github.com:BridgePhase/ctf.git"
+    "url": "git@github.com:BridgePhase/ctf.git"
   },
   "author": "BridgePhase LLC",
   "license": "ISC",
   "devDependencies": {
     "bower": "^1.4.1",
-    "express": "^4.13.0",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.5.2",
     "gulp-debug": "^2.0.1",

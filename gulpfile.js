@@ -6,6 +6,17 @@ var uglifyCss = require('gulp-uglifycss');
 var runSequence = require('run-sequence');
 var less = require('gulp-less');
 
+/**
+ * By default, we want to turn our LESS files into CSS, and concatenate them
+ * and then do the same for JavaScript (except the LESS part) 
+ */
+gulp.task('default', function() {
+	// this neat plugin lets us run tasks in sequences since we can't
+	// concatenate if we haven't uglified yet
+	runSequence('lessify', 'uglifyCss', 'concatenateCss');
+	runSequence('uglifyJs', 'concatenateJs');
+});
+
 gulp.task('uglifyJs', function() {
   return gulp.src([	 
 	  'src/main/resources/public/modules/*.js',
@@ -64,9 +75,4 @@ gulp.task('concatenateCss', function() {
 	.pipe(debug({title:'concatenateCss'}))
 	.pipe(concat('ctf-styles.css'))
 	.pipe(gulp.dest('src/main/resources/public'));
-});
-
-gulp.task('default', function() {
-	runSequence('lessify', 'uglifyCss', 'concatenateCss');
-	runSequence('uglifyJs', 'concatenateJs');
 });
