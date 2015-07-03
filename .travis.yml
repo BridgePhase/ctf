@@ -4,7 +4,7 @@ language: java
 # start with the name of "build-" we added this step
 branches:
   except:
-    - /^build-[0-9a-z\-]*/
+    - /^ctf-[0-9a-z\-]*/
 
 # Creating the tag for the current release allows us to be able to 
 # include a version file as part of the deployable artifacts. This version
