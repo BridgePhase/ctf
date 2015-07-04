@@ -8,5 +8,6 @@ In order to control the code that we deployed on our production system, we creat
 4. Testers verify the stories and bug fixes in the staging environment so that issues can be closed. 
 5. When they are all verified, a pull request is created from the `sprint_` branch into `master`. 
 6. Our product owner approves the pull request which triggers a Travis CI deployment into our production system
+7. For our staging and production server, Docker images are created that contain all the configuration necessary to run the application so no extra configuration is required on those environments. The Docker images are tagged and published to our [jramirez/bridgephase](https://registry.hub.docker.com/u/jramirez/bridgephase/tags/manage/#) Docker hub reposiory
 
 The deployments to both staging and production are completely automated, and you can read about them in our [Continuous Integration/Deployment document](CI-CD.md) 

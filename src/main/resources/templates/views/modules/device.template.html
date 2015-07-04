@@ -70,7 +70,8 @@
 							<span data-ng-bind="mdr.text"></span>
 						</p>
 					</div>
-					<div class="pure-u-1 pure-u-md-1-3 aligned-field">
+					<div class="pure-u-1 pure-u-md-1-3 aligned-field"
+						data-ng-if="device.selectedEvent.manufacturer_contact_city || device.selectedEvent.manufacturer_contact_area_code">
 						<strong>Manufacturer Contact:</strong>
 					</div>
 					<div class="pure-u-1 pure-u-md-2-3">
