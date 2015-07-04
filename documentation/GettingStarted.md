@@ -8,12 +8,12 @@ of them:
 * [Spring Boot Gradle Application](#sprintBootDeployment)
 * [Runnable JAR standalone deployment](#jarDeployment)
 * [WAR file on a Java container](#warDeployment)
+* [Docker release deployment](#dockerDeployment) - requires Docker installed
 
-**In order to build the application, a Java Development Kit (1.7+) is required.**
+**In order to build the application, a Java Development Kit (1.7+) is required for all deployments except Docker**
 
-* For each step, make sure you clone the repository and open a terminal window (
+* For the Gradle, JAR, and WAR options, make sure you clone the repository and open a terminal window (
 or Command Prompt for Windows) in the repository directory (defaults to `ctf/`).
-* The application can be accessed locally at `http://localhost:8080/ctf`
 
 <a name="sprintBootDeployment"></a>
 ## Sprint Boot Gradle application 
@@ -25,6 +25,7 @@ you just want to get the application up and running as quick as possible.
 	* `gradlew bootRun` on Windows machines
 2. After a few seconds (more on the first run) you should see an output of 
 `Started Application in #### seconds `, you're up and running 
+3. The application can be accessed locally at `http://localhost:8080/ctf`
  
 <a name="jarDeployment"></a>
 ## Runnable JAR standalone deployment 
@@ -41,6 +42,7 @@ the command line.
 4. Feel free to copy this `jar` file, you can run it using `java -jar ctf-X.X.jar`
 5. After a few seconds you should see an output of 
 `Started Application in #### seconds `, you're up and running 
+6. The application can be accessed locally at `http://localhost:8080/ctf`
 
 <a name="warDeployment"></a>
 ## WAR file on a Java container 
@@ -57,3 +59,16 @@ Java container (for example Tomcat)
 4. You can deploy this `war` file on the container of your choice, for example
  in Tomcat, you would copy this `war` file to the `{TOMCAT_DIRECTORY}/webapps` 
  folder to deploy it.
+5. The application can be accessed locally at `http://localhost:8080/ctf`
+
+<a name="dockerDeployment"></a>
+## Docker deployment
+
+This option allows you to deploy the application locally based off our docker images.
+
+1. The Docker images are stored in the [jramirez/bridgephase](https://registry.hub.docker.com/u/jramirez/bridgephase/tags/manage/#) reposiory
+2. You can deploy any of our releases (`sprint_*` and `master` branches create releases). To find out the release we have deployed in production you can go to our [CTF Version](http://considerbridgephase.com/ctf/alive) page.
+3. Run the command:
+	* `docker run -ti -p 8080:8080 jramirez/bridgephase:RELEASE_TAG` for example:
+	* `docker run -ti -p 8080:8080 jramirez/bridgephase:ctf-2015-07-03-25` to deploy version ctf-2015-07-023-25
+4. The application will be exposed on port `8080` so browse to http://localhost:8080 to see the application running  
