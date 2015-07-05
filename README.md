@@ -4,7 +4,7 @@
 
 _Consider the Following_ is an application built to demonstrate various ways of interacting with data from [openFDA](https://open.fda.gov). Our goal is to use the data they provide dealing with food recalls, adverse medical events, and medical devices to create a site that provides meaningful information to its users. We have implemented various ways to interact with data including prescribed queries (medical devices), geo-location based queries (food recalls), open text-search (medicines and adverse events), and we even live human readable headlines. Make sure to visit the [About the project](http://considerbridgephase.com/ctf/#/about) on the live environment to see the background behind _Consider the Following_. 
 
-From a technical perspective, we created a fully-automated build and deployment process driven by Travis CI, and used Docker along with Amazon Web Services to provide a scalable application. In order to handle query limitations from the openFDA API, we also created a simple, yet usable, [caching system](documentation/Caching.md).
+From a technical perspective, we created a fully-automated build and deployment process driven by Travis CI, and used Docker along with Amazon Web Services to provide a scalable application. In order to handle query limitations from the openFDA API, we also created a simple, yet usable, [caching strategy](documentation/Caching.md).
 
 Take _[Consider the Following](http://considerbridgephase.com)_ for a test drive!
 
@@ -19,8 +19,8 @@ The application will load at [http://localhost:8080/ctf](http://localhost:8080/c
 
 For other deployment options visit our [Getting Started document](documentation/GettingStarted.md) 
 
-## Category Level II Requirements
-* BridgePhase LLC assembled a team which included a product owner, a devops engineer, developers, and functional testers. The names and roles of the team members are presented in the [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application
+## Pool Two Requirements
+* BridgePhase, LLC assembled a team which included a product owner, a devops engineer, developers, and functional testers. The names and roles of the team members are presented in the [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application
 
 * This prototype is powered by Spring Boot, Hibernate, AngularJS, PureCSS, Gradle and others. For a full listing view our [Technologies document](documentation/Technologies.md)
 
