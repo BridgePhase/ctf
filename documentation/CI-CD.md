@@ -1,6 +1,6 @@
 # Continuous Integration/Continuous Deployment
 
-_Consider the Following_ is structured to allow easy integration into a CI/CD environment. We chose [Travis CI](https://travis-ci.org/BridgePhase/ctf/builds) as our CI platform. Travis also allows us to perform our deployments to our AWS instances using [Amazon Code Deploy](http://aws.amazon.com/codedeploy/).
+_Consider the Following_ is structured to allow easy integration into a CI/CD environment. We chose [TravisCI](https://travis-ci.org/BridgePhase/ctf/builds) as our CI platform. Travis also allows us to perform our deployments to our AWS instances using [Amazon Code Deploy](http://aws.amazon.com/codedeploy/).
 
 ## Integration and Deployment Process
 
@@ -17,7 +17,7 @@ TravisCI orchestrates the build, storage, tagging of releases, and initiates the
 
 _Consider the Following_ uses 2 AWS EC2 instances for the production (`master`) deployments and one AWS EC2 instance for Staging (`sprint_*` branches) deployments. These instances act as our application servers (by deploying our Docker images). The Docker image itself however is built by yet another EC2 instance whose sole purpose is to build Docker artifacts and publish them to our [Docker hub repository](https://registry.hub.docker.com/u/jramirez/bridgephase/tags/manage/#). The configuration of these instances was made possible by the creation of an Amazon Machine Image (AMI) with the default settings. This allows us to create new instances if needed in a very rapid manner (a matter of a few minutes).
 
-Our deployments were created through AWS Code Deploy by setting up three deployment groups (one for production, one for our staging, and one to build our Docker images). In order to prevent downtime to our application during a production deployment, the production deploy group is configured to deploy to half our instances at a time (since we only have 2, it deploys to one at a time). The 2 production EC2 instances are load balanced so that during deployments, the production application can remain alive. 
+Our deployments were created through AWS Code Deploy by setting up three deployment groups (one for production, one for staging, and one to build Docker images). In order to prevent downtime to our application during a production deployment, the production deploy group is configured to deploy to half our instances at a time (since we only have 2, it deploys to one at a time). The 2 production EC2 instances are load balanced so that during deployments, the production application can remain alive. 
 
 Following this strategy, we are able to have deployments to our production environment in an average of 6 minutes from a merge into the `master` branch.  
 

@@ -24,9 +24,15 @@ angular.module('ctf', [ 'ui.router', 'angular-carousel' ]).config(
 			}]
 		}).state('about', {
 			url: '/about',
+			controller: function() {
+				document.title = 'Consider the following - about the project';
+			},
 			templateUrl: 'partials/about' 
 		}).state('aboutUs', {
 			url: '/aboutus',
+			controller: function() {
+				document.title = 'Consider the following - about us';
+			},
 			templateUrl: 'partials/aboutus' 
 		}).state('noun.food', {
 			templateUrl: 'partials/food'
