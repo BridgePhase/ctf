@@ -1,6 +1,14 @@
 # Considered the following, powered by....
 
-Here are the technologies that make this application possible.
+We built _Consider the Following_ using Java due to its broad usage in the enterprise and various US Government projects. We had other alternatives including using a MEAN.JS stack however, we felt that a Java application gave us various pros including:
+
+1. Cross-platform development and deployments
+2. A wide range of frameworks with proven production releases (Spring, Hibernate, etc)
+3. Support for both low-end and high-end deployment platforms
+4. There exists a larger number of developers who have experience with Java platforms
+5. Has proven de-facto standards when dealing with project organization, testing frameworks, and deployments
+
+Here is a listing of technologies that make this application possible.
 
 * **User Interface**
     * AngularJS - MVC Framework
