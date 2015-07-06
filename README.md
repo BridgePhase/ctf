@@ -1,5 +1,7 @@
 # Consider the Following
 ### _[Consider the Following](http://considerbridgephase.com)_ prototype
+_Works best when using a grade A browser like Chrome, Firefox, or Safari_
+
 [![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
 
 ## Description
