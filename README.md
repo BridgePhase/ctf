@@ -21,7 +21,7 @@ For other deployment options visit our [Getting Started document](documentation/
 
 ## Pool Two Requirements
 
-> References to the Digital Services Playbook are marked with DSP##, for example `DSP-1` for Digital Services Playbook bullet 1. Understand what people need.
+> References to the [_Digital Services Playbook_](https://playbook.cio.gov/) are marked with DSP##, for example [`DSP-1`](https://playbook.cio.gov/#play1) for Digital Services Playbook play _1. Understand what people need_.
 
 A. The BridgePhase, LLC effort was led by Dan Belyea who acted as our product owner. He was responsible for approving issues under milestones and approving production deployments. [`DSP-6`](https://playbook.cio.gov/#play6)
   
