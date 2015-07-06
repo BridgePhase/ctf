@@ -11,3 +11,6 @@ In order to control the code that we deployed on our production system, we creat
 7. For our staging and production server, Docker images are created that contain all the configuration necessary to run the application so no extra configuration is required on those environments. The Docker images are tagged and published to our [jramirez/bridgephase](https://registry.hub.docker.com/u/jramirez/bridgephase/tags/manage/#) Docker hub reposiory
 
 The deployments to both staging and production are completely automated, and you can read about them in our [Continuous Integration/Deployment document](CI-CD.md) 
+
+## Issue Tracking
+We used Github's issue tracking feature to document our user stories, tasks, feedback, and bugs during the development process. We used Github labels to differentiate between these types of issues. Many of our [feedback labeled](https://github.com/BridgePhase/ctf/issues?utf8=✓&q=is%3Aissue+label%3Afeedback) issues were the result of exploratory and planned testing activities within the team.   
