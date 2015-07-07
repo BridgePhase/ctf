@@ -4,15 +4,13 @@ _Works best when using a grade A browser like Chrome, Firefox, or Safari_
 
 [![Build Status](https://travis-ci.org/BridgePhase/ctf.svg?branch=master)](https://travis-ci.org/BridgePhase/ctf)
 
-## Description
+## Background
 
-_Consider the Following_ is an application built to demonstrate various ways of interacting with data from [openFDA](https://open.fda.gov). Our goal is to use the data they provide dealing with food recalls, adverse medical events, and medical devices to create a site that provides meaningful information to its users. The application grabs the user's attention by presenting dynamically-generated headlines in a carousel on the homepage. These headlines provide an easy-to-read view of highlights on the openFDA data. After that, the user has various ways to interact with the data including: prescribed queries (medical devices), geo-location based queries (food recalls), and open text-search (medicines and adverse events). Make sure to visit [About the Project](http://considerbridgephase.com/ctf/#/about), on the live environment to see the background behind _Consider the Following_.
+_Consider the Following_ is an application built to demonstrate various ways of interacting with data from [openFDA](https://open.fda.gov). Our goal is to use the data they provide dealing with food recalls, adverse events related to medicines, and medical devices to create a site that provides meaningful information to its users. The application grabs the user's attention by presenting dynamically-generated headlines in a carousel on the homepage. These headlines provide an easy-to-read view of highlights on the openFDA data. After that, the user has various ways to interact with the data including: prescribed queries, geo-location based queries, and open text-search. Visit [About the Project](http://considerbridgephase.com/ctf/#/about), on to see the background behind _Consider the Following_.
 
 From a technical perspective, we created a fully-automated build and deployment process driven by Travis CI, and used Docker along with Amazon Web Services to provide a scalable application. In order to handle query limitations from the openFDA API, we also created a simple, yet usable, [caching strategy](documentation/Caching.md).
 
-Take _[Consider the Following](http://considerbridgephase.com)_ for a test drive!
-
-## See it in action, on your own terms
+We managed our project in an Agile manner using milestones as sprint markers. Initially our sprints were two days long but as the extensions were given, we moved to three day sprints. During this time we performed testing activities which included a bug-bash session and a performance load test.
 
 All you need to get started is a Java Development Kit 7+ on your environment `path`. Clone the repository and from the main repository directory execute the command:
 
