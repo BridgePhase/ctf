@@ -10,7 +10,7 @@ _Consider the Following_ is an application built to demonstrate various ways of 
 
 From a technical perspective, we created a fully-automated build and deployment process driven by Travis CI, and used Docker along with Amazon Web Services to provide a scalable application. In order to handle query limitations from the openFDA API, we also created a simple, yet usable, [caching strategy](documentation/Caching.md).
 
-We managed our project in an Agile manner using milestones as sprint markers. Initially our sprints were two days long but as the extensions were given, we moved to three day sprints. During this time we performed testing activities which included a bug-bash session and a performance load test.
+We managed our project in an Agile manner using milestones to document our sprints. Initially we started with four sprints which became six sprints as extensions were given. During this time we performed testing activities which included a bug-bash session and a performance load test.
 
 All you need to get started is a Java Development Kit 7+ on your environment `path`. Clone the repository and from the main repository directory execute the command:
 
