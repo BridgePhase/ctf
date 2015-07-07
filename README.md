@@ -27,7 +27,7 @@ For other deployment options visit our [Getting Started document](documentation/
 
 A. The BridgePhase, LLC effort was led by Dan Belyea who acted as our Team Lead. He was responsible for approving issues under milestones and approving production deployments. [`DSP-6`](https://playbook.cio.gov/#play6)
   
-B. BridgePhase, LLC assembled a team which included a technical architect, a devops engineer, front and backend developers, and functional testers. The names and roles of the team members are presented in the [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application. Our team consisted of people with over 7 years in the web application development industry. [`DSP-7`](https://playbook.cio.gov/#play7) 
+B. BridgePhase, LLC assembled a team which included all four labor categories outlined in pool 2, which is presented in the  [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application. Our team consisted of people with an average of 7 years in the web application development industry. [`DSP-7`](https://playbook.cio.gov/#play7) 
 
 C. This prototype is powered by Spring Boot, Hibernate, AngularJS, PureCSS, Gradle and others. For a full listing view our [Technologies document](documentation/Technologies.md). [`DSP-8`](https://playbook.cio.gov/#play8), [`DSP-13`](https://playbook.cio.gov/#play13)
 
