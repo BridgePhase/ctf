@@ -25,9 +25,9 @@ For other deployment options visit our [Getting Started document](documentation/
 
 > References to the [_Digital Services Playbook_](https://playbook.cio.gov/) are marked with DSP##, for example [`DSP-1`](https://playbook.cio.gov/#play1) for Digital Services Playbook play _1. Understand what people need_.
 
-A. The BridgePhase, LLC effort was led by Dan Belyea who acted as our product owner. He was responsible for approving issues under milestones and approving production deployments. [`DSP-6`](https://playbook.cio.gov/#play6)
+A. The BridgePhase, LLC effort was led by Dan Belyea who acted as our Team Lead. He was responsible for approving issues under milestones and approving production deployments. [`DSP-6`](https://playbook.cio.gov/#play6)
   
-B. BridgePhase, LLC assembled a team which included a product owner, a devops engineer, developers, and functional testers. The names and roles of the team members are presented in the [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application. Our team consisted of people with over 7 years in the web application development industry. [`DSP-7`](https://playbook.cio.gov/#play7) 
+B. BridgePhase, LLC assembled a team which included a team lead, a devops engineer, developers, and functional testers. The names and roles of the team members are presented in the [About Us](http://considerbridgephase.com/ctf/#/aboutus) page of our application. Our team consisted of people with over 7 years in the web application development industry. [`DSP-7`](https://playbook.cio.gov/#play7) 
 
 C. This prototype is powered by Spring Boot, Hibernate, AngularJS, PureCSS, Gradle and others. For a full listing view our [Technologies document](documentation/Technologies.md). [`DSP-8`](https://playbook.cio.gov/#play8), [`DSP-13`](https://playbook.cio.gov/#play13)
 
