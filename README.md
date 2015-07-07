@@ -48,7 +48,7 @@ I. The application releases are packaged as Docker images published to a public 
 
 J. During our various sprints and our [bug bash session](http://considerbridgephase.com/ctf/#/about), we created and resolved [feedback issues](https://github.com/BridgePhase/ctf/issues?utf8=✓&q=is%3Aissue+label%3Afeedback+) through Github. Issues ranged from user experience to functional modifications in an effort to provide a better application. For more information about how we accomplished this visit our [Configuration Management document](documentation/ConfigurationManagement.md).[`DSP-1`](https://playbook.cio.gov/#play1), [`DSP-2`](https://playbook.cio.gov/#play2), [`DSP-3`](https://playbook.cio.gov/#play3), [`DSP-4`](https://playbook.cio.gov/#play4), [`DSP-12`](https://playbook.cio.gov/#play12)
 
-K. Our [Getting Started document](documentation/GettingStarted.md) details various deployment options. [`DSP-9`](https://playbook.cio.gov/#play9), [`DSP-13`](https://playbook.cio.gov/#play13)
+K. Our [Getting Started document](documentation/GettingStarted.md) provides instructions on how to get _Consider the Following_ running on your own environment (or multiple environments). [`DSP-9`](https://playbook.cio.gov/#play9), [`DSP-13`](https://playbook.cio.gov/#play13)
 
-L. Our application can be run on free and open platforms including Docker, Tomcat, or as a standalone JAR file. [`DSP-9`](https://playbook.cio.gov/#play9), [`DSP-13`](https://playbook.cio.gov/#play13)
+L. Our application can be run on free and open-licensed platforms including Docker, Tomcat, or as a standalone JAR file. [`DSP-9`](https://playbook.cio.gov/#play9), [`DSP-13`](https://playbook.cio.gov/#play13)
 
